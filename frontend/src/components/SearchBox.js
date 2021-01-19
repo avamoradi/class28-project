@@ -5,13 +5,17 @@ import axios from "axios";
 const SearchBox = ({ history }) => {
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  let source = axios.CancelToken.source();
 
   useEffect(() => {
     const fetchSearchData = async () => {
       try {
-        if (keyword.length > 0) {
+        if (keyword.length > 0 && keyword !== " ") {
           const { data } = await axios.get(
-            `/api/products?keyword=${keyword}&pageNumber=1`
+            `/api/products?keyword=${keyword}&pageNumber=1`,
+            {
+              cancelToken: source.token,
+            }
           );
           setSearchResults(data.products);
         } else {
@@ -22,6 +26,9 @@ const SearchBox = ({ history }) => {
       }
     };
     fetchSearchData();
+    return () => {
+      source.cancel();
+    };
   }, [keyword]);
 
   const submitHandler = (e) => {
@@ -41,6 +48,8 @@ const SearchBox = ({ history }) => {
         placeholder="Search Products..."
         className="mr-sm-2 ml-sm-5"
         autoComplete="off"
+        value={keyword}
+        onBlur={() => setSearchResults([])}
       ></Form.Control>
       {searchResults.length > 0 && (
         <div className="autocomplete-box">
@@ -49,7 +58,7 @@ const SearchBox = ({ history }) => {
               <li
                 key={suggestion._id}
                 className="autocomplete-item"
-                onClick={() => history.push(`/product/${suggestion._id}`)}
+                onMouseDown={() => history.push(`/product/${suggestion._id}`)}
               >
                 {suggestion.name}
               </li>
