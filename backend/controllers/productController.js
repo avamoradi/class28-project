@@ -1,26 +1,36 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 
-// Fetrch all products: GET /api/products (public)
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
-      }
-    : {};
-  const count = await Product.countDocuments({ ...keyword });
-  const products = await Product.find({ ...keyword })
+  const keyword =
+    req.query.keyword && req.query.keyword.trim() !== ""
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: "i",
+          },
+        }
+      : {};
+  const { location, minPrice, maxPrice, color } = req.query;
+
+  const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
+  const queryObj = {
+    ...keyword,
+    ...(location && { location: location }),
+    ...(color && { color: color }),
+    ...(price && {
+      price: { $gte: price.minPrice, $lte: price.maxPrice },
+    }),
+  };
+  const count = await Product.countDocuments(queryObj);
+  const products = await Product.find(queryObj)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
-// Fetrch a single product: GET /api/products/:id (public)
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
