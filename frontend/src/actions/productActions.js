@@ -23,13 +23,18 @@ import {
 } from "../constants/productConstants";
 import axios from "axios";
 
-export const listProducts = (keyword = "", pageNumber = "") => async (
-  dispatch
-) => {
+export const listProducts = (
+  keyword = "",
+  pageNumber,
+  minPrice = 0,
+  maxPrice = Infinity,
+  location = "",
+  color = ""
+) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&minPrice=${minPrice}&maxPrice=${maxPrice}&location=${location}&color=${color}`
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
