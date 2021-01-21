@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import useDebounce from "../hooks/useDebounce";
 
 const SearchBox = ({ history }) => {
   const [keyword, setKeyword] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  let source = axios.CancelToken.source();
+
+  const debouncedKeyword = useDebounce(keyword, 300);
 
   useEffect(() => {
     const fetchSearchData = async () => {
       try {
-        if (keyword.length > 0 && keyword !== " ") {
+        if (debouncedKeyword.length > 0 && debouncedKeyword !== " ") {
           const { data } = await axios.get(
-            `/api/products?keyword=${keyword}&pageNumber=1`,
-            {
-              cancelToken: source.token,
-            }
+            `/api/products?keyword=${debouncedKeyword}&pageNumber=1`
           );
           setSearchResults(data.products);
         } else {
@@ -26,10 +25,7 @@ const SearchBox = ({ history }) => {
       }
     };
     fetchSearchData();
-    return () => {
-      source.cancel();
-    };
-  }, [keyword]);
+  }, [debouncedKeyword]);
 
   const submitHandler = (e) => {
     e.preventDefault();
