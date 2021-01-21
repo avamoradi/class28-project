@@ -140,7 +140,9 @@ const Header = () => {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
-            <Button variant='success'>For artists</Button>
+            <LinkContainer to='/sell'>
+              <Button variant='success'>For artists</Button>
+            </LinkContainer>
           </Navbar.Collapse>
         </Container>
       </Navbar>

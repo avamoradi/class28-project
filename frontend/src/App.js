@@ -18,6 +18,7 @@ import UserEditScreen from './screens/UserEditScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
+import SellScreen from './screens/SellScreen'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path='/profile' component={ProfileScreen} />
           <Route path='/register' component={RegisterScreen} />
           <Route path='/login' component={LoginScreen} />
+          <Route path='/sell' component={SellScreen} />
           <Route path='/' component={HomeScreen} exact />
           <Route path='/page/:pageNumber' component={HomeScreen} exact />
           <Route
