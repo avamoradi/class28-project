@@ -113,8 +113,8 @@ const createProductReview = asyncHandler(async (req, res) => {
       comment,
       user: req.user._id,
     };
-    if (!comment) {
-      throw new Error("Please include your comment");
+    if (!rating) {
+      throw new Error("Please select one of the options");
     }
 
     product.reviews.push(review);
