@@ -20,6 +20,16 @@ h2 {
   margin: 0.1rem;
 }
 
+/* nav bar toggle */
+.navbar-toggle {
+  border: none;
+  margin: 0 auto;
+}
+.navbar-toggle i {
+  text-align: center;
+  color: #4bbf73;
+}
+
 /* hero slider: large screens */
 
 #slider {
