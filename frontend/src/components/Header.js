@@ -1,6 +1,13 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import {
+  Navbar,
+  Nav,
+  Container,
+  NavDropdown,
+  Dropdown,
+  Button,
+} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
@@ -62,6 +69,71 @@ const Header = () => {
               )}
             </Nav>
           </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      <Navbar expand='lg' collapseOnSelect>
+        <Container>
+          <NavDropdown title='Paintings' id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.2'>
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href='#action/3.4'>
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
+
+          <NavDropdown title='Photography' id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.2'>
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href='#action/3.4'>
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
+
+          <NavDropdown title='Sculpture' id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.2'>
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href='#action/3.4'>
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
+
+          <NavDropdown title='Illustration' id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.2'>
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href='#action/3.4'>
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
+
+          <NavDropdown title='Collage' id='collasible-nav-dropdown'>
+            <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.2'>
+              Another action
+            </NavDropdown.Item>
+            <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href='#action/3.4'>
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
+          <Button variant='success'>For artists</Button>
         </Container>
       </Navbar>
     </header>

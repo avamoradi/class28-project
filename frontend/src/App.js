@@ -24,18 +24,6 @@ function App() {
     <Router>
       <Header />
       <main className='py-1'>
-        <section>
-          <div id='slider'>
-            <figure>
-              <img src='/images/hero1.jpg' alt='Lorem ipsum' />
-              <img src='/images/hero2.jpg' alt='Lorem ipsum' />
-              <img src='/images/hero3.jpg' alt='Lorem ipsum' />
-              <img src='/images/hero4.jpg' alt='Lorem ipsum' />
-              <img src='/images/hero1.jpg' alt='Lorem ipsum' />
-            </figure>
-          </div>
-        </section>
-
         <Container className='container'>
           <Route path='/order/:id' component={OrderScreen} />
           <Route path='/payment' component={PaymentScreen} />

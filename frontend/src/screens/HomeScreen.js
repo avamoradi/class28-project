@@ -7,6 +7,8 @@ import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
+import HeroSlider from '../components/HeroSlider'
+import AboutGalileo from '../components/AboutGalileo'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
 
@@ -26,6 +28,8 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
+      <HeroSlider />
+      <AboutGalileo />
       {!keyword ? (
         <ProductCarousel />
       ) : (
