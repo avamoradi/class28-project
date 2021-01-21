@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
+import { createNotification } from "./notificationController.js";
 
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
@@ -45,6 +46,7 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
+    createNotification(req.user._id, product.id, "removed", product.name);
     await product.remove();
     res.json({ message: "Product removed" });
   } else {
@@ -67,6 +69,9 @@ const createProduct = asyncHandler(async (req, res) => {
     description: "Sample description",
   });
   const createdProduct = await product.save();
+
+  createNotification(req.user._id, product.id, "added new product", product.name);
+
   res.status(201).json(createdProduct);
 });
 
@@ -83,7 +88,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   } = req.body;
 
   const product = await Product.findById(req.params.id);
-
+  const oldProductName = product.name;
   if (product) {
     product.name = name;
     product.price = price;
@@ -94,6 +99,9 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.countInStock = countInStock;
 
     const updatedProduct = await product.save();
+
+    createNotification(req.user._id, product.id, "updated", oldProductName);
+
     res.status(201).json(updatedProduct);
   } else {
     res.status(404);
@@ -131,6 +139,9 @@ const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.length;
 
     await product.save();
+
+    createNotification(req.user._id, product.id, "reviewed", product.name);
+
     res.status(201).json({ message: "Review added" });
   } else {
     res.status(404);
