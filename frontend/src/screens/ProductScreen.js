@@ -71,7 +71,7 @@ const ProductScreen = ({ history, match }) => {
                 defaultPositionX={100}
                 defaultPositionY={100}
               >
-                {({ zoomIn, zoomOut, reset, ...rest }) => (
+                {({ zoomIn, zoomOut, ...rest }) => (
                   <>
                     <TransformComponent>
                       <Image src={product.image} alt={product.name} fluid />
