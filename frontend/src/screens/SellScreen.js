@@ -1,5 +1,6 @@
 import React from 'react'
-import { Jumbotron, Col, Image } from 'react-bootstrap'
+import { Jumbotron, Button, Col, Image } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const SellScreen = () => {
   return (
@@ -17,6 +18,11 @@ const SellScreen = () => {
             and collectors are financially protected on every sale.
           </p>
         </div>
+        <p>
+          <LinkContainer to={'/login'}>
+            <Button variant='success'>Start Selling</Button>
+          </LinkContainer>
+        </p>
       </Jumbotron>
       <Col>
         <Image src='/images/artist.jpg' alt='artist' fluid />
