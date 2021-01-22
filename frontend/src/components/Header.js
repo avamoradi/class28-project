@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
+  const notificationsList = useSelector((state) => state.notificationsList);
+  const noti = notificationsList.notificationsList;
+  // console.log(noti);
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -19,6 +21,9 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
+          <Link to="/notifications" className="btn btn-light">
+            {/* notifications {noti.products.length} */}
+          </Link>
           <LinkContainer to="/">
             <Navbar.Brand>ProShop</Navbar.Brand>
           </LinkContainer>
