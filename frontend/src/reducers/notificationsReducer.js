@@ -3,22 +3,21 @@ import {
   NOTIFICATION_LIST_SUCCESS,
   NOTIFICATION_LIST_FAIL,
 } from "../constants/notificationsConstants";
-export const notificationsReducer = (
-  state = { notificationsList: [] },
+
+export const notificationsListReducer = (
+  state = { notifications: [] },
   action
 ) => {
   switch (action.type) {
     case NOTIFICATION_LIST_REQUEST:
-      return { loading: true, products: [] };
+      return { loading: true, notifications: [] };
     case NOTIFICATION_LIST_SUCCESS:
       return {
         loading: false,
-        products: action.payload.products,
-        pages: action.payload.pages,
-        page: action.payload.page,
+        notifications: action.payload,
       };
     case NOTIFICATION_LIST_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload, notifications: [] };
     default:
       return state;
   }

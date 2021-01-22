@@ -18,7 +18,7 @@ export const createNotification = async (
   const notification = new Notification({
     user: userId,
     product: productId,
-    message: `${userCreatedNotification[0].name} ${type} ${productName} product`,
+    message: `${userCreatedNotification[0].name} ${type} ${productName}`,
     users: notifiedUsers,
   });
   await notification.save();
@@ -47,8 +47,12 @@ const deleteNotification = asyncHandler(async (req, res) => {
     const userIdsArray = notification.users.filter(
       (id) => id.toString() !== userId.toString()
     );
-    notification.users = userIdsArray;
-    await notification.save();
+    if (userIdsArray.length === 0) {
+      await notification.remove();
+    } else {
+      notification.users = userIdsArray;
+      await notification.save();
+    }
 
     res.status(200).json("Notification removed");
   } else {

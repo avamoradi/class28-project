@@ -1,18 +1,24 @@
-import React from "react";
-import { Route, Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { MdNotifications } from "react-icons/md";
+import { Route } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../actions/userActions";
+import { listNotification } from "../actions/notificationsActions";
 import SearchBox from "./SearchBox";
 
 const Header = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  useEffect(() => {
+    dispatch(listNotification());
+  }, [dispatch, userLogin]);
+
   const notificationsList = useSelector((state) => state.notificationsList);
-  const noti = notificationsList.notificationsList;
-  // console.log(noti);
+  const { notifications } = notificationsList;
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -21,16 +27,24 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Link to="/notifications" className="btn btn-light">
-            {/* notifications {noti.products.length} */}
-          </Link>
           <LinkContainer to="/">
             <Navbar.Brand>ProShop</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Route render={({ history }) => <SearchBox history={history} />} />
+
             <Nav className="ml-auto">
+              {userInfo && (
+                <LinkContainer to="/notifications">
+                  <Nav.Link className=" p-2 pb-3">
+                    <MdNotifications
+                      size={25}
+                      color={notifications.length > 0 ? "red" : "#9a9da0"}
+                    />
+                  </Nav.Link>
+                </LinkContainer>
+              )}
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <i className="fas fa-shopping-cart"></i> Cart
