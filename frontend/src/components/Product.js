@@ -16,7 +16,9 @@ const Product = ({ product }) => {
           </Card.Title>
         </Link>
         <Card.Text as='div'>
-          {product.numReviews > 0 && (
+          {product.numReviews === 0 ? (
+            <p>Rate this product</p>
+          ) : (
             <Rating value={product.rating} text={`(${product.numReviews}) `} />
           )}
         </Card.Text>
