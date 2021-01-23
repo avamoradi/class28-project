@@ -37,11 +37,15 @@ const Header = () => {
             <Nav className="ml-auto">
               {userInfo && (
                 <LinkContainer to="/notifications">
-                  <Nav.Link className=" p-2 pb-3">
-                    <MdNotifications
-                      size={25}
-                      color={notifications.length > 0 ? "red" : "#9a9da0"}
-                    />
+                  <Nav.Link className=" p-2 pb-3 position-relative">
+                    <MdNotifications size={25} color="#9a9da0" />
+                    {notifications.length > 0 && (
+                      <div className="notifications-num_container">
+                        <span className="notifications-num">
+                          {notifications.length}
+                        </span>
+                      </div>
+                    )}
                   </Nav.Link>
                 </LinkContainer>
               )}

@@ -46,3 +46,26 @@ h2 {
 .carousel a {
   margin: 0 auto;
 }
+
+/*notifications number*/
+.notifications-num_container {
+  background-color: red;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 9px;
+  left: 21px;
+}
+.notifications-num {
+  display: inline-block;
+  border-radius: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

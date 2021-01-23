@@ -2,9 +2,6 @@ import {
   NOTIFICATION_LIST_REQUEST,
   NOTIFICATION_LIST_SUCCESS,
   NOTIFICATION_LIST_FAIL,
-  NOTIFICATION_DELETE_REQUEST,
-  NOTIFICATION_DELETE_SUCCESS,
-  NOTIFICATION_DELETE_FAIL,
 } from "../constants/notificationsConstants";
 import axios from "axios";
 
@@ -39,7 +36,7 @@ export const listNotification = () => async (dispatch, getState) => {
 export const deleteNotification = (id) => async (dispatch, getState) => {
   try {
     dispatch({
-      type: NOTIFICATION_DELETE_REQUEST,
+      type: NOTIFICATION_LIST_REQUEST,
     });
 
     const {
@@ -54,14 +51,13 @@ export const deleteNotification = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(`/api/notification/${id}`, {}, config);
-
     dispatch({
-      type: NOTIFICATION_DELETE_SUCCESS,
+      type: NOTIFICATION_LIST_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: NOTIFICATION_DELETE_FAIL,
+      type: NOTIFICATION_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

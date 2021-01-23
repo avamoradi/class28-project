@@ -53,8 +53,13 @@ const deleteNotification = asyncHandler(async (req, res) => {
       notification.users = userIdsArray;
       await notification.save();
     }
+    const allNotification = await Notification.find();
 
-    res.status(200).json("Notification removed");
+    const userNotification = allNotification.filter((notification) =>
+      notification.users.includes(userId)
+    );
+
+    res.status(200).json(userNotification);
   } else {
     res.status(404);
     throw new Error("Notification not found");

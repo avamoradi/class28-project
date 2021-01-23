@@ -10,14 +10,18 @@ export const notificationsListReducer = (
 ) => {
   switch (action.type) {
     case NOTIFICATION_LIST_REQUEST:
-      return { loading: true, notifications: [] };
+      return { loading: true, notifications: [...state.notifications] };
     case NOTIFICATION_LIST_SUCCESS:
       return {
         loading: false,
         notifications: action.payload,
       };
     case NOTIFICATION_LIST_FAIL:
-      return { loading: false, error: action.payload, notifications: [] };
+      return {
+        loading: false,
+        error: action.payload,
+        notifications: [...state.notifications],
+      };
     default:
       return state;
   }

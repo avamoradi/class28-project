@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,6 @@ import {
 } from "../actions/notificationsActions";
 
 const NotificationsScreen = ({ history }) => {
-  const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
 
   const notificationsList = useSelector((state) => state.notificationsList);
@@ -25,14 +24,25 @@ const NotificationsScreen = ({ history }) => {
     } else {
       dispatch(listNotification());
     }
-  }, [toggle, dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo]);
 
-  return loading ? (
-    <Loader />
-  ) : error ? (
-    <Message variant="danger">{error}</Message>
-  ) : (
+  const loaderStyle = {
+    position: "absolute",
+    top: "30%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: "100",
+  };
+
+  return (
     <>
+      {loading && (
+        <div style={loaderStyle}>
+          <Loader />
+        </div>
+      )}
+
+      {error && <Message variant="danger">{error}</Message>}
       {notifications.length > 0 ? (
         notifications.map((not) => (
           <Card key={not._id} className="m-3">
@@ -49,7 +59,6 @@ const NotificationsScreen = ({ history }) => {
                   variant="primary"
                   onClick={() => {
                     dispatch(deleteNotification(not._id));
-                    return setToggle(!toggle);
                   }}
                 >
                   x
