@@ -9,7 +9,9 @@ import {
   Button,
   Form,
 } from "react-bootstrap";
+
 import Rating from "../components/Rating";
+import ReviewsPopup from "../components/ReviewsPopup";
 import { useDispatch, useSelector } from "react-redux";
 import {
   listProductDetails,
@@ -21,6 +23,7 @@ import Meta from "../components/Meta";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 const ProductScreen = ({ history, match }) => {
+  const [modalShow, setModalShow] = useState(false);
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -41,9 +44,9 @@ const ProductScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (successProductReview) {
-      alert("Review submitted");
       setRating(0);
       setComment("");
+      setModalShow(true);
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
     dispatch(listProductDetails(match.params.id));
@@ -60,6 +63,9 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
+      {modalShow && (
+        <ReviewsPopup show={modalShow} onHide={() => setModalShow(false)} />
+      )}
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
