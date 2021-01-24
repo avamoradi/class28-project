@@ -24,6 +24,7 @@ import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 const ProductScreen = ({ history, match }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [reviewed, setReviewed] = useState(false);
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -47,10 +48,11 @@ const ProductScreen = ({ history, match }) => {
       setRating(0);
       setComment("");
       setModalShow(true);
+      setReviewed(true);
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
     dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match, successProductReview]);
+  }, [dispatch, match, successProductReview, reviewed]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -149,7 +151,7 @@ const ProductScreen = ({ history, match }) => {
                       type='button'
                       disabled={product.countInStock === 0}
                     >
-                      Add To Card
+                      Add To Cart
                     </Button>
                   </ListGroup.Item>
                 </ListGroup>
@@ -162,6 +164,7 @@ const ProductScreen = ({ history, match }) => {
               {product.reviews.length === 0 && (
                 <Message>Be first to review this product</Message>
               )}
+
               <ListGroup variant='flush'>
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
@@ -202,6 +205,11 @@ const ProductScreen = ({ history, match }) => {
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
                       </Form.Group>
+                      {reviewed && (
+                        <Message variant='success'>
+                          Review submitted successfully
+                        </Message>
+                      )}
                       <Button type='submit' variant='primary'>
                         Submit
                       </Button>
@@ -211,7 +219,7 @@ const ProductScreen = ({ history, match }) => {
                       Please <Link to='/login'>Sign In</Link> to write a review
                     </Message>
                   )}
-                </ListGroup.Item>
+                </ListGroup.Item>{" "}
               </ListGroup>
             </Col>
           </Row>
