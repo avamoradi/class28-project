@@ -12,8 +12,10 @@ export const createNotification = async (
 
   const allUsers = await User.find({});
   const notifiedUsers = allUsers
-    .map((user) => user._id)
-    .filter((id) => id.toString() !== userId.toString());
+    .map((user) => {
+      return { userId: user._id, isRead: false };
+    })
+    .filter((user) => user.userId.toString() !== userId.toString());
 
   const notification = new Notification({
     user: userId,
@@ -24,14 +26,36 @@ export const createNotification = async (
   await notification.save();
 };
 
+const getNotificationForOneUser = async (schema, userId) => {
+  const allNotification = await schema.find();
+
+  const userNotification = allNotification
+    .filter(
+      (notification) =>
+        notification.users.filter(
+          (user) => user.userId.toString() === userId.toString()
+        ).length > 0
+    )
+    .map((notification) => {
+      const userObject = notification.users.filter(
+        (user) => user.userId.toString() === userId.toString()
+      );
+      const notifications = {
+        ...notification,
+        _doc: { ...notification._doc, users: userObject },
+      };
+      return notifications._doc;
+    })
+    .reverse();
+
+  return userNotification;
+};
+
 // Get Notifications: GET /api/notification (private)
 const getNotification = asyncHandler(async (req, res) => {
-  const allNotification = await Notification.find();
-
-  const userId = req.user._id;
-
-  const userNotification = allNotification.filter((notification) =>
-    notification.users.includes(userId)
+  const userNotification = await getNotificationForOneUser(
+    Notification,
+    req.user._id
   );
 
   res.status(200).json(userNotification);
@@ -45,7 +69,7 @@ const deleteNotification = asyncHandler(async (req, res) => {
 
   if (notification) {
     const userIdsArray = notification.users.filter(
-      (id) => id.toString() !== userId.toString()
+      (user) => user.userId.toString() !== userId.toString()
     );
     if (userIdsArray.length === 0) {
       await notification.remove();
@@ -53,10 +77,10 @@ const deleteNotification = asyncHandler(async (req, res) => {
       notification.users = userIdsArray;
       await notification.save();
     }
-    const allNotification = await Notification.find();
 
-    const userNotification = allNotification.filter((notification) =>
-      notification.users.includes(userId)
+    const userNotification = await getNotificationForOneUser(
+      Notification,
+      req.user._id
     );
 
     res.status(200).json(userNotification);
@@ -66,4 +90,34 @@ const deleteNotification = asyncHandler(async (req, res) => {
   }
 });
 
-export { getNotification, deleteNotification };
+// Update Notifications: PUT /api/notification/read/:id (private)
+// mark the notifications as read.
+const markAsRead = asyncHandler(async (req, res) => {
+  const notification = await Notification.findById(req.params.id);
+  const userId = req.user._id;
+
+  if (notification) {
+    const userIdsArray = notification.users.map((user) => {
+      if (user.userId.toString() === userId.toString()) {
+        return { ...user, isRead: true };
+      } else {
+        return user;
+      }
+    });
+
+    notification.users = userIdsArray;
+    await notification.save();
+
+    const userNotification = await getNotificationForOneUser(
+      Notification,
+      req.user._id
+    );
+
+    res.status(200).json(userNotification);
+  } else {
+    res.status(404);
+    throw new Error("Notification not found");
+  }
+});
+
+export { getNotification, deleteNotification, markAsRead };

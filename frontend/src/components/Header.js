@@ -19,6 +19,9 @@ const Header = () => {
 
   const notificationsList = useSelector((state) => state.notificationsList);
   const { notifications } = notificationsList;
+
+  const notificationsNum = notifications.filter((x) => !x.users[0].isRead).length;
+
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -39,10 +42,10 @@ const Header = () => {
                 <LinkContainer to="/notifications">
                   <Nav.Link className=" p-2 pb-3 position-relative">
                     <MdNotifications size={25} color="#9a9da0" />
-                    {notifications.length > 0 && (
+                    {notificationsNum > 0 && (
                       <div className="notifications-num_container">
                         <span className="notifications-num">
-                          {notifications.length}
+                          {notificationsNum}
                         </span>
                       </div>
                     )}
