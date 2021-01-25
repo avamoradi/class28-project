@@ -36,11 +36,18 @@ h2 {
   color: #fff;
 }
 
-.modal-content {
-  color:rgb(2, 248, 203);
+.modal-content, .modal-header {
   font-weight: bold;
   text-align: center;
+  align-items:stretch;
+  justify-content: center;
 }
+
+.cookie-footer {
+  flex-direction: column;
+  justify-content:stretch;
+}
+
 
 .carousel img {
   height: 300px;

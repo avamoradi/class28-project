@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
@@ -7,11 +7,13 @@ import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
+import CookiePopup from "../components/CookiePopup";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
+  const [cookiePopup, setCookiePopup] = useState(true);
 
   const pageNumber = match.params.pageNumber || 1;
 
@@ -25,11 +27,14 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      {cookiePopup && (
+        <CookiePopup show={cookiePopup} onHide={() => setCookiePopup(false)} />
+      )}
       <Meta />
       {!keyword ? (
         <ProductCarousel />
       ) : (
-        <Link to="/" className="btn btn-light">
+        <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
       )}
@@ -37,7 +42,7 @@ const HomeScreen = ({ match }) => {
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <>
           <Row>
