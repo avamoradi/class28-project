@@ -141,7 +141,7 @@ const Header = () => {
               </NavDropdown.Item>
             </NavDropdown>
             <LinkContainer to='/sell'>
-              <Button variant='success'>For artists</Button>
+              <Button variant='success'>Sell Art</Button>
             </LinkContainer>
           </Navbar.Collapse>
         </Container>
