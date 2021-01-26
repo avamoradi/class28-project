@@ -1,8 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-
-
 const Filtering = ({location, setLocation, color, setColor, minPrice, setMinPrice, maxPrice, setMaxPrice}) => {
     
     const submitHandler = (e) => {
@@ -11,9 +9,7 @@ const Filtering = ({location, setLocation, color, setColor, minPrice, setMinPric
     };
 
     return (
-        
         <Form onSubmit={submitHandler} inline>
-
                         <Form.Control
                         as='select'
                         className='filter-select'
