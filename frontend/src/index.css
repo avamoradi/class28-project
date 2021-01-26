@@ -46,3 +46,30 @@ h2 {
 .carousel a {
   margin: 0 auto;
 }
+
+/* filter */
+select.filter-select.form-control:focus {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(255 255 255 / 25%);
+}
+select.filter-select.form-control {
+  display: block;
+  width: auto;
+  height: calc(1.5em + 1.5rem + 0px);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #55595c;
+  background-color: #ffffff;
+  background-clip: padding-box;
+  border: 0px solid #ffffff;
+  border-radius: 0;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  margin-right: 1.4rem;
+}
+
+select.filter-max.form-control, select.filter-min.form-control {
+  padding: 0.5rem 0.2rem;
+}
