@@ -156,7 +156,7 @@ const subscribeUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   const listId = process.env.MAILCHIMP_AUDIENCE_ID;
 
-  if (user.newsletterSubscription) {
+  if (user && user.newsletterSubscription) {
     res.status(400);
     throw new Error("Subscription failed: Member Exists");
   }
