@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
 main {
   min-height: 80vh;
 }
@@ -31,45 +32,24 @@ h2 {
 }
 
 /* HomeSlider */
-.home-slider {
-  width: 100%;
-  height: 600px;
-  background-color: black;
-}
 
 .home-slider-inner {
-  height: 100%;
-  width: 100%;
+  height: 600px;
+  width: 1000px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  display: flex;
 }
 
-.home-slider-inner .left,
-.home-slider-inner .right {
-  flex: 5%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.fa-angle-left,
-.fa-angle-right {
-  background-color: rgb(0, 0, 0, 0.4);
+.slider-title {
+  margin-top: 10rem;
+  font-family: 'PT Serif', serif;
   color: #ffffff;
-  font-size: 2rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+  font-size: 2.2rem;
 }
 
-.home-slider-inner .center {
-  flex: 90%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.buy-art {
+  background-color: black;
 }
 
 /* jumbotron */

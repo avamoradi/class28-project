@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
-import { Button } from 'react-bootstrap'
+import React from 'react'
+import { HashLink } from 'react-router-hash-link'
+import { Link } from 'react-router-dom'
+import { Carousel, Button } from 'react-bootstrap'
 
-const homeSliderImages = [
+const sliderImages = [
   {
     title: 'painting',
     subtitle: 'Fine Art Painting',
     img: 'images/home-slider-painting.jpg',
-  },
-  {
-    title: 'sculpture',
-    subtitle: 'Realistic Sculpture',
-    img: 'images/home-slider-sculpture.jpg',
   },
   {
     title: 'installation',
@@ -25,44 +22,27 @@ const homeSliderImages = [
 ]
 
 const HomeSlider = () => {
-  const [currentImg, setCurrentImg] = useState(0)
   return (
-    <div className='home-slider'>
-      <div
-        className='home-slider-inner'
-        style={{ backgroundImage: `url(${homeSliderImages[currentImg].img})` }}
-      >
-        <div
-          className='left'
-          onClick={() => {
-            if (currentImg === 0) {
-              setCurrentImg(3)
-            } else {
-              setCurrentImg(currentImg - 1)
-            }
-          }}
-        >
-          <i className='fas fa-angle-left'></i>
-        </div>
-        <div className='center'>
-          <h1>Curated artwork verified by experts</h1>
-          <Button>Buy now</Button>
-        </div>
-        <div
-          className='right'
-          onClick={() => {
-            if (currentImg === 3) {
-              setCurrentImg(0)
-            } else {
-              setCurrentImg(currentImg + 1)
-            }
-          }}
-        >
-          <i className='fas fa-angle-right'></i>
-        </div>
-      </div>
-    </div>
+    <Carousel pause='hover'>
+      {sliderImages.map((image) => (
+        <Carousel.Item key={image.title}>
+          <div
+            className='home-slider-inner'
+            style={{
+              backgroundImage: `url(${image.img})`,
+            }}
+          ></div>
+          <Carousel.Caption className='carousel-caption'>
+            <h1 className='slider-title'>
+              Curated artwork verified by experts
+            </h1>
+            <HashLink to='/#latest-art'>
+              <Button className='buy-art'>Buy Art</Button>
+            </HashLink>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
   )
 }
-
 export default HomeSlider
