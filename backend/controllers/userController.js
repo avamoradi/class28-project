@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import Mailchimp from "mailchimp-api-v3";
 
 // Auth user & get a token: POST /api/users/login (public)
 const authUser = asyncHandler(async (req, res) => {
@@ -148,6 +149,36 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Subscribe a user for newsletter: POST /api/users/subscribe (public)
+const subscribeUser = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+  const listId = process.env.MAILCHIMP_AUDIENCE_ID;
+
+  if (user.newsletterSubscription) {
+    res.status(400);
+    throw new Error("Subscription failed: Member Exists");
+  }
+
+  const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
+
+  try {
+    let subscription = await mailchimp.post(`/lists/${listId}/members`, {
+      email_address: email,
+      status: "subscribed",
+    });
+    if (user && subscription.status === "subscribed") {
+      user.newsletterSubscription = true;
+      await user.save();
+    }
+    res.json({ message: "Subscription completed!" });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Subscription failed: " + error.title);
+  }
+});
+
 export {
   authUser,
   getUserProfile,
@@ -157,4 +188,5 @@ export {
   deleteUser,
   getUserById,
   updateUser,
+  subscribeUser,
 };
