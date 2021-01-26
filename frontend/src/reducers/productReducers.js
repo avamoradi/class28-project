@@ -23,9 +23,14 @@ import {
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
+  SET_SORT_BY,
+
 } from "../constants/productConstants";
 
+
 export const productListReducer = (state = { products: [] }, action) => {
+  
+
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };
@@ -36,12 +41,18 @@ export const productListReducer = (state = { products: [] }, action) => {
         pages: action.payload.pages,
         page: action.payload.page,
       };
+    case  SET_SORT_BY:
+      return {
+        ...state,
+        sortBy: action.payload,
+      };
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
   }
 };
+
 
 export const productDetailsReducer = (
   state = { product: { reviews: [] } },
@@ -129,3 +140,4 @@ export const productTopRatedReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+
