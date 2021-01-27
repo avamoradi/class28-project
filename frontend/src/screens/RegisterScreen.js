@@ -13,6 +13,7 @@ const RegisterScreen = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [subscription, setSubscription] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -32,7 +33,7 @@ const RegisterScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(register(name, email, password));
+      dispatch(register(name, email, password, subscription));
     }
   };
 
@@ -80,6 +81,14 @@ const RegisterScreen = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
 
+        <Form.Group controlId="formBasicCheckbox">
+          <Form.Check
+            type="checkbox"
+            checked={subscription}
+            onChange={(e) => setSubscription(e.target.checked)}
+            label="I agree to recieve a newsletter on my e-mail"
+          />
+        </Form.Group>
         <Button type="submit" variant="primary">
           Register
         </Button>

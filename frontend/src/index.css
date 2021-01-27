@@ -46,3 +46,21 @@ h2 {
 .carousel a {
   margin: 0 auto;
 }
+
+.subscribe {
+  width: 40%;
+  min-width: 320px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subscribe h3 {
+  text-align: center;
+}
+
+.subscription-error {
+  width: 80%;
+  margin: 1rem auto;
+}

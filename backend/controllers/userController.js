@@ -16,6 +16,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
+      newsletterSubscription: user.newsletterSubscription,
     });
   } else {
     res.status(401);
@@ -33,6 +34,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      newsletterSubscription: user.newsletterSubscription,
     });
   } else {
     res.status(404);
@@ -42,7 +44,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 // Register a new user: POST /api/users (public)
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, subscription } = req.body;
 
   const userExist = await User.findOne({ email });
 
@@ -51,10 +53,30 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  //Check - Subscribe - True or false to DB
+  // const listId = process.env.MAILCHIMP_AUDIENCE_ID;
+  const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
+  const isSubscribed = await mailchimp.get(`/search-members`, { query: email });
+  console.log(isSubscribed);
+  // {
+  //   [0]   exact_matches: { members: [], total_items: 0 },
+  //   [0]   full_search: { members: [], total_items: 0 },
+  //   [0]   _links: [
+  //   [0]     {
+  //   [0]       rel: 'self',
+  //   [0]       href: 'https://us7.api.mailchimp.com/3.0/search-members',
+  //   [0]       method: 'GET',
+  //   [0]       targetSchema: 'https://us7.api.mailchimp.com/schema/3.0/Definitions/SearchMembers/Response.json'
+  //   [0]     }
+  //   [0]   ],
+  //   [0]   statusCode: 200
+  //   [0] }
+
   const user = await User.create({
     name,
     email,
     password,
+    newsletterSubscription: subscription,
   });
 
   if (user) {
@@ -64,6 +86,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
+      newsletterSubscription: user.newsletterSubscription,
     });
   } else {
     res.status(400);
@@ -90,6 +113,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
+      newsletterSubscription: updatedUser.newsletterSubscription,
     });
   } else {
     res.status(404);
@@ -142,6 +166,7 @@ const updateUser = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
+      newsletterSubscription: updatedUser.newsletterSubscription,
     });
   } else {
     res.status(404);

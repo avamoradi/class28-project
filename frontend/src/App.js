@@ -18,6 +18,7 @@ import UserEditScreen from "./screens/UserEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
+import Subscribe from "./components/Subscribe";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           <Route path="/admin/user/:id/edit" component={UserEditScreen} />
         </Container>
       </main>
+      <Subscribe />
       <Footer />
     </Router>
   );
