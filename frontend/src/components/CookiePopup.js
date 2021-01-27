@@ -1,8 +1,23 @@
 import React from "react";
-import BootstrapSwitchButton from "bootstrap-switch-button-react"; //https://gitbrent.github.io/bootstrap-switch-button-react/
-import { Modal, Button, Accordion, Table, Row, Col } from "react-bootstrap";
+//import BootstrapSwitchButton from "bootstrap-switch-button-react"; //https://gitbrent.github.io/bootstrap-switch-button-react/
+import {
+  Modal,
+  Button,
+  Accordion,
+  Table,
+  Row,
+  Col,
+  Form,
+} from "react-bootstrap";
 
 function CookiePopup(props) {
+  const cookieTerms = [
+    "Select personalised content",
+    "Select personalised ads",
+    "Select personalised adssssss",
+    "Select personalised asadsad",
+    "Select personalised gdsg",
+  ];
   return (
     <Modal
       dialogClassName='modal-0w'
@@ -35,41 +50,18 @@ function CookiePopup(props) {
               Manage Settings
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='1'>
-              <Table hover>
-                <thead>
-                  <tr>
-                    <th colSpan='2'>Purposes</th>
-                    <th>Give cosent to all</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                  </tr>
-                </tbody>
-              </Table>
+              <div>
+                {cookieTerms.map((term) => {
+                  return (
+                    <Form.Check
+                      label={term}
+                      variant='outline-primary'
+                      type='switch'
+                      id={term}
+                    />
+                  );
+                })}
+              </div>
             </Accordion.Collapse>
           </Accordion>
         </Row>

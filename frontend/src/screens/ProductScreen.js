@@ -38,6 +38,7 @@ const ProductScreen = ({ history, match }) => {
   const { userInfo } = userLogin;
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
+
   const {
     error: errorProductReview,
     success: successProductReview,
@@ -47,7 +48,6 @@ const ProductScreen = ({ history, match }) => {
     if (successProductReview) {
       setRating(0);
       setComment("");
-      setModalShow(true);
       setReviewed(true);
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
@@ -61,12 +61,20 @@ const ProductScreen = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(createProductReview(match.params.id, { rating, comment }));
+    console.log("AAAAAA", errorProductReview);
+    if (!errorProductReview.trim() !== "") {
+      setModalShow(true);
+      console.log("modalShow");
+    }
   };
 
   return (
     <>
       {modalShow && (
-        <ReviewsPopup show={modalShow} onHide={() => setModalShow(false)} />
+        <ReviewsPopup
+          show={modalShow}
+          onHideReview={() => setModalShow(false)}
+        />
       )}
       <Link className='btn btn-light my-3' to='/'>
         Go Back

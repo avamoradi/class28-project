@@ -13,7 +13,12 @@ import { listProducts } from "../actions/productActions";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
-  const [cookiePopup, setCookiePopup] = useState(true);
+
+  const cookiesFromStorage = localStorage.getItem("isCookies")
+    ? JSON.parse(localStorage.getItem("isCookies"))
+    : true;
+
+  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage);
 
   const pageNumber = match.params.pageNumber || 1;
 
@@ -22,8 +27,9 @@ const HomeScreen = ({ match }) => {
   const { loading, error, products, page, pages } = productList;
 
   useEffect(() => {
+    localStorage.setItem("isCookies", cookiePopup);
     dispatch(listProducts(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber]);
+  }, [dispatch, keyword, pageNumber, cookiePopup]);
 
   return (
     <>

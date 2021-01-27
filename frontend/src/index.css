@@ -43,6 +43,16 @@ h2 {
   justify-content: center;
 }
 
+.cookies-switch-buttons{
+  width: 12px;
+  height: 5px;
+  border-radius: 13%;
+}
+
+.cookie-table tr {
+  padding:3px;
+}
+
 .cookie-footer {
   flex-direction: column;
   justify-content:stretch;
