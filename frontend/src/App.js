@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./components/Header";
@@ -19,7 +19,10 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 
+
 function App() {
+  
+
   return (
     <Router>
       <Header />
@@ -34,16 +37,14 @@ function App() {
           <Route path="/login" component={LoginScreen} />
           <Route path="/" component={HomeScreen} exact />
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
-          <Route
-            path="/search/:keyword/page/:pageNumber"
-            component={HomeScreen}
-            exact
-          />
-          <Route
-            path="/page/:pageNumber/:location/:minPrice/:maxPrice/:color"
-            component={HomeScreen}
-            exact
-          />
+          <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact />
+
+          <Route path="/search/:keyword/sortBy/:sorts/" component={HomeScreen} exact />
+          <Route path="/sortBy/:sorts/page/:pageNumber" component={HomeScreen} exact />
+          <Route path="/sortBy/:sorts" component={HomeScreen} exact />
+          <Route path="/sortBy/:sorts/filter/location/:location/minPrice/:minPrice/maxPrice/:maxPrice/color/:color" component={HomeScreen} exact />
+          <Route path="/filter/:location/filter/:minPrice/filter/:maxPrice/filter/:color" component={HomeScreen} exact />
+
           <Route path="/search/:keyword" component={HomeScreen} exact />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />

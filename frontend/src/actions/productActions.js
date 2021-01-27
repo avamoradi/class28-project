@@ -31,14 +31,14 @@ export const listProducts = (
   minPrice=0, 
   maxPrice=Infinity, 
   color="",
-  sort=""
+  sorts=""
   ) => async (
   dispatch
 ) => {   
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&sort=${sort}`
+      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&sorts=${sorts}`
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) { 

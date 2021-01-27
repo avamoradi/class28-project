@@ -7,7 +7,6 @@ const Filtering = ({location, setLocation, color, setColor, minPrice, setMinPric
     
     const submitHandler = (e) => {
         e.preventDefault();
-        
     };
 
     return (

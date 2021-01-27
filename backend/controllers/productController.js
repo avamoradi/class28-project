@@ -5,7 +5,7 @@ import Product from "../models/productModel.js";
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const { location, minPrice, maxPrice, color, sort } = req.query;
+  const { location, minPrice, maxPrice, color } = req.query;
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
     
   const sortItems = {     
@@ -15,7 +15,7 @@ const getProducts = asyncHandler(async (req, res) => {
     'Newest': {'type': 'createdAt', 'order': -1}
   };
   
-  const sortType = (sort) ? [[sortItems[sort].type, sortItems[sort].order]] : '';
+  const sortType = (req.query.sorts) ? [[sortItems[req.query.sorts].type, sortItems[req.query.sorts].order]] : "";
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ""
@@ -33,14 +33,14 @@ const getProducts = asyncHandler(async (req, res) => {
     //    gt = greater than
   const filterObj = {
     ...keyword,
-    ...(location && { location: location }),
-    ...(color && { color: color }),
+    ...location,
+    ...color,
     ...(price && {
       price: { 
         $gte: price.minPrice,   
         $lte: price.maxPrice 
       } 
-    })
+    }),
   };
 
   const count = await Product.countDocuments(filterObj);

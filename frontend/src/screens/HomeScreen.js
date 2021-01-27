@@ -13,39 +13,36 @@ import Filtering from '../components/Filtering';
 import Sorting from "../components/Sorting";
 import { Route } from "react-router-dom";
 
-
-
-
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
+  const sorts = match.params.sorts;
+
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
   const [color, setColor] = useState("");
-  const [sort, setSort] =useState("");
+  
+  console.log(sorts);
+
   const dispatch = useDispatch();
-  //const sort = match.params.sort;
-  console.log(sort);
   
   const pageNumber = match.params.pageNumber || 1;
 
-  
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
-  
-  
-  useEffect(() => {
-    dispatch(listProducts(keyword, pageNumber, location, minPrice, maxPrice, color, sort));
 
-  }, [dispatch, keyword, pageNumber, location, minPrice, maxPrice, color, sort]);
+  useEffect(() => {
+    dispatch(listProducts(keyword, pageNumber, location, minPrice, maxPrice, color, sorts));
+    
+  }, [dispatch, keyword, pageNumber, location, minPrice, maxPrice, color, sorts]);
 
   return (
     <>
       <Meta />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sort  ? (
+      {!keyword || !location || !minPrice || !maxPrice || !color || !sorts  ? (
         <ProductCarousel />
       ) : (
-        <Link to="/" className="btn btn-light">
+        <Link to="/" className="btn btn-light" >
           Go Back
         </Link>
       )}
@@ -70,11 +67,7 @@ const HomeScreen = ({ match }) => {
               
           </Row>
           <Row>
-          {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
-            <Sorting 
-              sort={sort}
-              setSort={setSort}
-              />
+          <Route render={({ history }) => <Sorting history={history} />} />
           </Row>
           <Row>
             {products.map((product) => (
