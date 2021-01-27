@@ -53,24 +53,28 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  //Check - Subscribe - True or false to DB
-  // const listId = process.env.MAILCHIMP_AUDIENCE_ID;
-  const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
-  const isSubscribed = await mailchimp.get(`/search-members`, { query: email });
-  console.log(isSubscribed);
-  // {
-  //   [0]   exact_matches: { members: [], total_items: 0 },
-  //   [0]   full_search: { members: [], total_items: 0 },
-  //   [0]   _links: [
-  //   [0]     {
-  //   [0]       rel: 'self',
-  //   [0]       href: 'https://us7.api.mailchimp.com/3.0/search-members',
-  //   [0]       method: 'GET',
-  //   [0]       targetSchema: 'https://us7.api.mailchimp.com/schema/3.0/Definitions/SearchMembers/Response.json'
-  //   [0]     }
-  //   [0]   ],
-  //   [0]   statusCode: 200
-  //   [0] }
+  if (subscription) {
+    const listId = process.env.MAILCHIMP_AUDIENCE_ID;
+    const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
+    try {
+      const { exact_matches } = await mailchimp.get(`/search-members`, {
+        query: email,
+      });
+
+      if (exact_matches.total_items === 0) {
+        try {
+          await mailchimp.post(`/lists/${listId}/members`, {
+            email_address: email,
+            status: "subscribed",
+          });
+        } catch (error) {
+          subscription = false;
+        }
+      }
+    } catch (error) {
+      subscription = false;
+    }
+  }
 
   const user = await User.create({
     name,
