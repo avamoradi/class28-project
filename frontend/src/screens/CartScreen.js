@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
 import { addToCart, removeFromCart } from '../actions/cartActions'
-import ReactGa from 'react-ga'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 const CartScreen = ({ match, location, history }) => {
+  const GAEventsTracker = useGAEventTracker('Button')
+
   const productId = match.params.id
 
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
@@ -28,11 +30,10 @@ const CartScreen = ({ match, location, history }) => {
 
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping')
-    ReactGa.event({
-      category: 'Button',
-      action: 'Clicked PROCEED TO CHECKOUT button in Cart screen',
-    })
+    GAEventsTracker('PROCEED TO CHECKOUT BUTTON clicked on cart screen')
   }
+
+  logPageView()
 
   return (
     <Row>

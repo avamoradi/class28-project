@@ -6,9 +6,11 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
-import ReactGa from 'react-ga'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 const LoginScreen = ({ location, history }) => {
+  const GAEventsTracker = useGAEventTracker('Button')
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -28,11 +30,10 @@ const LoginScreen = ({ location, history }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(login(email, password))
-    ReactGa.event({
-      category: 'Button',
-      action: 'Clicked the button in login screen',
-    })
+    GAEventsTracker('Clicked the button in login screen')
   }
+
+  logPageView()
 
   return (
     <FormContainer>

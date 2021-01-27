@@ -15,6 +15,7 @@ import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
 } from '../constants/orderConstants'
+import { logPageView } from '../analytic'
 
 const OrderScreen = ({ match, history }) => {
   const [sdkReady, setSdkReady] = useState(false)
@@ -82,6 +83,8 @@ const OrderScreen = ({ match, history }) => {
   const deliverHandler = () => {
     dispatch(deliverOrder(order))
   }
+
+  logPageView()
 
   return loading ? (
     <Loader />

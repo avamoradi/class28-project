@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { saveShippingAddress } from '../actions/cartActions'
-import ReactGa from 'react-ga'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 const ShippingScreen = ({ history }) => {
+  const GAEventsTracker = useGAEventTracker('Button')
+
   const cart = useSelector((state) => state.cart)
   const { shippingAddress } = cart
 
@@ -21,11 +23,11 @@ const ShippingScreen = ({ history }) => {
     e.preventDefault()
     dispatch(saveShippingAddress({ address, city, postalCode, country }))
     history.push('/payment')
-    ReactGa.event({
-      category: 'Button',
-      action: 'Clicked CONTINUE  button in Shipping screen',
-    })
+
+    GAEventsTracker('Clicked CONTINUE  button in Shipping screen')
   }
+
+  logPageView()
 
   return (
     <FormContainer>

@@ -11,9 +11,11 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
-import ReactGa from 'react-ga'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 const ProductScreen = ({ history, match }) => {
+  const GAEventsTracker = useGAEventTracker('Button')
+
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
@@ -44,16 +46,16 @@ const ProductScreen = ({ history, match }) => {
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
-    ReactGa.event({
-      category: 'Button',
-      action: 'Clicked ADD TO CART button in product screen',
-    })
+
+    GAEventsTracker('Clicked ADD TO CART button in product screen')
   }
 
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(createProductReview(match.params.id, { rating, comment }))
   }
+
+  logPageView()
 
   return (
     <>

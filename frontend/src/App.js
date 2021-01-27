@@ -18,13 +18,12 @@ import UserEditScreen from './screens/UserEditScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
-import ReactGa from 'react-ga'
+import { logPageView } from './analytic'
+import { initGA } from './analytic'
 
 function App() {
-  useEffect(() => {
-    ReactGa.initialize('UA-188012640-1')
-    ReactGa.pageview(window.location.pathname + window.location.search)
-  }, [])
+  initGA()
+  logPageView()
 
   return (
     <Router>

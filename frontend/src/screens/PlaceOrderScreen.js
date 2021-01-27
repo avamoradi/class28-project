@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
-import ReactGa from 'react-ga'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 const PlaceOrderScreen = ({ history }) => {
+  const GAEventsTracker = useGAEventTracker('Button')
+
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
 
@@ -48,11 +50,11 @@ const PlaceOrderScreen = ({ history }) => {
         totalPrice: cart.totalPrice,
       })
     )
-    ReactGa.event({
-      category: 'Button',
-      action: 'Clicked PLACE ORDER button in place order screen',
-    })
+
+    GAEventsTracker('Clicked PLACE ORDER button in place order screen')
   }
+
+  logPageView()
 
   return (
     <>
