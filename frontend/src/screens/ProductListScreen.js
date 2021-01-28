@@ -6,11 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
 
-import {
-  listProducts,
-  deleteProduct,
-  createProduct,
-} from "../actions/productActions";
+import { listProducts, deleteProduct } from "../actions/productActions";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
 const ProductListScreen = ({ history, match }) => {
@@ -43,11 +39,7 @@ const ProductListScreen = ({ history, match }) => {
       history.push("/login");
     }
 
-    if (successCreate) {
-      history.push(`/admin/product/${createdProduct._id}/edit`);
-    } else {
-      dispatch(listProducts("", pageNumber));
-    }
+    dispatch(listProducts("", pageNumber));
   }, [
     dispatch,
     history,
@@ -65,7 +57,7 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   const createProductHandler = () => {
-    dispatch(createProduct());
+    history.push(`/admin/product/create`);
   };
 
   return (

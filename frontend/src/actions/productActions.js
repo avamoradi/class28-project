@@ -20,28 +20,25 @@ import {
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
-
 } from "../constants/productConstants";
 import axios from "axios";
 
 export const listProducts = (
-  keyword = "", 
-  pageNumber = "", 
-  location = "", 
-  minPrice=0, 
-  maxPrice=Infinity, 
-  color="",
-  sort=""
-  ) => async (
-  dispatch
-) => {   
+  keyword = "",
+  pageNumber = "",
+  location = "",
+  minPrice = 0,
+  maxPrice = Infinity,
+  color = "",
+  sort = ""
+) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
       `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&sort=${sort}`
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
-  } catch (error) { 
+  } catch (error) {
     dispatch({
       type: PRODUCT_LIST_FAIL,
       payload:
@@ -100,7 +97,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 };
 
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
@@ -116,7 +113,7 @@ export const createProduct = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/products`, {}, config);
+    const { data } = await axios.post(`/api/products`, product, config);
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,
@@ -222,5 +219,3 @@ export const listTopProducts = () => async (dispatch) => {
     });
   }
 };
-
-
