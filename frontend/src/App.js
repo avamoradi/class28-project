@@ -40,7 +40,11 @@ function App() {
             component={HomeScreen}
             exact
           />
-
+          <Route
+            path="/page/:pageNumber/:location/:minPrice/:maxPrice/:color"
+            component={HomeScreen}
+            exact
+          />
           <Route path="/search/:keyword" component={HomeScreen} exact />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
