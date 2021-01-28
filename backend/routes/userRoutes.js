@@ -10,6 +10,7 @@ import {
   getUserById,
   updateUser,
   subscribeUser,
+  unSubscribeUser,
 } from "../controllers/userController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -20,6 +21,7 @@ router
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 router.post("/subscribe", subscribeUser);
+router.post("/unsubscribe", unSubscribeUser);
 router
   .route("/:id")
   .delete(protect, admin, deleteUser)

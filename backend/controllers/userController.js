@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
 import Mailchimp from "mailchimp-api-v3";
+import md5 from "md5";
 
 // Auth user & get a token: POST /api/users/login (public)
 const authUser = asyncHandler(async (req, res) => {
@@ -208,6 +209,37 @@ const subscribeUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Unsubscribe a user for newsletter: POST /api/users/unsubscribe (public)
+const unSubscribeUser = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const emailHash = md5(email.toLowerCase());
+
+  const user = await User.findOne({ email });
+
+  const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
+  const listId = process.env.MAILCHIMP_AUDIENCE_ID;
+
+  try {
+    await mailchimp.patch(`/lists/${listId}/members/${emailHash}`, {
+      email_address: email,
+      status: "unsubscribed",
+    });
+    if (user?.newsletterSubscription) {
+      try {
+        user.newsletterSubscription = false;
+        await user.save();
+      } catch (error) {
+        res.status(500);
+        throw new Error("Unsubscription failed, can't save user's data");
+      }
+    }
+    res.json({ message: "Unsubscription completed!" });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Unsubscription failed: " + error.title);
+  }
+});
+
 export {
   authUser,
   getUserProfile,
@@ -218,4 +250,5 @@ export {
   getUserById,
   updateUser,
   subscribeUser,
+  unSubscribeUser,
 };
