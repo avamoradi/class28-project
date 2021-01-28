@@ -1,7 +1,10 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
-import { createNotification } from "./notificationController.js";
+import {
+  createNotification,
+  createValidateArtNotification,
+} from "./notificationController.js";
 
 // Check if users have 2 reviews or more to mark them as experts.
 const markUserAsExpert = async (userId) => {
@@ -19,12 +22,10 @@ const markUserAsExpert = async (userId) => {
     (review) => review.user.toString() === userId.toString()
   );
 
-  console.log("User", user);
   if (userReviews.length > 2) {
     user.isExpert = true;
     await user.save();
   }
-  console.log("User2", user);
 };
 
 const getProducts = asyncHandler(async (req, res) => {
@@ -121,8 +122,12 @@ const createProduct = asyncHandler(async (req, res) => {
     description,
   });
   const createdProduct = await product.save();
-
-  createNotification(req.user._id, product.id, "added new product", product.name);
+  // createNotification(req.user._id, product.id, "added new product", product.name);
+  createValidateArtNotification(
+    req.user._id,
+    createdProduct._id,
+    createdProduct.name
+  );
 
   res.status(201).json(createdProduct);
 });
