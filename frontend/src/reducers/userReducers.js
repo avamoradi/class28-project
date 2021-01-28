@@ -25,6 +25,7 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_REQUEST,
   USER_UPDATE_PROFILE_RESET,
+  USER_UPDATE_LOGIN_SUCCESS,
 } from "../constants/userConstants";
 export const userLoginReducer = (state = {}, action) => {
   switch (action.type) {
@@ -36,6 +37,10 @@ export const userLoginReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
       return {};
+    case USER_UPDATE_LOGIN_SUCCESS:
+      return {
+        userInfo: action.payload,
+      };
     default:
       return state;
   }

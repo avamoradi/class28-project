@@ -19,6 +19,7 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import OrderListScreen from "./screens/OrderListScreen";
 import Subscribe from "./components/Subscribe";
+import UnSubscribe from "./components/UnSubscribe";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/register" component={RegisterScreen} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/" component={HomeScreen} exact />
+          <Route path="/unsubscribe" component={UnSubscribe} />
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route
             path="/search/:keyword/page/:pageNumber"

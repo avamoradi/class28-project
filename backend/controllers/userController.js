@@ -55,6 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   if (subscription) {
+    const emailHash = md5(email.toLowerCase());
     const listId = process.env.MAILCHIMP_AUDIENCE_ID;
     const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
     try {
@@ -63,14 +64,15 @@ const registerUser = asyncHandler(async (req, res) => {
       });
 
       if (exact_matches.total_items === 0) {
-        try {
-          await mailchimp.post(`/lists/${listId}/members`, {
-            email_address: email,
-            status: "subscribed",
-          });
-        } catch (error) {
-          subscription = false;
-        }
+        await mailchimp.post(`/lists/${listId}/members`, {
+          email_address: email,
+          status: "subscribed",
+        });
+      } else {
+        await mailchimp.patch(`/lists/${listId}/members/${emailHash}`, {
+          email_address: email,
+          status: "subscribed",
+        });
       }
     } catch (error) {
       subscription = false;
@@ -182,6 +184,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // Subscribe a user for newsletter: POST /api/users/subscribe (public)
 const subscribeUser = asyncHandler(async (req, res) => {
   const { email } = req.body;
+  const emailHash = md5(email.toLowerCase());
 
   const user = await User.findOne({ email });
   const listId = process.env.MAILCHIMP_AUDIENCE_ID;
@@ -194,11 +197,23 @@ const subscribeUser = asyncHandler(async (req, res) => {
   const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
 
   try {
-    let subscription = await mailchimp.post(`/lists/${listId}/members`, {
-      email_address: email,
-      status: "subscribed",
+    const { exact_matches } = await mailchimp.get(`/search-members`, {
+      query: email,
     });
-    if (user && subscription.status === "subscribed") {
+
+    if (exact_matches.total_items === 0) {
+      let subscription = await mailchimp.post(`/lists/${listId}/members`, {
+        email_address: email,
+        status: "subscribed",
+      });
+    } else {
+      await mailchimp.patch(`/lists/${listId}/members/${emailHash}`, {
+        email_address: email,
+        status: "subscribed",
+      });
+    }
+
+    if (user) {
       user.newsletterSubscription = true;
       await user.save();
     }

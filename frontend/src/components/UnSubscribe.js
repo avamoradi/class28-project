@@ -5,7 +5,7 @@ import axios from "axios";
 import { updateUserLogin } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 
-const Subscribe = () => {
+const UnSubscribe = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -16,14 +16,10 @@ const Subscribe = () => {
   const { userInfo: user } = userLogin;
 
   useEffect(() => {
-    setTimeout(() => {
-      setError(null);
-      setMessage(null);
-    }, 3000);
-    if (user && !user.newsletterSubscription) {
+    if (user && user.newsletterSubscription) {
       setEmail(user.email);
     }
-  }, [error, message, user]);
+  }, [user]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -32,10 +28,11 @@ const Subscribe = () => {
     if (email?.trim()) {
       try {
         setLoading(true);
-        const { data } = await axios.post("/api/users/subscribe", {
+        const { data } = await axios.post("/api/users/unsubscribe", {
           email: email.trim(),
         });
         setMessage(data.message);
+        setEmail("");
       } catch (error) {
         setError(error.response.data.message);
       }
@@ -48,9 +45,9 @@ const Subscribe = () => {
     }
   };
 
-  return !user?.newsletterSubscription ? (
+  return (
     <div className="subscribe">
-      <h3>Subscribe to newsletter</h3>
+      <h3>UnSubscribe from newsletter</h3>
       {loading && <p>Loading...</p>}
       {message ? (
         <Message>{message}</Message>
@@ -63,18 +60,19 @@ const Subscribe = () => {
             value={email}
           ></Form.Control>
           <Button type="submit" variant="outline-success" className="p-2">
-            Subscribe
+            UnSubscribe
           </Button>
         </Form>
       )}
 
       <div className="subscription-error">
         {error && <Message variant="danger">{error}</Message>}
+        {user && !user.newsletterSubscription && !message && (
+          <Message>You are not subscribed yet. Subscribe below</Message>
+        )}
       </div>
     </div>
-  ) : (
-    ""
   );
 };
 
-export default Subscribe;
+export default UnSubscribe;
