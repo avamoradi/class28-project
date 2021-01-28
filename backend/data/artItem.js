@@ -76,7 +76,7 @@ async function scrapeProduct(url) {
   const rawMedium = await txtMedium.jsonValue()
   const medium = splitOnUpperCase(rawMedium)
 
-  console.log({
+  const artObject = {
     image,
     name,
     brand,
@@ -87,9 +87,13 @@ async function scrapeProduct(url) {
     subject,
     style,
     medium,
-  })
+  }
+
+  console.log(artObject)
 
   browser.close()
+
+  return artObject
 }
 
 scrapeProduct(
