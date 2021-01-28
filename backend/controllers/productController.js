@@ -1,21 +1,46 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
+import User from "../models/userModel.js";
 import { createNotification } from "./notificationController.js";
+
+// Check if users have 2 reviews or more to mark them as experts.
+const markUserAsExpert = async (userId) => {
+  const allProducts = await Product.find();
+
+  const user = await User.findById(userId);
+
+  const reviewsArray = allProducts
+    .map((product) => product.reviews)
+    .filter((review) => review.length > 0);
+
+  const allReviews = [].concat.apply([], reviewsArray);
+
+  const userReviews = allReviews.filter(
+    (review) => review.user.toString() === userId.toString()
+  );
+
+  console.log("User", user);
+  if (userReviews.length > 2) {
+    user.isExpert = true;
+    await user.save();
+  }
+  console.log("User2", user);
+};
 
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
   const { location, minPrice, maxPrice, color, sort } = req.query;
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
-    
-  const sortItems = {     
-    'BestRating': {'type': 'rating', 'order': -1},
-    'HighestPrice': {'type': 'price', 'order': -1},
-    'LowestPrice': {'type': 'price', 'order': 1},
-    'Newest': {'type': 'createdAt', 'order': -1}
+
+  const sortItems = {
+    BestRating: { type: "rating", order: -1 },
+    HighestPrice: { type: "price", order: -1 },
+    LowestPrice: { type: "price", order: 1 },
+    Newest: { type: "createdAt", order: -1 },
   };
-  
-  const sortType = (sort) ? [[sortItems[sort].type, sortItems[sort].order]] : '';
+
+  const sortType = sort ? [[sortItems[sort].type, sortItems[sort].order]] : "";
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ""
@@ -26,25 +51,23 @@ const getProducts = asyncHandler(async (req, res) => {
           },
         }
       : {};
-      
-    //    gte = greater than or equal
-    //    lte = lesser than or equal
-    //    lt = lesser than
-    //    gt = greater than
+
   const filterObj = {
     ...keyword,
     ...(location && { location: location }),
     ...(color && { color: color }),
     ...(price && {
-      price: { 
-        $gte: price.minPrice,   
-        $lte: price.maxPrice 
-      } 
-    })
+      price: {
+        $gte: price.minPrice,
+        $lte: price.maxPrice,
+      },
+    }),
   };
 
   const count = await Product.countDocuments(filterObj);
-  const products = await Product.find(filterObj)
+  const products = await Product.find({
+    $and: [filterObj, { status: { $ne: "pending" } }],
+  })
     .sort(sortType)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
@@ -160,6 +183,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     await product.save();
 
     createNotification(req.user._id, product.id, "reviewed", product.name);
+    markUserAsExpert(req.user._id);
 
     res.status(201).json({ message: "Review added" });
   } else {
