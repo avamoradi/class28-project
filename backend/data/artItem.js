@@ -1,5 +1,17 @@
 import puppeteer from 'puppeteer'
 
+//helper functions
+function removeFirstCharacter(str) {
+  return (str = parseInt(
+    str.substring(1).replace(/[,U]/g, '').replace(/[SD]/g, ''),
+    10
+  ))
+}
+
+function splitOnUpperCase(str) {
+  return (str = str.split(/(?=[A-Z])/))
+}
+
 //get the info from one art item:
 async function scrapeProduct(url) {
   const browser = await puppeteer.launch()
@@ -10,19 +22,19 @@ async function scrapeProduct(url) {
     '//*[@id="__next"]/div/div/div[1]/div[1]/div/div[1]/div[1]/img'
   )
   const srcImg = await elImg.getProperty('src')
-  const imgURL = await srcImg.jsonValue()
+  const image = await srcImg.jsonValue()
 
-  const [elTitle] = await page.$x(
+  const [elName] = await page.$x(
     '//*[@id="__next"]/div/div/div[1]/div[2]/div/div[1]'
   )
-  const txtTitle = await elTitle.getProperty('textContent')
-  const title = await txtTitle.jsonValue()
+  const txtName = await elName.getProperty('textContent')
+  const name = await txtName.jsonValue()
 
-  const [elArtist] = await page.$x(
+  const [elBrand] = await page.$x(
     '//*[@id="__next"]/div/div/div[1]/div[2]/div/p[1]/a'
   )
-  const txtArtist = await elArtist.getProperty('textContent')
-  const artist = await txtArtist.jsonValue()
+  const txtBrand = await elBrand.getProperty('textContent')
+  const brand = await txtBrand.jsonValue()
 
   const [elCountry] = await page.$x(
     '//*[@id="__next"]/div/div/div[1]/div[2]/div/p[2]'
@@ -30,44 +42,51 @@ async function scrapeProduct(url) {
   const txtCountry = await elCountry.getProperty('textContent')
   const country = await txtCountry.jsonValue()
 
-  const [elType] = await page.$x(
+  const [elCategory] = await page.$x(
     '//*[@id="__next"]/div/div/div[1]/div[2]/div/p[3]'
   )
-  const txtType = await elType.getProperty('textContent')
-  const type = await txtType.jsonValue()
+  const txtCategory = await elCategory.getProperty('textContent')
+  const category = await txtCategory.jsonValue()
 
   const [elPrice] = await page.$x(
     '//*[@id="__next"]/div/div/div[1]/div[2]/div/div[3]/div[1]/div'
   )
   const txtPrice = await elPrice.getProperty('textContent')
-  const price = await txtPrice.jsonValue()
+  const rawPrice = await txtPrice.jsonValue()
+  const price = removeFirstCharacter(rawPrice)
 
   const [elDescription] = await page.$x('//*[@id="__next"]/div/div/div[3]/p[2]')
   const txtDescription = await elDescription.getProperty('textContent')
   const description = await txtDescription.jsonValue()
 
-  const [elKeywords] = await page.$x(
-    '//*[@id="__next"]/div/div/div[3]/div[1]/div'
-  )
-  const txtKeywords = await elKeywords.getProperty('textContent')
-  const keywords = await txtKeywords.jsonValue()
+  const [elSubject] = await page.$x('/html/body/div[3]/div/div/div[3]/div[2]/a')
+  const txtSubject = await elSubject.getProperty('textContent')
+  const rawSubject = await txtSubject.jsonValue()
+  const subject = splitOnUpperCase(rawSubject)
 
-  const [elStyles] = await page.$x(
-    '//*[@id="__next"]/div/div/div[3]/div[3]/div'
+  const [elStyle] = await page.$x('//*[@id="__next"]/div/div/div[3]/div[3]/div')
+  const txtStyle = await elStyle.getProperty('textContent')
+  const rawStyle = await txtStyle.jsonValue()
+  const style = splitOnUpperCase(rawStyle)
+
+  const [elMedium] = await page.$x(
+    '//*[@id="__next"]/div/div/div[3]/div[4]/div/a'
   )
-  const txtStyles = await elStyles.getProperty('textContent')
-  const styles = await txtStyles.jsonValue()
+  const txtMedium = await elMedium.getProperty('textContent')
+  const rawMedium = await txtMedium.jsonValue()
+  const medium = splitOnUpperCase(rawMedium)
 
   console.log({
-    imgURL,
-    title,
-    artist,
+    image,
+    name,
+    brand,
     country,
-    type,
+    category,
     price,
     description,
-    keywords,
-    styles,
+    subject,
+    style,
+    medium,
   })
 
   browser.close()
