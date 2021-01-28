@@ -1,5 +1,4 @@
-//error: puppeteer doesn't run on a client side app
-const puppeteer = require('puppeteer')
+import puppeteer from 'puppeteer'
 
 //get the info from one art item:
 async function scrapeProduct(url) {
