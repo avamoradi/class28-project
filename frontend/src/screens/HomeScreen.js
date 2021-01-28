@@ -18,7 +18,7 @@ const HomeScreen = ({ match }) => {
     ? JSON.parse(localStorage.getItem("isCookies"))
     : true;
 
-  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage);
+  const [cookiePopup, setCookiePopup] = useState(true);
 
   const pageNumber = match.params.pageNumber || 1;
 

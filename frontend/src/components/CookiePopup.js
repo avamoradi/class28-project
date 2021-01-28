@@ -1,22 +1,19 @@
 import React from "react";
 //import BootstrapSwitchButton from "bootstrap-switch-button-react"; //https://gitbrent.github.io/bootstrap-switch-button-react/
-import {
-  Modal,
-  Button,
-  Accordion,
-  Table,
-  Row,
-  Col,
-  Form,
-} from "react-bootstrap";
+import { Modal, Button, Accordion, Table, Row, Form } from "react-bootstrap";
 
 function CookiePopup(props) {
   const cookieTerms = [
-    "Select personalised content",
+    "Store and/or access information on a device",
+    "Select basic ads",
+    "Create a personalised ads profile",
     "Select personalised ads",
-    "Select personalised adssssss",
-    "Select personalised asadsad",
-    "Select personalised gdsg",
+    "Create a personalised content profile",
+    "Select personalised content",
+    "Measure ad performance",
+    "Measure content performance",
+    "Apply market research to generate audience insights ",
+    "Develop and improve products ",
   ];
   return (
     <Modal
@@ -28,15 +25,15 @@ function CookiePopup(props) {
       backdrop='static'
     >
       <Modal.Header>
-        <p>Manage Your Privacy</p>
+        <h3>Manage Your Privacy</h3>
       </Modal.Header>
       <Modal.Body>
         <p>
           Ads help us run this site. When you use this site, selected companies
           may access and use information about your device to serve relevant
           ads. Learn more and manage your choices. You can update your choices
-          at any time. You can update your choices at any time by clicking on
-          the Privacy icon in the bottom of the screen.
+          at any time by clicking on the Privacy icon at the bottom of the
+          screen.
         </p>
       </Modal.Body>
       <Modal.Footer className='cookie-footer'>
@@ -50,18 +47,45 @@ function CookiePopup(props) {
               Manage Settings
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='1'>
-              <div>
+              <Table className='justify-content-start'>
                 {cookieTerms.map((term) => {
                   return (
-                    <Form.Check
-                      label={term}
-                      variant='outline-primary'
-                      type='switch'
-                      id={term}
-                    />
+                    <tr key={term}>
+                      <td>{term}</td>
+                      <td>
+                        <Form.Check
+                          variant='outline-secondary'
+                          type='switch'
+                          id={term}
+                        />
+                      </td>
+                    </tr>
                   );
                 })}
-              </div>
+                <tr>
+                  <td>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant='outline-secondary'
+                      eventKey='1'
+                      size='sm'
+                    >
+                      Cancel
+                    </Accordion.Toggle>
+                  </td>
+                  <td>
+                    <Accordion.Toggle
+                      as={Button}
+                      eventKey='1'
+                      onClick={props.onHide}
+                      size='sm'
+                      variant='info'
+                    >
+                      Save and Exit
+                    </Accordion.Toggle>
+                  </td>
+                </tr>
+              </Table>
             </Accordion.Collapse>
           </Accordion>
         </Row>
