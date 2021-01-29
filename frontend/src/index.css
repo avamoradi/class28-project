@@ -78,6 +78,8 @@ h2 {
 .autocomplete-item:hover {
   background-color: #ececec;
   cursor: pointer;
+}
+
 /* filter */
 select.filter-select.form-control:focus {
   background-color: #ffffff;
@@ -101,6 +103,7 @@ select.filter-select.form-control {
   margin-right: 1.4rem;
 }
 
-select.filter-max.form-control, select.filter-min.form-control {
+select.filter-max.form-control,
+select.filter-min.form-control {
   padding: 0.5rem 0.2rem;
 }
