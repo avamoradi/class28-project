@@ -89,13 +89,13 @@ async function scrapeProduct(url) {
     medium,
   }
 
-  console.log(artObject)
+  return artObject
 
   browser.close()
-
-  return artObject
 }
 
 scrapeProduct(
   'https://www.saatchiart.com/art/Painting-English-Rose/1162/7730580/view'
 )
+
+export default scrapeProduct
