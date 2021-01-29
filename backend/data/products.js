@@ -296,5 +296,3 @@ const products = [
 ]
 
 export default products
-
-console.log(products)
