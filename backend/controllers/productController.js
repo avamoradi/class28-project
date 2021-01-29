@@ -3,6 +3,7 @@ import Product from '../models/productModel.js'
 
 // Fetrch all products: GET /api/products (public)
 const getProducts = asyncHandler(async (req, res) => {
+<<<<<<< HEAD
   const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
   const keyword = req.query.keyword
@@ -15,6 +16,51 @@ const getProducts = asyncHandler(async (req, res) => {
     : {}
   const count = await Product.countDocuments({ ...keyword })
   const products = await Product.find({ ...keyword })
+=======
+  const pageSize = 10;
+  const page = Number(req.query.pageNumber) || 1;
+  const { location, minPrice, maxPrice, color, sort } = req.query;
+  const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
+    
+  const sortItems = {     
+    'BestRating': {'type': 'rating', 'order': -1},
+    'HighestPrice': {'type': 'price', 'order': -1},
+    'LowestPrice': {'type': 'price', 'order': 1},
+    'Newest': {'type': 'createdAt', 'order': -1}
+  };
+  
+  const sortType = (sort) ? [[sortItems[sort].type, sortItems[sort].order]] : '';
+
+  const keyword =
+    req.query.keyword && req.query.keyword.trim() !== ""
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: "i",
+          },
+        }
+      : {};
+      
+    //    gte = greater than or equal
+    //    lte = lesser than or equal
+    //    lt = lesser than
+    //    gt = greater than
+  const filterObj = {
+    ...keyword,
+    ...(location && { location: location }),
+    ...(color && { color: color }),
+    ...(price && {
+      price: { 
+        $gte: price.minPrice,   
+        $lte: price.maxPrice 
+      } 
+    })
+  };
+
+  const count = await Product.countDocuments(filterObj);
+  const products = await Product.find(filterObj)
+    .sort(sortType)
+>>>>>>> 107c7a42bc5767bbb5ead8c4bce0d2db6dd3cf26
     .limit(pageSize)
     .skip(pageSize * (page - 1))
   res.json({ products, page, pages: Math.ceil(count / pageSize) })
