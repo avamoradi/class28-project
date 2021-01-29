@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import axios from "axios";
 import { updateUserLogin } from "../actions/userActions";
@@ -73,7 +74,9 @@ const Subscribe = () => {
       </div>
     </div>
   ) : (
-    ""
+    <div className="text-center py-3">
+      <Link to={`/unsubscribe`}>Unsubscribe</Link>
+    </div>
   );
 };
 
