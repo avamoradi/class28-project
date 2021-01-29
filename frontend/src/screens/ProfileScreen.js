@@ -14,6 +14,7 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [subscription, setSubscription] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -40,6 +41,7 @@ const ProfileScreen = ({ location, history }) => {
       } else {
         setName(user.name);
         setEmail(user.email);
+        setSubscription(user.newsletterSubscription);
       }
     }
   }, [dispatch, history, userInfo, user, success]);
@@ -49,7 +51,9 @@ const ProfileScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(
+        updateUserProfile({ id: user._id, name, email, password, subscription })
+      );
     }
   };
 
@@ -97,6 +101,14 @@ const ProfileScreen = ({ location, history }) => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              checked={subscription}
+              onChange={(e) => setSubscription(e.target.checked)}
+              label="I agree to recieve a newsletter on my e-mail"
+            />
           </Form.Group>
 
           <Button type="submit" variant="primary">

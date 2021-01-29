@@ -104,12 +104,49 @@ const registerUser = asyncHandler(async (req, res) => {
 // Update user profile: PUT /api/users/profile (private)
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
+  const mailchimp = new Mailchimp(process.env.MAILCHIMP_API_KEY);
+  const listId = process.env.MAILCHIMP_AUDIENCE_ID;
 
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     if (req.body.password) {
       user.password = req.body.password;
+    }
+    const emailHash = md5(user.email.toLowerCase());
+
+    if (user.newsletterSubscription !== req.body.subscription) {
+      try {
+        const { exact_matches } = await mailchimp.get(`/search-members`, {
+          query: user.email,
+        });
+        if (req.body.subscription) {
+          //subscribe
+          if (exact_matches.total_items === 0) {
+            await mailchimp.post(`/lists/${listId}/members`, {
+              email_address: user.email,
+              status: "subscribed",
+            });
+          } else {
+            await mailchimp.patch(`/lists/${listId}/members/${emailHash}`, {
+              email_address: user.email,
+              status: "subscribed",
+            });
+          }
+        } else {
+          //unsubscribe
+          if (exact_matches.total_items > 0) {
+            await mailchimp.patch(`/lists/${listId}/members/${emailHash}`, {
+              email_address: user.email,
+              status: "unsubscribed",
+            });
+          }
+        }
+        user.newsletterSubscription = req.body.subscription;
+      } catch (error) {
+        res.status(500);
+        throw new Error("Can not manage subscription");
+      }
     }
 
     const updatedUser = await user.save();
