@@ -77,16 +77,19 @@ async function scrapeProduct(url) {
   const medium = splitOnUpperCase(rawMedium)
 
   const artObject = {
-    image,
     name,
+    image,
+    description,
     brand,
     country,
     category,
     price,
-    description,
     subject,
     style,
     medium,
+    countInStock: 1,
+    rating: 1,
+    numReviews: 1,
   }
 
   return artObject
