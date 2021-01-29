@@ -38,7 +38,7 @@ async function scrapeItemsURL(array) {
     const Obj3 = await scrapeProduct(URL3)
 
     const [elURL4] = await page.$x(
-      '//*[@id="__next"]/div/div/div[5]/div[2]/div[3]/div/div[2]/div[1]/div/p[1]/a'
+      '//*[@id="__next"]/div/div/div[5]/div[2]/div[4]/div/div[2]/div[1]/div/p[1]/a'
     )
     const srcURL4 = await elURL4.getProperty('href')
     const URL4 = await srcURL4.jsonValue()
@@ -58,12 +58,3 @@ async function scrapeItemsURL(array) {
 }
 
 scrapeItemsURL(categories)
-
-/*const scrapPerCategory = categories.map((category) => {
-  console.log(category)
-})*/
-
-//scrapeItemsURL('https://www.saatchiart.com/paintings')
-//scrapeItemsURL('https://www.saatchiart.com/photography')
-//scrapeItemsURL('https://www.saatchiart.com/drawings')
-//scrapeItemsURL('https://www.saatchiart.com/sculpture')
