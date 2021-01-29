@@ -1,14 +1,26 @@
 import React, { useEffect } from "react";
 import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Meta from "./Meta";
+import { verifyProduct } from "../actions/productActions";
 
 const ProductPending = ({ product, history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const verifyArt = () => {};
+  const notificationsList = useSelector((state) => state.notificationsList);
+  const { notifications } = notificationsList;
+
+  const dispatch = useDispatch();
+
+  const verifyArt = (id) => {
+    const notificationId = notifications.filter(
+      (not) => not.product === product._id
+    );
+    notificationId[0]; //to remove this notification from other experts
+    dispatch(verifyProduct(id, notificationId[0]._id));
+  };
 
   useEffect(() => {
     if (!userInfo) {
@@ -31,7 +43,7 @@ const ProductPending = ({ product, history }) => {
                 <Button
                   variant="success"
                   type="button"
-                  onClick={() => verifyArt()}
+                  onClick={() => verifyArt(product._id)}
                 >
                   Verify
                 </Button>

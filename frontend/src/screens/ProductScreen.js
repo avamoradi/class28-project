@@ -149,6 +149,11 @@ const ProductScreen = ({ history, match }) => {
             </Col>
           </Row>
           <Row>
+            <Col>
+              <p className="text-success font-weight-bold">{product.status}</p>
+            </Col>
+          </Row>
+          <Row>
             <Col md={6}>
               <h2>Reviews</h2>
               {product.reviews.length === 0 && <Message>No Reviews</Message>}

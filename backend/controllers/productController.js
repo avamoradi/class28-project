@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 import User from "../models/userModel.js";
+import Notification from "../models/notificationModel.js";
 import {
   createNotification,
   createValidateArtNotification,
@@ -213,6 +214,22 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
+const verifyProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  const user = await User.findById(req.user._id);
+  const notification = await Notification.findById(req.body.notificationId);
+
+  if (product) {
+    product.status = `Art is reviewed by expert ${user.name}`;
+    const verifiedProduct = await product.save();
+    await notification.remove();
+    res.json(verifiedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -221,4 +238,5 @@ export {
   updateProduct,
   createProductReview,
   getTopProducts,
+  verifyProduct,
 };
