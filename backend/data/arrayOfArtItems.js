@@ -40,4 +40,5 @@ async function scrapeItemsURL(url) {
 }
 
 scrapeItemsURL('https://www.saatchiart.com/paintings')
+scrapeItemsURL('https://www.saatchiart.com/photography')
 scrapeItemsURL('https://www.saatchiart.com/drawings')
