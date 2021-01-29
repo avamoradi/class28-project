@@ -59,7 +59,7 @@ async function scrapeItemsURL(array) {
 
 const data = await scrapeItemsURL(categories)
 
-fs.appendFile('newArtData.js', JSON.stringify(data), function (err) {
+fs.appendFile('products.js', JSON.stringify(data), function (err) {
   if (err) throw err
   console.log('Data Saved!')
 })
