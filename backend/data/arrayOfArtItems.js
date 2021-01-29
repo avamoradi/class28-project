@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer'
 import scrapeProduct from './artItem.js'
+import fs from 'fs'
 
 //get the info from one art item:
 const categories = [
@@ -51,10 +52,14 @@ async function scrapeItemsURL(array) {
       Obj4,
     }
 
-    console.log(arrayObj)
+    return arrayObj
   }
-
   browser.close()
 }
 
-scrapeItemsURL(categories)
+const data = await scrapeItemsURL(categories)
+
+fs.appendFile('newArtData.js', JSON.stringify(data), function (err) {
+  if (err) throw err
+  console.log('Data Saved!')
+})
