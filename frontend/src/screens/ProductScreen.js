@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Card,
-  Button,
-  Form,
-} from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Card, Button, Form } from "react-bootstrap";
+import { Route } from "react-router-dom";
 import Rating from "../components/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,6 +11,7 @@ import {
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Meta from "../components/Meta";
+import ProductPending from "../components/ProductPending";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 const ProductScreen = ({ history, match }) => {
@@ -67,6 +61,12 @@ const ProductScreen = ({ history, match }) => {
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
+      ) : product.status === "pending" ? (
+        <Route
+          render={({ history }) => (
+            <ProductPending product={product} history={history} />
+          )}
+        />
       ) : (
         <>
           <Meta title={product.name} />
@@ -123,13 +123,11 @@ const ProductScreen = ({ history, match }) => {
                               setQty(e.target.value);
                             }}
                           >
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
+                            {[...Array(product.countInStock).keys()].map((x) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
                           </Form.Control>
                         </Col>
                       </Row>
