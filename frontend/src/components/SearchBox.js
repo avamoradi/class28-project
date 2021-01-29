@@ -1,39 +1,31 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import axios from 'axios'
+import useDebounce from '../hooks/useDebounce'
 
 const SearchBox = ({ history }) => {
   const [keyword, setKeyword] = useState('')
-=======
-import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
-import axios from "axios";
-import useDebounce from "../hooks/useDebounce";
+  const [searchResults, setSearchResults] = useState([])
 
-const SearchBox = ({ history }) => {
-  const [keyword, setKeyword] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-
-  const debouncedKeyword = useDebounce(keyword, 300);
+  const debouncedKeyword = useDebounce(keyword, 300)
 
   useEffect(() => {
     const fetchSearchData = async () => {
       try {
-        if (debouncedKeyword.length > 0 && debouncedKeyword !== " ") {
+        if (debouncedKeyword.length > 0 && debouncedKeyword !== ' ') {
           const { data } = await axios.get(
             `/api/products?keyword=${debouncedKeyword}&pageNumber=1`
-          );
-          setSearchResults(data.products);
+          )
+          setSearchResults(data.products)
         } else {
-          setSearchResults([]);
+          setSearchResults([])
         }
       } catch (error) {
-        setSearchResults([]);
+        setSearchResults([])
       }
-    };
-    fetchSearchData();
-  }, [debouncedKeyword]);
->>>>>>> 107c7a42bc5767bbb5ead8c4bce0d2db6dd3cf26
+    }
+    fetchSearchData()
+  }, [debouncedKeyword])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -44,29 +36,24 @@ const SearchBox = ({ history }) => {
     }
   }
   return (
-    <Form onSubmit={submitHandler} inline className="relative">
+    <Form onSubmit={submitHandler} inline className='relative'>
       <Form.Control
         type='text'
         name='q'
         onChange={(e) => setKeyword(e.target.value)}
-<<<<<<< HEAD
         placeholder='Search Products...'
-      ></Form.Control>
-      <Button type='submit'>Search</Button>
-=======
-        placeholder="Search Products..."
-        className="mr-sm-2 ml-sm-5"
-        autoComplete="off"
+        className='mr-sm-2 ml-sm-5'
+        autoComplete='off'
         value={keyword}
         onBlur={() => setSearchResults([])}
       ></Form.Control>
       {searchResults.length > 0 && (
-        <div className="autocomplete-box">
+        <div className='autocomplete-box'>
           <ul>
             {searchResults.map((suggestion) => (
               <li
                 key={suggestion._id}
-                className="autocomplete-item"
+                className='autocomplete-item'
                 onMouseDown={() => history.push(`/product/${suggestion._id}`)}
               >
                 {suggestion.name}
@@ -75,10 +62,9 @@ const SearchBox = ({ history }) => {
           </ul>
         </div>
       )}
-      <Button type="submit" variant="outline-success" className="p-2">
+      <Button type='submit' variant='outline-success' className='p-2'>
         Search
       </Button>
->>>>>>> 107c7a42bc5767bbb5ead8c4bce0d2db6dd3cf26
     </Form>
   )
 }
