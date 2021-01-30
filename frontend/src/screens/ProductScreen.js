@@ -61,11 +61,6 @@ const ProductScreen = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(createProductReview(match.params.id, { rating, comment }));
-    console.log("AAAAAA", errorProductReview);
-    if (!errorProductReview.trim() !== "") {
-      setModalShow(true);
-      console.log("modalShow");
-    }
   };
 
   return (
