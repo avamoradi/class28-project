@@ -4,16 +4,16 @@ import { Modal, Button, Accordion, Table, Row, Form } from "react-bootstrap";
 
 function CookiePopup(props) {
   const cookieTerms = [
-    "Store and/or access information on a device",
-    "Select basic ads",
-    "Create a personalised ads profile",
-    "Select personalised ads",
-    "Create a personalised content profile",
-    "Select personalised content",
-    "Measure ad performance",
-    "Measure content performance",
-    "Apply market research to generate audience insights ",
-    "Develop and improve products ",
+    { id: 1, article: "Store and/or access information on a device" },
+    { id: 2, article: "Select basic ads" },
+    { id: 3, article: "Create a personalised ads profile" },
+    { id: 4, article: "Select personalised ads" },
+    { id: 5, article: "Create a personalised content profile" },
+    { id: 6, article: "Select personalised content" },
+    { id: 7, article: "Measure ad performance" },
+    { id: 8, article: "Measure content performance" },
+    { id: 9, article: "Apply market research to generate audience insights " },
+    { id: 10, article: "Develop and improve products " },
   ];
   return (
     <Modal
@@ -48,49 +48,50 @@ function CookiePopup(props) {
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='1'>
               <Table className='justify-content-start'>
-                {cookieTerms.map((term) => {
-                  return (
-                    <tr key={term}>
-                      <td>{term}</td>
+                <tbody>
+                  {cookieTerms.map((term) => (
+                    <tr key={term.id}>
+                      <td>{term.article}</td>
                       <td>
+                        {/* <Form.Check type='switch' id={term} /> */}
                         <Form.Check
-                          variant='outline-secondary'
                           type='switch'
-                          id={term}
+                          id={term.id}
+                          variant='outline-secondary'
                         />
                       </td>
                     </tr>
-                  );
-                })}
-                <tr>
-                  <td>
-                    <Accordion.Toggle
-                      as={Button}
-                      variant='outline-secondary'
-                      eventKey='1'
-                      size='sm'
-                    >
-                      Cancel
-                    </Accordion.Toggle>
-                  </td>
-                  <td>
-                    <Accordion.Toggle
-                      as={Button}
-                      eventKey='1'
-                      onClick={props.onHide}
-                      size='sm'
-                      variant='info'
-                    >
-                      Save and Exit
-                    </Accordion.Toggle>
-                  </td>
-                </tr>
+                  ))}
+                  <tr>
+                    <td>
+                      <Accordion.Toggle
+                        as={Button}
+                        variant='outline-secondary'
+                        eventKey='1'
+                        size='sm'
+                      >
+                        Cancel
+                      </Accordion.Toggle>
+                    </td>
+                    <td>
+                      <Accordion.Toggle
+                        as={Button}
+                        eventKey='1'
+                        onClick={() => props.onHide(false)}
+                        size='sm'
+                        variant='info'
+                      >
+                        Save and Exit
+                      </Accordion.Toggle>
+                    </td>
+                  </tr>
+                </tbody>
               </Table>
             </Accordion.Collapse>
           </Accordion>
         </Row>
         <Row>
-          <Button variant='primary' onClick={props.onHide}>
+          <Button variant='primary' onClick={() => props.onHide(false)}>
             Accept All
           </Button>
         </Row>

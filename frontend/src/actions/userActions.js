@@ -23,6 +23,7 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_COOKIES_SHOW,
 } from "../constants/userConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 import axios from "axios";
@@ -287,4 +288,9 @@ export const updateUser = (user) => async (dispatch, getState) => {
           : error.response,
     });
   }
+};
+
+export const cookieStateOn = (state) => async (dispatch, getState) => {
+  dispatch({ type: USER_COOKIES_SHOW, payload: state });
+  localStorage.setItem("isCookies", JSON.stringify(state));
 };

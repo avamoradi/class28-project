@@ -18,7 +18,7 @@ const HomeScreen = ({ match }) => {
     ? JSON.parse(localStorage.getItem("isCookies"))
     : true;
 
-  const [cookiePopup, setCookiePopup] = useState(true);
+  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage);
 
   const pageNumber = match.params.pageNumber || 1;
 
@@ -28,14 +28,12 @@ const HomeScreen = ({ match }) => {
 
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
+
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber, cookiePopup]);
-
   return (
     <>
-      {cookiePopup && (
-        <CookiePopup show={cookiePopup} onHide={() => setCookiePopup(false)} />
-      )}
+      {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
       {!keyword ? (
         <ProductCarousel />
