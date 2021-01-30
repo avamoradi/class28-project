@@ -150,6 +150,9 @@ const createProductReview = asyncHandler(async (req, res) => {
       comment,
       user: req.user._id,
     };
+    if (!rating) {
+      throw new Error("Please select one of the rating options");
+    }
 
     product.reviews.push(review);
     product.numReviews = product.reviews.length;

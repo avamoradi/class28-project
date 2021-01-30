@@ -5,14 +5,14 @@ const Meta = ({ title, description, keywords }) => {
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywors" content={keywords} />
+      <meta name='description' content={description} />
+      <meta name='keywors' content={keywords} />
     </Helmet>
   );
 };
 
 Meta.defaultProps = {
-  title: "Welcom to ProShop",
+  title: "Welcome to ProShop",
   keywords: "electronics, buy electronics, cheap electronics",
   description: "We sell the best products for cheap",
 };
