@@ -18,7 +18,7 @@ const ProductPending = ({ product, history }) => {
     const notificationId = notifications.filter(
       (not) => not.product === product._id
     );
-    notificationId[0]; //to remove this notification from other experts
+    //notificationId[0]; to remove this notification from other experts
     dispatch(verifyProduct(id, notificationId[0]._id));
   };
 

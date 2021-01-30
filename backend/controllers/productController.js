@@ -66,7 +66,10 @@ const getProducts = asyncHandler(async (req, res) => {
     }),
   };
 
-  const count = await Product.countDocuments(filterObj);
+  const count = await Product.countDocuments({
+    $and: [filterObj, { status: { $ne: "pending" } }],
+  });
+  console.log("CCCCCCOOOOOOOOOUUUUNNNNT", count);
   const products = await Product.find({
     $and: [filterObj, { status: { $ne: "pending" } }],
   })
