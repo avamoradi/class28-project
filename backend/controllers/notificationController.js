@@ -2,6 +2,20 @@ import asyncHandler from "express-async-handler";
 import Notification from "../models/notificationModel.js";
 import User from "../models/userModel.js";
 
+export const notificationForUserCreateArt = async (
+  userId,
+  productId,
+  productName
+) => {
+  const notification = new Notification({
+    user: userId,
+    product: productId,
+    message: `You created ${productName}`,
+    users: [{ userId, isRead: false }],
+  });
+  await notification.save();
+};
+
 export const createValidateArtNotification = async (
   userId,
   productId,

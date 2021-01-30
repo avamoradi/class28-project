@@ -5,6 +5,7 @@ import Notification from "../models/notificationModel.js";
 import {
   createNotification,
   createValidateArtNotification,
+  notificationForUserCreateArt,
 } from "./notificationController.js";
 
 // Check if users have 2 reviews or more to mark them as experts.
@@ -69,7 +70,6 @@ const getProducts = asyncHandler(async (req, res) => {
   const count = await Product.countDocuments({
     $and: [filterObj, { status: { $ne: "pending" } }],
   });
-  console.log("CCCCCCOOOOOOOOOUUUUNNNNT", count);
   const products = await Product.find({
     $and: [filterObj, { status: { $ne: "pending" } }],
   })
@@ -126,7 +126,11 @@ const createProduct = asyncHandler(async (req, res) => {
     description,
   });
   const createdProduct = await product.save();
-  // createNotification(req.user._id, product.id, "added new product", product.name);
+  notificationForUserCreateArt(
+    req.user._id,
+    createdProduct._id,
+    createdProduct.name
+  );
   createValidateArtNotification(
     req.user._id,
     createdProduct._id,

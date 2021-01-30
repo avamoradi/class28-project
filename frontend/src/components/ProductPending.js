@@ -39,15 +39,17 @@ const ProductPending = ({ product, history }) => {
               <Col xs={8} sm={9} md={9} lg={10} className="align-middle">
                 <h4 className="my-2 py-1">This item is pending</h4>
               </Col>
-              <Col xs={2} className="my-auto text-right">
-                <Button
-                  variant="success"
-                  type="button"
-                  onClick={() => verifyArt(product._id)}
-                >
-                  Verify
-                </Button>
-              </Col>
+              {userInfo._id !== product.user && (
+                <Col xs={2} className="my-auto text-right">
+                  <Button
+                    variant="success"
+                    type="button"
+                    onClick={() => verifyArt(product._id)}
+                  >
+                    Verify
+                  </Button>
+                </Col>
+              )}
             </Row>
           </ListGroup.Item>
         </Col>
