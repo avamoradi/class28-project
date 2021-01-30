@@ -24,10 +24,16 @@ const Footer = () => {
         {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
 
         <Row>
-          <Col className='text-center py-3'>Copyright &copy; ProShop</Col>
-        </Row>
-        <Row onClick={(e) => popUpCookie()}>
-          <Col className='cursor text-center py-3'>Cookie Policy</Col>
+          <Col className='text-center py-3'>
+            <span>Copyright &copy; ProShop </span> |
+            <span
+              onClick={(e) => popUpCookie()}
+              className='cookie-policy-footer text-center py-3'
+            >
+              {" "}
+              Cookie Policy
+            </span>
+          </Col>
         </Row>
       </Container>
     </footer>
