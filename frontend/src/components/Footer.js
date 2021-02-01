@@ -30,7 +30,6 @@ const Footer = () => {
               onClick={(e) => popUpCookie()}
               className='cookie-policy-footer text-center py-3'
             >
-              {" "}
               Cookie Policy
             </span>
           </Col>

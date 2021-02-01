@@ -16,8 +16,19 @@ h2 {
   padding: 0.5rem 0;
 }
 
+.cookie-terms {
+margin-top: 10px;
+text-align: left;
+}
+
+
+.cookie-policy-footer {
+  margin-left: 3px;
+}
+
 .cookie-policy-footer:hover {
 cursor: pointer;
+text-decoration: underline;
 }
 
 .rating span {
@@ -47,14 +58,8 @@ cursor: pointer;
   justify-content: center;
 }
 
-.cookies-switch-buttons{
-  width: 12px;
-  height: 5px;
-  border-radius: 13%;
-}
-
-.cookie-table tr {
-  padding:3px;
+.cookie-form {
+  margin: 20px 0 0px;
 }
 
 .cookie-footer {
