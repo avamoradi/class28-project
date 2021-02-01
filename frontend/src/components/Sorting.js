@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import { Form } from "react-bootstrap";
 
-const Sorting = ({  history }) => {
-    const [sorts, setSort] =useState("");
+const Sorting = ({  history, sorts, setSort }) => {
     
     const onChangeHandler = (e) => {
         e.preventDefault();

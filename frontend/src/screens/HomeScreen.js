@@ -15,7 +15,8 @@ import { Route } from "react-router-dom";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
-  const sorts = match.params.sorts;
+  let [sorts, setSort] =useState("");
+  sorts = match.params.sorts;
 
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
@@ -67,7 +68,7 @@ const HomeScreen = ({ match }) => {
               
           </Row>
           <Row>
-          <Route render={({ history }) => <Sorting history={history} />} />
+          <Route render={({ history }) => <Sorting history={history} sorts={sorts} setSort={setSort}/>} />
           </Row>
           <Row>
             {products.map((product) => (
