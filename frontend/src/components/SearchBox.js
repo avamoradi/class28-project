@@ -62,9 +62,7 @@ const SearchBox = ({ history }) => {
           </ul>
         </div>
       )}
-      <Button type='submit' variant='outline-success' className='p-2'>
-        Search
-      </Button>
+      <Button type='submit'>Search</Button>
     </Form>
   )
 }
