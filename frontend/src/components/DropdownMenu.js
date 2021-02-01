@@ -12,7 +12,7 @@ const DropdownMenu = () => {
             aria-controls='basic-navbar-nav'
             className='navbar-toggle'
           >
-            <i class='fas fa-chevron-down'></i>
+            <i className='fas fa-chevron-down'></i>
           </Navbar.Toggle>
           <Navbar.Collapse
             id='basic-navbar-nav'
