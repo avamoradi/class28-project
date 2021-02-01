@@ -85,52 +85,26 @@ const Header = () => {
             className='justify-content-center'
           >
             <NavDropdown title='Paintings' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown title='Photography' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
             </NavDropdown>
-
-            <NavDropdown title='Drawing' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
+            <NavDropdown title='Drawings' id='collasible-nav-dropdown'>
+              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
             </NavDropdown>
-
             <NavDropdown title='Sculpture' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
+              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
             </NavDropdown>
+
             <LinkContainer to='/sell'>
               <Button variant='success'>Sell Art</Button>
             </LinkContainer>
