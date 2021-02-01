@@ -1,17 +1,11 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavDropdown,
-  Dropdown,
-  Button,
-} from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
 import SearchBox from './SearchBox'
+import DropdownMenu from './DropdownMenu'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -71,46 +65,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Navbar expand='lg' collapseOnSelect>
-        <Container>
-          <Navbar.Toggle
-            aria-controls='basic-navbar-nav'
-            className='navbar-toggle'
-          >
-            <i class='fas fa-chevron-down'></i>
-          </Navbar.Toggle>
-          <Navbar.Collapse
-            id='basic-navbar-nav'
-            className='justify-content-center'
-          >
-            <NavDropdown title='Paintings' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title='Photography' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title='Drawings' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title='Sculpture' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Style</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>Subject</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.4'>Medium</NavDropdown.Item>
-            </NavDropdown>
-
-            <LinkContainer to='/sell'>
-              <Button variant='success'>Sell Art</Button>
-            </LinkContainer>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <DropdownMenu />
     </header>
   )
 }
