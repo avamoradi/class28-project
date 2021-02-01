@@ -19,6 +19,11 @@ h2 {
 .rating span {
   margin: 0.1rem;
 }
+/* img in cards*/
+.card-img-top {
+  aspect-ratio: 1/1;
+}
+
 
 /* carousel */
 .carousel-item-next,

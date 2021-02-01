@@ -21,7 +21,7 @@ const HomeScreen = ({ match }) => {
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [color, setColor] = useState("");
+  const [style, setStyle] = useState("");
   
   console.log(sorts);
 
@@ -33,14 +33,14 @@ const HomeScreen = ({ match }) => {
   const { loading, error, products, page, pages } = productList;
 
   useEffect(() => {
-    dispatch(listProducts(keyword, pageNumber, location, minPrice, maxPrice, color, sorts));
+    dispatch(listProducts(keyword, pageNumber, location, minPrice, maxPrice, style, sorts));
     
-  }, [dispatch, keyword, pageNumber, location, minPrice, maxPrice, color, sorts]);
+  }, [dispatch, keyword, pageNumber, location, minPrice, maxPrice, style, sorts]);
 
   return (
     <>
       <Meta />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sorts  ? (
+      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts  ? (
         <ProductCarousel />
       ) : (
         <Link to="/" className="btn btn-light" >
@@ -58,8 +58,8 @@ const HomeScreen = ({ match }) => {
               <Filtering 
                 location={location}
                 setLocation={setLocation}
-                color={color}
-                setColor={setColor}
+                color={style}
+                setColor={setStyle}
                 minPrice={minPrice}
                 setMinPrice={setMinPrice}
                 maxPrice={maxPrice}

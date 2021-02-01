@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const Filtering = ({location, setLocation, color, setColor, minPrice, setMinPrice, maxPrice, setMaxPrice}) => {
+const Filtering = ({location, setLocation, style, setStyle, minPrice, setMinPrice, maxPrice, setMaxPrice}) => {
     
     const submitHandler = (e) => {
         e.preventDefault();
@@ -64,12 +64,12 @@ const Filtering = ({location, setLocation, color, setColor, minPrice, setMinPric
                         as='select'
                         className='filter-select'
                         label="Filltering"
-                        title="Color" 
-                        value={color}
+                        title="Style" 
+                        value={style}
                         checked
-                        onChange={(e) => setColor(e.target.value)}
+                        onChange={(e) => setStyle(e.target.value)}
                         >
-                            <option value="">Color</option>
+                            <option value="">Style</option>
                             <option value="Red">Red</option>
                             <option value="Blue">Blue</option>
                             <option value="Green">Green</option>
