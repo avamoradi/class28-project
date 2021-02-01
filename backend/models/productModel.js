@@ -33,7 +33,23 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    country: {
+      type: String,
+      required: true,
+    },
     category: {
+      type: String,
+      required: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+    },
+    style: {
+      type: Array,
+      required: true,
+    },
+    medium: {
       type: String,
       required: true,
     },

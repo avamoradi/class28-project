@@ -12,7 +12,9 @@ const Meta = ({ title, description, keywords }) => {
 }
 
 Meta.defaultProps = {
+
   title: 'Welcome to Galileo',
+
   keywords: 'Art, curated art, fine art',
   description: 'The most exclusive art, for your eyes only',
 }
