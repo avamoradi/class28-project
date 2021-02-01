@@ -1,23 +1,13 @@
-<<<<<<< HEAD
-import React from 'react'
+import React, { useEffect } from 'react'
+import { MdNotifications } from 'react-icons/md'
 import { Route } from 'react-router-dom'
 import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
+import { listNotification } from '../actions/notificationsActions'
 import SearchBox from './SearchBox'
 import DropdownMenu from './DropdownMenu'
-=======
-import React, { useEffect } from "react";
-import { MdNotifications } from "react-icons/md";
-import { Route } from "react-router-dom";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../actions/userActions";
-import { listNotification } from "../actions/notificationsActions";
-import SearchBox from "./SearchBox";
->>>>>>> development
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -25,13 +15,14 @@ const Header = () => {
   const { userInfo } = userLogin
 
   useEffect(() => {
-    dispatch(listNotification());
-  }, [dispatch, userLogin]);
+    dispatch(listNotification())
+  }, [dispatch, userLogin])
 
-  const notificationsList = useSelector((state) => state.notificationsList);
-  const { notifications } = notificationsList;
+  const notificationsList = useSelector((state) => state.notificationsList)
+  const { notifications } = notificationsList
 
-  const notificationsNum = notifications.filter((x) => !x.users[0].isRead).length;
+  const notificationsNum = notifications.filter((x) => !x.users[0].isRead)
+    .length
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -47,19 +38,14 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />
-<<<<<<< HEAD
             <Nav className='ml-auto'>
-              <LinkContainer to='/cart'>
-=======
-
-            <Nav className="ml-auto">
               {userInfo && (
-                <LinkContainer to="/notifications">
-                  <Nav.Link className=" p-2 pb-3 position-relative">
-                    <MdNotifications size={25} color="#9a9da0" />
+                <LinkContainer to='/notifications'>
+                  <Nav.Link className=' p-2 pb-3 position-relative'>
+                    <MdNotifications size={25} color='#9a9da0' />
                     {notificationsNum > 0 && (
-                      <div className="notifications-num_container">
-                        <span className="notifications-num">
+                      <div className='notifications-num_container'>
+                        <span className='notifications-num'>
                           {notificationsNum}
                         </span>
                       </div>
@@ -67,8 +53,7 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
-              <LinkContainer to="/cart">
->>>>>>> development
+              <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i>
                 </Nav.Link>
