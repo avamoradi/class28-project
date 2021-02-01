@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Subscribe = () => {
   const [email, setEmail] = useState("");
+  const [subscription, setSubscription] = useState(true);
+
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +32,7 @@ const Subscribe = () => {
     e.preventDefault();
     setError(null);
     setMessage(null);
-    if (email?.trim()) {
+    if (email?.trim() && subscription) {
       try {
         setLoading(true);
         const { data } = await axios.post("/api/users/subscribe", {
@@ -45,7 +47,11 @@ const Subscribe = () => {
         dispatch(updateUserLogin());
       }
     } else {
-      setError("Fill in e-mail");
+      if (subscription) {
+        setError("Fill in e-mail");
+      } else {
+        setError("You have to agree for receiving a newsletter");
+      }
     }
   };
 
@@ -56,13 +62,21 @@ const Subscribe = () => {
       {message ? (
         <Message>{message}</Message>
       ) : (
-        <Form onSubmit={submitHandler} inline>
+        <Form onSubmit={submitHandler}>
           <Form.Control
             type="email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="E-mail..."
             value={email}
           ></Form.Control>
+          <Form.Group controlId="formBasicCheckbox">
+            <Form.Check
+              type="checkbox"
+              checked={subscription}
+              onChange={(e) => setSubscription(e.target.checked)}
+              label="I agree to recieve a newsletter on my e-mail"
+            />
+          </Form.Group>
           <Button type="submit" variant="outline-success" className="p-2">
             Subscribe
           </Button>
