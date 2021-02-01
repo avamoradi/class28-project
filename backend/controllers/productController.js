@@ -1,26 +1,56 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
+import { createNotification } from './notificationController.js'
 
-// Fetrch all products: GET /api/products (public)
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: 'i',
-        },
-      }
-    : {}
-  const count = await Product.countDocuments({ ...keyword })
-  const products = await Product.find({ ...keyword })
+  const { location, minPrice, maxPrice, color, sort } = req.query
+  const price = minPrice && maxPrice ? { minPrice, maxPrice } : false
+
+  const sortItems = {
+    BestRating: { type: 'rating', order: -1 },
+    HighestPrice: { type: 'price', order: -1 },
+    LowestPrice: { type: 'price', order: 1 },
+    Newest: { type: 'createdAt', order: -1 },
+  }
+
+  const sortType = sort ? [[sortItems[sort].type, sortItems[sort].order]] : ''
+
+  const keyword =
+    req.query.keyword && req.query.keyword.trim() !== ''
+      ? {
+          name: {
+            $regex: req.query.keyword,
+            $options: 'i',
+          },
+        }
+      : {}
+
+  //    gte = greater than or equal
+  //    lte = lesser than or equal
+  //    lt = lesser than
+  //    gt = greater than
+  const filterObj = {
+    ...keyword,
+    ...(location && { location: location }),
+    ...(color && { color: color }),
+    ...(price && {
+      price: {
+        $gte: price.minPrice,
+        $lte: price.maxPrice,
+      },
+    }),
+  }
+
+  const count = await Product.countDocuments(filterObj)
+  const products = await Product.find(filterObj)
+    .sort(sortType)
     .limit(pageSize)
     .skip(pageSize * (page - 1))
   res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
 
-// Fetrch a single product: GET /api/products/:id (public)
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
@@ -35,6 +65,7 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
+    createNotification(req.user._id, product.id, 'removed', product.name)
     await product.remove()
     res.json({ message: 'Product removed' })
   } else {
@@ -54,9 +85,18 @@ const createProduct = asyncHandler(async (req, res) => {
     category: 'Sample category',
     countInStok: 0,
     numReviews: 0,
+
     description: 'Sample description',
   })
   const createdProduct = await product.save()
+
+  createNotification(
+    req.user._id,
+    product.id,
+    'added new product',
+    product.name
+  )
+
   res.status(201).json(createdProduct)
 })
 
@@ -73,7 +113,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   } = req.body
 
   const product = await Product.findById(req.params.id)
-
+  const oldProductName = product.name
   if (product) {
     product.name = name
     product.price = price
@@ -84,6 +124,9 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.countInStock = countInStock
 
     const updatedProduct = await product.save()
+
+    createNotification(req.user._id, product.id, 'updated', oldProductName)
+
     res.status(201).json(updatedProduct)
   } else {
     res.status(404)
@@ -113,6 +156,9 @@ const createProductReview = asyncHandler(async (req, res) => {
       comment,
       user: req.user._id,
     }
+    if (!rating) {
+      throw new Error('Please select one of the rating options')
+    }
 
     product.reviews.push(review)
     product.numReviews = product.reviews.length
@@ -121,6 +167,9 @@ const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.length
 
     await product.save()
+
+    createNotification(req.user._id, product.id, 'reviewed', product.name)
+
     res.status(201).json({ message: 'Review added' })
   } else {
     res.status(404)

@@ -20,16 +20,23 @@ import {
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
+  PRODUCT_CREATE_REVIEW_RESET,
 } from "../constants/productConstants";
 import axios from "axios";
 
-export const listProducts = (keyword = "", pageNumber = "") => async (
-  dispatch
-) => {
+export const listProducts = (
+  keyword = "",
+  pageNumber = "",
+  location = "",
+  minPrice = 0,
+  maxPrice = Infinity,
+  color = "",
+  sort = ""
+) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&sort=${sort}`
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
@@ -45,6 +52,7 @@ export const listProducts = (keyword = "", pageNumber = "") => async (
 
 export const listProductDetails = (id) => async (dispatch) => {
   try {
+    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
     const { data } = await axios.get(`/api/products/${id}`);
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
