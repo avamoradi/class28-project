@@ -36,6 +36,12 @@ h2 {
   color: #fff;
 }
 
+.modal-content {
+  color:rgb(2, 248, 203);
+  font-weight: bold;
+  text-align: center;
+}
+
 .carousel img {
   height: 300px;
   padding: 30px;
@@ -45,6 +51,62 @@ h2 {
 
 .carousel a {
   margin: 0 auto;
+}
+
+/*notifications number*/
+.notifications-num_container {
+  background-color: red;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 9px;
+  left: 21px;
+}
+.notifications-num {
+  display: inline-block;
+  color: #fff;
+  border-radius: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.relative {
+  position: relative;
+}
+
+.autocomplete-box {
+  background-color: #ffffff;
+  position: absolute;
+  right: 0;
+  top: 3rem;
+  width: 70%;
+  z-index: 100;
+}
+
+.autocomplete-box ul {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.autocomplete-item {
+  list-style: none;
+  text-align: left;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 3rem;
+}
+
+.autocomplete-item:hover {
+  background-color: #ececec;
+  cursor: pointer;
 }
 
 /* filter */
@@ -70,6 +132,7 @@ select.filter-select.form-control {
   margin-right: 1.4rem;
 }
 
-select.filter-max.form-control, select.filter-min.form-control {
+select.filter-max.form-control,
+select.filter-min.form-control {
   padding: 0.5rem 0.2rem;
 }
