@@ -18,14 +18,17 @@ import UserEditScreen from './screens/UserEditScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
+import NotificationsScreen from './screens/NotificationsScreen'
 import SellScreen from './screens/SellScreen'
 
 function App() {
   return (
     <Router>
       <Header />
+
       <main className='py-1'>
         <Container className='container'>
+          <Route path='/notifications' component={NotificationsScreen} />
           <Route path='/order/:id' component={OrderScreen} />
           <Route path='/payment' component={PaymentScreen} />
           <Route path='/placeorder' component={PlaceOrderScreen} />
@@ -36,11 +39,13 @@ function App() {
           <Route path='/sell' component={SellScreen} />
           <Route path='/' component={HomeScreen} exact />
           <Route path='/page/:pageNumber' component={HomeScreen} exact />
+
           <Route
             path='/search/:keyword/page/:pageNumber'
             component={HomeScreen}
             exact
           />
+
           <Route
             path='/page/:pageNumber/:location/:minPrice/:maxPrice/:color'
             component={HomeScreen}
@@ -50,6 +55,7 @@ function App() {
           <Route path='/product/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
           <Route path='/admin/userlist' component={UserListScreen} />
+
           <Route
             path='/admin/productlist'
             component={ProductListScreen}

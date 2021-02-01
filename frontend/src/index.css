@@ -75,6 +75,21 @@ h2 {
 .carousel-caption h2 span {
   font-size: 1rem;
   color: gray;
+
+}
+
+.carousel-caption h2 {
+  color: black;
+}
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  filter: invert(1);
+}
+.modal-content {
+  color: rgb(2, 248, 203);
+  font-weight: bold;
+  text-align: center;
+
 }
 
 .carousel-caption h2 {
@@ -95,6 +110,29 @@ h2 {
   margin: 0 auto;
 }
 
+/*notifications number*/
+.notifications-num_container {
+  background-color: red;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 9px;
+  left: 21px;
+}
+.notifications-num {
+  display: inline-block;
+  color: #fff;
+  border-radius: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .relative {
   position: relative;
 }

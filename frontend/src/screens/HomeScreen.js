@@ -12,6 +12,9 @@ import { listProducts } from '../actions/productActions'
 import Filtering from '../components/Filtering'
 import Sorting from '../components/Sorting'
 import { Route } from 'react-router-dom'
+import HomeSlider from '../components/HomeSlider'
+import AboutGalileo from '../components/AboutGalileo'
+
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
@@ -46,6 +49,8 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
+      <HomeSlider />
+      <AboutGalileo />
       {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
         <ProductCarousel />
       ) : (

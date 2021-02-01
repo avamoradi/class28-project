@@ -1,22 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { MdNotifications } from 'react-icons/md'
 import { Route } from 'react-router-dom'
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavDropdown,
-  Dropdown,
-  Button,
-} from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
+import { listNotification } from '../actions/notificationsActions'
 import SearchBox from './SearchBox'
-
+import DropdownMenu from './DropdownMenu'
 const Header = () => {
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+
+  useEffect(() => {
+    dispatch(listNotification())
+  }, [dispatch, userLogin])
+
+  const notificationsList = useSelector((state) => state.notificationsList)
+  const { notifications } = notificationsList
+
+  const notificationsNum = notifications.filter((x) => !x.users[0].isRead)
+    .length
+
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -33,6 +39,22 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />
             <Nav className='ml-auto'>
+
+              {userInfo && (
+                <LinkContainer to='/notifications'>
+                  <Nav.Link className=' p-2 pb-3 position-relative'>
+                    <MdNotifications size={25} color='#9a9da0' />
+                    {notificationsNum > 0 && (
+                      <div className='notifications-num_container'>
+                        <span className='notifications-num'>
+                          {notificationsNum}
+                        </span>
+                      </div>
+                    )}
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i>
@@ -72,80 +94,8 @@ const Header = () => {
         </Container>
       </Navbar>
 
-      <Navbar expand='lg' collapseOnSelect>
-        <Container>
-          <Navbar.Toggle
-            aria-controls='basic-navbar-nav'
-            className='navbar-toggle'
-          >
-            <i class='fas fa-chevron-down'></i>
-          </Navbar.Toggle>
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <NavDropdown title='Paintings' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+      <DropdownMenu />
 
-            <NavDropdown title='Photography' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title='Sculpture' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title='Illustration' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-
-            <NavDropdown title='Collage' id='collasible-nav-dropdown'>
-              <NavDropdown.Item href='#action/3.1'>Action</NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.2'>
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href='#action/3.3'>Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href='#action/3.4'>
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-            <LinkContainer to='/sell'>
-              <Button variant='success'>Sell Art</Button>
-            </LinkContainer>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
     </header>
   )
 }
