@@ -65,7 +65,9 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
+
     createNotification(req.user._id, product.id, 'removed', product.name)
+
     await product.remove()
     res.json({ message: 'Product removed' })
   } else {
@@ -96,6 +98,7 @@ const createProduct = asyncHandler(async (req, res) => {
     'added new product',
     product.name
   )
+
 
   res.status(201).json(createdProduct)
 })
@@ -156,9 +159,11 @@ const createProductReview = asyncHandler(async (req, res) => {
       comment,
       user: req.user._id,
     }
+
     if (!rating) {
       throw new Error('Please select one of the rating options')
     }
+
 
     product.reviews.push(review)
     product.numReviews = product.reviews.length
@@ -166,9 +171,11 @@ const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
       product.reviews.length
 
+
     await product.save()
 
     createNotification(req.user._id, product.id, 'reviewed', product.name)
+
 
     res.status(201).json({ message: 'Review added' })
   } else {

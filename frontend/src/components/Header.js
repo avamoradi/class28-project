@@ -8,7 +8,6 @@ import { logout } from '../actions/userActions'
 import { listNotification } from '../actions/notificationsActions'
 import SearchBox from './SearchBox'
 import DropdownMenu from './DropdownMenu'
-
 const Header = () => {
   const dispatch = useDispatch()
   const userLogin = useSelector((state) => state.userLogin)
@@ -23,6 +22,7 @@ const Header = () => {
 
   const notificationsNum = notifications.filter((x) => !x.users[0].isRead)
     .length
+
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -39,6 +39,7 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />
             <Nav className='ml-auto'>
+
               {userInfo && (
                 <LinkContainer to='/notifications'>
                   <Nav.Link className=' p-2 pb-3 position-relative'>
@@ -53,6 +54,7 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i>
@@ -91,7 +93,9 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
       <DropdownMenu />
+
     </header>
   )
 }

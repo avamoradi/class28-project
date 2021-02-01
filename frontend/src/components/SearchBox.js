@@ -62,7 +62,9 @@ const SearchBox = ({ history }) => {
           </ul>
         </div>
       )}
+
       <Button type='submit'>Search</Button>
+
     </Form>
   )
 }

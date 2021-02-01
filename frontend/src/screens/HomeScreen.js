@@ -15,6 +15,7 @@ import { Route } from 'react-router-dom'
 import HomeSlider from '../components/HomeSlider'
 import AboutGalileo from '../components/AboutGalileo'
 
+
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
   const [location, setLocation] = useState('')
