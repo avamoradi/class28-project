@@ -3,7 +3,6 @@ import { Form, Button } from 'react-bootstrap'
 import axios from 'axios'
 import useDebounce from '../hooks/useDebounce'
 
-
 const SearchBox = ({ history }) => {
   const [keyword, setKeyword] = useState('')
   const [searchResults, setSearchResults] = useState([])
@@ -35,27 +34,13 @@ const SearchBox = ({ history }) => {
     } else {
       history.push('/')
     }
-<<<<<<< HEAD
-  };
-
-=======
   }
->>>>>>> development
   return (
     <Form onSubmit={submitHandler} inline className='relative'>
       <Form.Control
         type='text'
         name='q'
         onChange={(e) => setKeyword(e.target.value)}
-<<<<<<< HEAD
-        
-        placeholder="Search Products..."
-        className="mr-sm-2 ml-sm-5"
-      ></Form.Control>
-      <Button type="submit" variant="outline-success" className="p-2" >
-        Search
-      </Button>
-=======
         placeholder='Search Products...'
         className='mr-sm-2 ml-sm-5'
         autoComplete='off'
@@ -80,7 +65,6 @@ const SearchBox = ({ history }) => {
 
       <Button type='submit'>Search</Button>
 
->>>>>>> development
     </Form>
   )
 }

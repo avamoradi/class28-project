@@ -26,9 +26,9 @@ function App() {
   return (
     <Router>
       <Header />
-<<<<<<< HEAD
       <main className="py-3">
         <Container>
+          <Route path='/notifications' component={NotificationsScreen} />
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/payment" component={PaymentScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
@@ -36,6 +36,7 @@ function App() {
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/login" component={LoginScreen} />
+          <Route path='/sell' component={SellScreen} />
           <Route path="/" component={HomeScreen} exact />
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact />
@@ -50,39 +51,7 @@ function App() {
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
           <Route path="/admin/userlist" component={UserListScreen} />
-=======
 
-      <main className='py-1'>
-        <Container className='container'>
-          <Route path='/notifications' component={NotificationsScreen} />
-          <Route path='/order/:id' component={OrderScreen} />
-          <Route path='/payment' component={PaymentScreen} />
-          <Route path='/placeorder' component={PlaceOrderScreen} />
-          <Route path='/shipping' component={ShippingScreen} />
-          <Route path='/profile' component={ProfileScreen} />
-          <Route path='/register' component={RegisterScreen} />
-          <Route path='/login' component={LoginScreen} />
-          <Route path='/sell' component={SellScreen} />
-          <Route path='/' component={HomeScreen} exact />
-          <Route path='/page/:pageNumber' component={HomeScreen} exact />
-
-          <Route
-            path='/search/:keyword/page/:pageNumber'
-            component={HomeScreen}
-            exact
-          />
-
-          <Route
-            path='/page/:pageNumber/:location/:minPrice/:maxPrice/:color'
-            component={HomeScreen}
-            exact
-          />
-          <Route path='/search/:keyword' component={HomeScreen} exact />
-          <Route path='/product/:id' component={ProductScreen} />
-          <Route path='/cart/:id?' component={CartScreen} />
-          <Route path='/admin/userlist' component={UserListScreen} />
-
->>>>>>> development
           <Route
             path='/admin/productlist'
             component={ProductListScreen}

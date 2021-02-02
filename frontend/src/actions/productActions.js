@@ -25,41 +25,27 @@ import {
 import axios from 'axios'
 
 export const listProducts = (
-<<<<<<< HEAD
+
   keyword = "", 
   pageNumber = "", 
   location = "", 
   minPrice=0, 
   maxPrice=Infinity, 
-  style='',
+  style="",
   sorts="",
   ) => async (
   dispatch
 ) => {   
-=======
-  keyword = '',
-  pageNumber = '',
-  location = '',
-  minPrice = 0,
-  maxPrice = Infinity,
-  color = '',
-  sort = '',
-) => async (dispatch) => {
->>>>>>> development
+
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
     const { data } = await axios.get(
-<<<<<<< HEAD
+
       `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&style=${style}&sorts=${sorts}`
     );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) { 
-=======
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&sort=${sort}`
-    )
-    dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
-  } catch (error) {
->>>>>>> development
+
     dispatch({
       type: PRODUCT_LIST_FAIL,
       payload:

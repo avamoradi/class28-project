@@ -3,7 +3,7 @@ import Product from '../models/productModel.js'
 import { createNotification } from './notificationController.js'
 
 const getProducts = asyncHandler(async (req, res) => {
-<<<<<<< HEAD
+
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
   const { location, minPrice, maxPrice, style } = req.query;
@@ -17,21 +17,6 @@ const getProducts = asyncHandler(async (req, res) => {
   };
   
   const sortType = (req.query.sorts) ? [[sortItems[req.query.sorts].type, sortItems[req.query.sorts].order]] : "";
-=======
-  const pageSize = 10
-  const page = Number(req.query.pageNumber) || 1
-  const { location, minPrice, maxPrice, color, sort } = req.query
-  const price = minPrice && maxPrice ? { minPrice, maxPrice } : false
-
-  const sortItems = {
-    BestRating: { type: 'rating', order: -1 },
-    HighestPrice: { type: 'price', order: -1 },
-    LowestPrice: { type: 'price', order: 1 },
-    Newest: { type: 'createdAt', order: -1 },
-  }
-
-  const sortType = sort ? [[sortItems[sort].type, sortItems[sort].order]] : ''
->>>>>>> development
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ''
@@ -52,7 +37,7 @@ const getProducts = asyncHandler(async (req, res) => {
     ...(location && {country: { $in: location }}),
     ...(style && {style: { $in: style }}),
     ...(price && {
-<<<<<<< HEAD
+
       price: { 
         $gte: price.minPrice,   
         $lte: price.maxPrice 
@@ -61,16 +46,7 @@ const getProducts = asyncHandler(async (req, res) => {
   };
 
   const count = await Product.countDocuments(filterObj);
-=======
-      price: {
-        $gte: price.minPrice,
-        $lte: price.maxPrice,
-      },
-    }),
-  }
 
-  const count = await Product.countDocuments(filterObj)
->>>>>>> development
   const products = await Product.find(filterObj)
     .sort(sortType)
     .limit(pageSize)
