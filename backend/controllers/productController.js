@@ -5,7 +5,7 @@ import Product from "../models/productModel.js";
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const { location, minPrice, maxPrice, color, style } = req.query;
+  const { location, minPrice, maxPrice, style } = req.query;
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
     
   const sortItems = {     
@@ -33,7 +33,7 @@ const getProducts = asyncHandler(async (req, res) => {
     //    gt = greater than
   const filterObj = {
     ...keyword,
-    ...location,
+    ...(location && {country: { $in: location }}),
     ...(style && {style: { $in: style }}),
     ...(price && {
       price: { 

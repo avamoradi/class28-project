@@ -30,7 +30,7 @@ export const listProducts = (
   location = "", 
   minPrice=0, 
   maxPrice=Infinity, 
-  style="",
+  style=[],
   sorts=""
   ) => async (
   dispatch

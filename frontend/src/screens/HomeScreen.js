@@ -58,8 +58,8 @@ const HomeScreen = ({ match }) => {
               <Filtering 
                 location={location}
                 setLocation={setLocation}
-                color={style}
-                setColor={setStyle}
+                style={style}
+                setStyle={setStyle}
                 minPrice={minPrice}
                 setMinPrice={setMinPrice}
                 maxPrice={maxPrice}
@@ -68,7 +68,12 @@ const HomeScreen = ({ match }) => {
               
           </Row>
           <Row>
-          <Route render={({ history }) => <Sorting history={history} sorts={sorts} setSort={setSort}/>} />
+          <Route render={({ history }) => 
+          <Sorting 
+            history={history} 
+            sorts={sorts} 
+            setSort={setSort}/>} 
+            />
           </Row>
           <Row>
             {products.map((product) => (

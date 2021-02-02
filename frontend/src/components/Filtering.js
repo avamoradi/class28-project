@@ -1,10 +1,19 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const Filtering = ({location, setLocation, style, setStyle, minPrice, setMinPrice, maxPrice, setMaxPrice}) => {
+const Filtering = ({
+    location, 
+    setLocation, 
+    style, 
+    setStyle, 
+    minPrice, 
+    setMinPrice, 
+    maxPrice, 
+    setMaxPrice}) => {
     
     const submitHandler = (e) => {
         e.preventDefault();
+        
     };
 
     return (
@@ -18,11 +27,16 @@ const Filtering = ({location, setLocation, style, setStyle, minPrice, setMinPric
                         onChange={(e) => setLocation(e.target.value)}
                         >
                             <option value="">Location</option>
-                            <option value="Amsterdam">Amsterdam</option>
-                            <option value="Gouda">Gauda</option>
-                            <option value="Roterdam">Roterdam</option>
-                            <option value="Utrecht">Utrecht</option>
-                            <option value="Zwolle">Zwolle</option>
+                            <option value="China">China</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Spain">Spain</option>
+                            <option value="United States">United States</option>
+                            <option value="France">France</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Italy">Italy</option>
+                            <option value="....">Unknown</option>
                         </Form.Control>
 
                         <>
@@ -36,11 +50,11 @@ const Filtering = ({location, setLocation, style, setStyle, minPrice, setMinPric
                         onChange={(e) => setMinPrice(e.target.value)}
                         >
                             <option value="">min</option>
-                            <option value="10">10</option>
                             <option value="100">100</option>
-                            <option value="250">250</option>
-                            <option value="350">350</option>
-                            <option value="550">550</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="2500">2500</option>
+                            <option value="5000">5000</option>
                         </Form.Control>
                         <span>-</span>
                         <Form.Control
@@ -51,12 +65,12 @@ const Filtering = ({location, setLocation, style, setStyle, minPrice, setMinPric
                         checked
                         onChange={(e) => setMaxPrice(e.target.value)}
                         >
-                            <option value="">max</option>
-                            <option value="100">100</option>
-                            <option value="250">250</option>
-                            <option value="350">350</option>
-                            <option value="550">550</option>
-                            <option value="650">650</option>
+                            <option value=''>max</option>
+                            <option value="100">1000</option>
+                            <option value="1250">2500</option>
+                            <option value="2000">3000</option>
+                            <option value="3500">4500</option>
+                            <option value={7500}>7500</option>
                         </Form.Control>
                         </>
                         
@@ -70,10 +84,20 @@ const Filtering = ({location, setLocation, style, setStyle, minPrice, setMinPric
                         onChange={(e) => setStyle(e.target.value)}
                         >
                             <option value="">Style</option>
-                            <option value="Red">Red</option>
-                            <option value="Blue">Blue</option>
-                            <option value="Green">Green</option>
-                            <option value="Black">Black</option>
+                            <option value="Expressionism">Expressionism</option>
+                            <option value="Abstract">Abstract</option>
+                            <option value="Modern">Modern</option>
+                            <option value="Street ">Street</option>
+                            <option value="Art">Art</option>
+                            <option value="Minimalism">Minimalism</option>
+                            <option value="Fine ">Fine </option>
+                            <option value="Deco">Deco</option>
+                            <option value="Fine ">Fine </option>
+                            <option value="Figurative">Figurative</option>
+                            <option value="Realism">Realism</option>
+                            <option value="Surrealism">Surrealism</option>
+                            <option value="Conceptual">Conceptual</option>
+                            <option value="Folk">Folk</option>
                         </Form.Control>
 
 
