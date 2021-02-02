@@ -115,6 +115,9 @@ const createProduct = asyncHandler(async (req, res) => {
     description,
     image,
     brand,
+    medium,
+    subject,
+    country,
     category,
     countInStock,
   } = req.body;
@@ -125,6 +128,9 @@ const createProduct = asyncHandler(async (req, res) => {
     user: req.user._id,
     image,
     brand,
+    medium,
+    subject,
+    country,
     category,
     countInStock,
     numReviews: 0,
@@ -216,7 +222,6 @@ const createProductReview = asyncHandler(async (req, res) => {
 
     createNotification(req.user._id, product.id, "reviewed", product.name);
 
-    createNotification(req.user._id, product.id, "reviewed", product.name);
     markUserAsExpert(req.user._id);
 
     res.status(201).json({ message: "Review added" });

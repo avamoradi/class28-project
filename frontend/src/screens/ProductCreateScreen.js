@@ -15,6 +15,9 @@ const ProductCreateScreen = ({ history }) => {
   const [brand, setBrand] = useState("Sample brand");
   const [image, setImage] = useState("/images/sample.jpg");
   const [category, setCategory] = useState("Sample category");
+  const [medium, setMedium] = useState("Sample medium");
+  const [subject, setSubject] = useState("Sample subject");
+  const [country, setCountry] = useState("Sample Country");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("Sample description");
   const [uploading, setUploading] = useState(false);
@@ -60,6 +63,9 @@ const ProductCreateScreen = ({ history }) => {
         price,
         image,
         brand,
+        medium,
+        subject,
+        country,
         category,
         description,
         countInStock,
@@ -124,6 +130,36 @@ const ProductCreateScreen = ({ history }) => {
                 placeholder="Enter brand"
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="medium">
+              <Form.Label>Medium</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter medium"
+                value={medium}
+                onChange={(e) => setMedium(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="subject">
+              <Form.Label>Subject</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter subject"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+
+            <Form.Group controlId="country">
+              <Form.Label>Country</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
               ></Form.Control>
             </Form.Group>
 
