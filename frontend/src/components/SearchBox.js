@@ -42,7 +42,7 @@ const SearchBox = ({ history }) => {
         name='q'
         onChange={(e) => setKeyword(e.target.value)}
         placeholder='Search Products...'
-        className='mr-sm-2 ml-sm-5'
+        className='ml-sm-5'
         autoComplete='off'
         value={keyword}
         onBlur={() => setSearchResults([])}
@@ -64,7 +64,6 @@ const SearchBox = ({ history }) => {
       )}
 
       <Button type='submit'>Search</Button>
-
     </Form>
   )
 }
