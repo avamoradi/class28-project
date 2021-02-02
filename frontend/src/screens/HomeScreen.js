@@ -15,6 +15,7 @@ import { Route } from "react-router-dom";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
+  
   let [sorts, setSort] =useState("");
   sorts = match.params.sorts;
 
@@ -56,7 +57,7 @@ const HomeScreen = ({ match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Row > 
+          < > 
               <Filtering 
                 location={location}
                 setLocation={setLocation}
@@ -67,16 +68,15 @@ const HomeScreen = ({ match }) => {
                 maxPrice={maxPrice}
                 setMaxPrice={setMaxPrice}
               />  
-              
-          </Row>
-          <Row>
+          </>
+          <>
           <Route render={({ history }) => 
           <Sorting 
             history={history} 
             sorts={sorts} 
             setSort={setSort}/>} 
             />
-          </Row>
+          </>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
