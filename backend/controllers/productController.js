@@ -55,6 +55,10 @@ const getProducts = asyncHandler(async (req, res) => {
         }
       : {};
 
+  //    gte = greater than or equal
+  //    lte = lesser than or equal
+  //    lt = lesser than
+  //    gt = greater than
   const filterObj = {
     ...keyword,
     ...(location && { location: location }),
@@ -94,6 +98,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     createNotification(req.user._id, product.id, "removed", product.name);
+
     await product.remove();
     res.json({ message: "Product removed" });
   } else {
@@ -197,6 +202,10 @@ const createProductReview = asyncHandler(async (req, res) => {
       user: req.user._id,
     };
 
+    if (!rating) {
+      throw new Error("Please select one of the rating options");
+    }
+
     product.reviews.push(review);
     product.numReviews = product.reviews.length;
     product.rating =
@@ -204,6 +213,8 @@ const createProductReview = asyncHandler(async (req, res) => {
       product.reviews.length;
 
     await product.save();
+
+    createNotification(req.user._id, product.id, "reviewed", product.name);
 
     createNotification(req.user._id, product.id, "reviewed", product.name);
     markUserAsExpert(req.user._id);
@@ -217,7 +228,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 // Get top rated products: GET /api/products/top (public)
 const getTopProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  const products = await Product.find({}).sort({ rating: -1 }).limit(6);
   res.json(products);
 });
 
