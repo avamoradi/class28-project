@@ -4,14 +4,15 @@ import User from "../models/userModel.js";
 
 export const notificationForUserCreateArt = async (
   userId,
+  artOnwerId,
   productId,
-  productName
+  message
 ) => {
   const notification = new Notification({
     user: userId,
     product: productId,
-    message: `You created ${productName}`,
-    users: [{ userId, isRead: false }],
+    message: `${message}`,
+    users: [{ userId: artOnwerId, isRead: false }],
   });
   await notification.save();
 };
@@ -31,13 +32,15 @@ export const createValidateArtNotification = async (
       return { userId: user._id, isRead: false };
     });
 
-  const notification = new Notification({
-    user: userId,
-    product: productId,
-    message: `${userCreatedNotification.name} added ${productName}, please validate it`,
-    users: notifiedUsers,
-  });
-  await notification.save();
+  if (notifiedUsers.length > 0) {
+    const notification = new Notification({
+      user: userId,
+      product: productId,
+      message: `${userCreatedNotification.name} added ${productName}, please validate it`,
+      users: notifiedUsers,
+    });
+    await notification.save();
+  }
 };
 
 export const createNotification = async (

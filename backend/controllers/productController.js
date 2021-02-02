@@ -72,10 +72,10 @@ const getProducts = asyncHandler(async (req, res) => {
   };
 
   const count = await Product.countDocuments({
-    $and: [filterObj, { status: { $ne: "pending" } }],
+    $and: [filterObj, { "validation.status": { $nin: ["pending", "rejected"] } }],
   });
   const products = await Product.find({
-    $and: [filterObj, { status: { $ne: "pending" } }],
+    $and: [filterObj, { "validation.status": { $nin: ["pending", "rejected"] } }],
   })
     .sort(sortType)
     .limit(pageSize)
@@ -139,8 +139,9 @@ const createProduct = asyncHandler(async (req, res) => {
   const createdProduct = await product.save();
   notificationForUserCreateArt(
     req.user._id,
+    req.user._id,
     createdProduct._id,
-    createdProduct.name
+    `You added a new art, ${createdProduct.name}`
   );
   createValidateArtNotification(
     req.user._id,
@@ -243,9 +244,39 @@ const verifyProduct = asyncHandler(async (req, res) => {
   const notification = await Notification.findById(req.body.notificationId);
 
   if (product) {
-    product.status = `Art is reviewed by expert ${user.name}`;
+    product.validation.status = "validated";
+    product.validation.message = `Art is verified by expert ${user.name}`;
     const verifiedProduct = await product.save();
     await notification.remove();
+    notificationForUserCreateArt(
+      req.user._id,
+      product.user,
+      product._id,
+      `${user.name} validated your art, ${product.name}`
+    );
+    res.json(verifiedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+const rejectProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  const user = await User.findById(req.user._id);
+  const notification = await Notification.findById(req.body.notificationId);
+
+  if (product) {
+    product.validation.status = "rejected";
+    product.validation.message = req.body.message;
+    const verifiedProduct = await product.save();
+    await notification.remove();
+    notificationForUserCreateArt(
+      req.user._id,
+      product.user,
+      product._id,
+      `${user.name} rejected your art, ${product.name}`
+    );
     res.json(verifiedProduct);
   } else {
     res.status(404);
@@ -262,4 +293,5 @@ export {
   createProductReview,
   getTopProducts,
   verifyProduct,
+  rejectProduct,
 };

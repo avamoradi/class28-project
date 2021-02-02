@@ -24,8 +24,6 @@ const HomeScreen = ({ match }) => {
   const [color, setColor] = useState('')
   const [sort, setSort] = useState('')
   const dispatch = useDispatch()
-  //const sort = match.params.sort;
-  console.log(sort)
 
   const pageNumber = match.params.pageNumber || 1
 

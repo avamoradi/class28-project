@@ -14,7 +14,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Tea Rose Fields (Featured Painting)",
@@ -31,7 +31,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Go find yourself a friend",
@@ -50,7 +50,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Untitled Pink Infinity",
@@ -68,7 +68,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Cambodia Mixed Media V - Limited Edition 1 of 25",
@@ -86,7 +86,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Masada Desert Fortress I - Limited Edition of 10",
@@ -104,7 +104,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Boavista Hatch",
@@ -126,7 +126,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Corona20-T - Limited Edition of 10",
@@ -144,7 +144,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Try (series Tired Ghosts)",
@@ -162,7 +162,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Crocodiles",
@@ -181,7 +181,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Shapes On The Wall 1",
@@ -207,7 +207,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Word of your mouth",
@@ -228,7 +228,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: '"Waiting For. The Trap." (#2)',
@@ -245,7 +245,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Sun - Gold light - Sculpture",
@@ -263,7 +263,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "Yellow Blue Bird",
@@ -281,7 +281,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
   {
     name: "MODZ672",
@@ -299,7 +299,7 @@ const products = [
     countInStock: 1,
     rating: 1,
     numReviews: 1,
-    status: "reviewed",
+    validation: { status: "validated", message: "Reviewed by Admin" },
   },
 ];
 

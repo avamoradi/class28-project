@@ -70,7 +70,7 @@ const ProductScreen = ({ history, match }) => {
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
-      ) : product.status === "pending" ? (
+      ) : product.validation && product.validation.status !== "validated" ? (
         <Route
           render={({ history }) => (
             <ProductPending product={product} history={history} />
@@ -79,6 +79,15 @@ const ProductScreen = ({ history, match }) => {
       ) : (
         <>
           <Meta title={product.name} />
+          <Row>
+            <Col>
+              {product.validation && (
+                <p className="text-success font-weight-bold">
+                  {product.validation.message}
+                </p>
+              )}
+            </Col>
+          </Row>
           <Row>
             <Col md={6}>
               <TransformWrapper
@@ -181,11 +190,6 @@ const ProductScreen = ({ history, match }) => {
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <p className="text-success font-weight-bold">{product.status}</p>
             </Col>
           </Row>
           <Row>
