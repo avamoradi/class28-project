@@ -59,13 +59,23 @@ text-decoration: underline;
 }
 
 .cookie-form {
-  margin: 20px 0 0px;
+  margin: 20px 10px 20px;
+  text-align: justify;
 }
+
+.cookie-form button {
+  justify-content: center;
+  width: 100%;
+}
+
+
 
 .cookie-footer {
   flex-direction: column;
   justify-content:stretch;
 }
+
+
 
 
 .carousel img {

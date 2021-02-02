@@ -25,7 +25,7 @@ const Footer = () => {
 
         <Row>
           <Col className='text-center py-3'>
-            <span>Copyright &copy; ProShop </span> |
+            <span>Copyright &copy; Galileo </span> |
             <span
               onClick={(e) => popUpCookie()}
               className='cookie-policy-footer text-center py-3'
