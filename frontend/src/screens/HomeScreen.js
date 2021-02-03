@@ -16,7 +16,7 @@ import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 
-const HomeScreen = ({ match }) => {
+const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
@@ -95,8 +95,7 @@ const HomeScreen = ({ match }) => {
             />
           </Row>
           <Row>
-            {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
-            <Sorting sort={sort} setSort={setSort} />
+            <Sorting sort={sort} setSort={setSort} history={history} />
           </Row>
           <Row>
             {products.map((product) => (
