@@ -16,7 +16,7 @@ import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 
-const HomeScreen = ({ match }) => {
+const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
@@ -25,7 +25,6 @@ const HomeScreen = ({ match }) => {
   const [sort, setSort] = useState("");
   const dispatch = useDispatch();
   //const sort = match.params.sort;
-  console.log(sort);
 
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
@@ -72,15 +71,15 @@ const HomeScreen = ({ match }) => {
       {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
         <ProductCarousel />
       ) : (
-        <Link to='/' className='btn btn-light'>
+        <Link to="/" className="btn btn-light">
           Go Back
         </Link>
       )}
-      <h1 id='latest-art'>Latest Art</h1>
+      <h1 id="latest-art">Latest Art</h1>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <>
           <Row>
@@ -96,8 +95,7 @@ const HomeScreen = ({ match }) => {
             />
           </Row>
           <Row>
-            {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
-            <Sorting sort={sort} setSort={setSort} />
+            <Sorting sort={sort} setSort={setSort} history={history} />
           </Row>
           <Row>
             {products.map((product) => (
