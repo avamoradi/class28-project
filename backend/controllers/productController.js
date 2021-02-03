@@ -31,19 +31,20 @@ const markUserAsExpert = async (userId) => {
 };
 
 const getProducts = asyncHandler(async (req, res) => {
+
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const { location, minPrice, maxPrice, color, sort } = req.query;
+  const { location, minPrice, maxPrice, style, sorts } = req.query;
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
-
-  const sortItems = {
-    BestRating: { type: "rating", order: -1 },
-    HighestPrice: { type: "price", order: -1 },
-    LowestPrice: { type: "price", order: 1 },
-    Newest: { type: "createdAt", order: -1 },
+    
+  const sortItems = {     
+    'BestRating': {'type': 'rating', 'order': -1},
+    'HighestPrice': {'type': 'price', 'order': -1},
+    'LowestPrice': {'type': 'price', 'order': 1},
+    'Newest': {'type': 'createdAt', 'order': -1}
   };
 
-  const sortType = sort ? [[sortItems[sort].type, sortItems[sort].order]] : "";
+  const sortType = (sorts) ? [[sortItems[sorts].type, sortItems[sorts].order]] : "";
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ""
@@ -55,19 +56,20 @@ const getProducts = asyncHandler(async (req, res) => {
         }
       : {};
 
-  //    gte = greater than or equal
-  //    lte = lesser than or equal
-  //    lt = lesser than
-  //    gt = greater than
+  //  gte = greater than or equal
+  //  lte = lesser than or equal
+  //  lt = lesser than
+  //  gt = greater than
+  //  in = to match values
   const filterObj = {
     ...keyword,
-    ...(location && { location: location }),
-    ...(color && { color: color }),
+    ...(location && {country: { $in: location }}),
+    ...(style && {style: { $in: style }}),
     ...(price && {
-      price: {
-        $gte: price.minPrice,
-        $lte: price.maxPrice,
-      },
+          price: { 
+            $gte: price.minPrice,   
+            $lte: price.maxPrice 
+          } 
     }),
   };
 
