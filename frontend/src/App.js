@@ -43,7 +43,7 @@ function App() {
           <Route path='/sell' component={SellScreen} />
 
           <Route path='/' component={HomeScreen} exact />
-          <Route path='/page/:pageNumber' component={HomeScreen} exact />
+
           <Route
             path='/search/:keyword/page/:pageNumber'
             component={HomeScreen}
