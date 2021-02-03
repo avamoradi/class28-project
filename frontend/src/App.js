@@ -26,64 +26,92 @@ import PhotographyScreen from './screens/PhotographyScreen'
 import DrawingsScreen from './screens/DrawingsScreen'
 import SculptureScreen from './screens/SculptureScreen'
 
+import { logPageView } from './analytic'
+import { initGA } from './analytic'
+
 function App() {
+  initGA()
+  logPageView()
 
   return (
     <Router>
       <Header />
-      <main className="py-3">
+      <main className='py-3'>
         <Container>
           <Route path='/notifications' component={NotificationsScreen} />
-          <Route path="/order/:id" component={OrderScreen} />
-          <Route path="/payment" component={PaymentScreen} />
-          <Route path="/placeorder" component={PlaceOrderScreen} />
-          <Route path="/shipping" component={ShippingScreen} />
-          <Route path="/profile" component={ProfileScreen} />
-          <Route path="/register" component={RegisterScreen} />
-          <Route path="/login" component={LoginScreen} />
+          <Route path='/order/:id' component={OrderScreen} />
+          <Route path='/payment' component={PaymentScreen} />
+          <Route path='/placeorder' component={PlaceOrderScreen} />
+          <Route path='/shipping' component={ShippingScreen} />
+          <Route path='/profile' component={ProfileScreen} />
+          <Route path='/register' component={RegisterScreen} />
+          <Route path='/login' component={LoginScreen} />
           <Route path='/sell' component={SellScreen} />
 
-          <Route path="/" component={HomeScreen} exact />
-          <Route path="/page/:pageNumber" component={HomeScreen} exact />
-          <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact />
+          <Route path='/' component={HomeScreen} exact />
+          <Route path='/page/:pageNumber' component={HomeScreen} exact />
+          <Route
+            path='/search/:keyword/page/:pageNumber'
+            component={HomeScreen}
+            exact
+          />
 
           <Route path='/paintings' component={PaintingScreen} />
           <Route path='/photography' component={PhotographyScreen} />
           <Route path='/drawings' component={DrawingsScreen} />
           <Route path='/sculpture' component={SculptureScreen} />
-          <Route path='/page/:pageNumber' component={HomeScreen} exact />
 
-          <Route path="/search/:keyword/sortBy/:sorts/" component={HomeScreen} exact />
-          <Route path="/sortBy/:sorts/page/:pageNumber" component={HomeScreen} exact />
-          <Route path="/sortBy/:sorts" component={HomeScreen} exact />
-          <Route path="/sortBy/:sorts/filter/location/:location/minPrice/:minPrice/maxPrice/:maxPrice/style/:style" component={HomeScreen} exact />
-          <Route path="/filter/:location?/:style?" component={HomeScreen} exact />
+          <Route
+            path='/search/:keyword/sortBy/:sorts/'
+            component={HomeScreen}
+            exact
+          />
+          <Route
+            path='/sortBy/:sorts/page/:pageNumber'
+            component={HomeScreen}
+            exact
+          />
+          <Route path='/sortBy/:sorts' component={HomeScreen} exact />
+          <Route
+            path='/sortBy/:sorts/filter/location/:location/minPrice/:minPrice/maxPrice/:maxPrice/style/:style'
+            component={HomeScreen}
+            exact
+          />
+          <Route
+            path='/filter/:location?/:style?'
+            component={HomeScreen}
+            exact
+          />
 
-          <Route path="/search/:keyword" component={HomeScreen} exact />
-          <Route path="/product/:id" component={ProductScreen} />
-          <Route path="/cart/:id?" component={CartScreen} />
-          <Route path="/admin/userlist" component={UserListScreen} />
-
+          <Route
+            path='/page/:pageNumber/:location/:minPrice/:maxPrice/:color'
+            component={HomeScreen}
+            exact
+          />
+          <Route path='/search/:keyword' component={HomeScreen} exact />
+          <Route path='/product/:id' component={ProductScreen} />
+          <Route path='/cart/:id?' component={CartScreen} />
+          <Route path='/admin/userlist' component={UserListScreen} />
           <Route
             path='/admin/productlist'
             component={ProductListScreen}
             exact
           />
           <Route
-            path="/admin/productlist/:pageNumber"
+            path='/admin/productlist/:pageNumber'
             component={ProductListScreen}
             exact
           />
 
-          <Route path="/admin/orderlist" component={OrderListScreen} />
-          <Route path="/admin/product/create" component={ProductCreateScreen} />
-          <Route path="/admin/product/:id/edit" component={ProductEditScreen} />
-          <Route path="/admin/user/:id/edit" component={UserEditScreen} />
+          <Route path='/admin/orderlist' component={OrderListScreen} />
+          <Route path='/admin/product/create' component={ProductCreateScreen} />
+          <Route path='/admin/product/:id/edit' component={ProductEditScreen} />
+          <Route path='/admin/user/:id/edit' component={UserEditScreen} />
         </Container>
       </main>
       <Footer />
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
