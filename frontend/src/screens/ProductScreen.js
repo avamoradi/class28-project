@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Card,
-  Button,
-  Form,
-} from "react-bootstrap";
-
+import { Row, Col, Image, ListGroup, Card, Button, Form } from "react-bootstrap";
+import { Route } from "react-router-dom";
 import Rating from "../components/Rating";
 import ReviewsPopup from "../components/ReviewsPopup";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +12,7 @@ import {
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Meta from "../components/Meta";
+import ProductPending from "../components/ProductPending";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
@@ -70,16 +63,31 @@ const ProductScreen = ({ history, match }) => {
       {modalShow && (
         <ReviewsPopup show={modalShow} onHide={() => setModalShow(false)} />
       )}
-      <Link className='btn btn-light my-3' to='/'>
+      <Link className="btn btn-light my-3" to="/">
         Go Back
       </Link>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
+      ) : product.validation && product.validation.status !== "validated" ? (
+        <Route
+          render={({ history }) => (
+            <ProductPending product={product} history={history} />
+          )}
+        />
       ) : (
         <>
           <Meta title={product.name} />
+          <Row>
+            <Col>
+              {product.validation && (
+                <p className="text-success font-weight-bold">
+                  {product.validation.message}
+                </p>
+              )}
+            </Col>
+          </Row>
           <Row>
             <Col md={6}>
               <TransformWrapper
@@ -92,18 +100,18 @@ const ProductScreen = ({ history, match }) => {
                     <TransformComponent>
                       <Image src={product.image} alt={product.name} fluid />
                     </TransformComponent>
-                    <div className='text-center'>
+                    <div className="text-center">
                       <button
-                        className='btn btn-online-primary mr-2'
+                        className="btn btn-online-primary mr-2"
                         onClick={zoomIn}
                       >
-                        <i className='fas fa-search-plus'></i>
+                        <i className="fas fa-search-plus"></i>
                       </button>
                       <button
-                        className='btn btn-online-primary mr-2'
+                        className="btn btn-online-primary mr-2"
                         onClick={zoomOut}
                       >
-                        <i className=' fas fa-search-minus'></i>
+                        <i className=" fas fa-search-minus"></i>
                       </button>
                     </div>
                   </>
@@ -111,7 +119,7 @@ const ProductScreen = ({ history, match }) => {
               </TransformWrapper>
             </Col>
             <Col md={3}>
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>{product.name}</h3>
                 </ListGroup.Item>
@@ -129,7 +137,7 @@ const ProductScreen = ({ history, match }) => {
             </Col>
             <Col md={3}>
               <Card>
-                <ListGroup variant='flush'>
+                <ListGroup variant="flush">
                   <ListGroup.Item>
                     <Row>
                       <Col>Price:</Col>
@@ -153,19 +161,17 @@ const ProductScreen = ({ history, match }) => {
                         <Col>Qty</Col>
                         <Col>
                           <Form.Control
-                            as='select'
+                            as="select"
                             value={qty}
                             onChange={(e) => {
                               setQty(e.target.value);
                             }}
                           >
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
+                            {[...Array(product.countInStock).keys()].map((x) => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
                           </Form.Control>
                         </Col>
                       </Row>
@@ -175,8 +181,8 @@ const ProductScreen = ({ history, match }) => {
                   <ListGroup.Item>
                     <Button
                       onClick={addToCartHandler}
-                      className='btn-block'
-                      type='button'
+                      className="btn-block"
+                      type="button"
                       disabled={product.countInStock === 0}
                     >
                       Add To Cart
@@ -193,7 +199,7 @@ const ProductScreen = ({ history, match }) => {
                 <Message>Be first to review this product</Message>
               )}
 
-              <ListGroup variant='flush'>
+              <ListGroup variant="flush">
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
@@ -205,46 +211,46 @@ const ProductScreen = ({ history, match }) => {
                 <ListGroup.Item>
                   <h2>Review the product</h2>
                   {errorProductReview && (
-                    <Message variant='danger'>{errorProductReview}</Message>
+                    <Message variant="danger">{errorProductReview}</Message>
                   )}
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
-                      <Form.Group controlId='rating'>
+                      <Form.Group controlId="rating">
                         <Form.Label>Rating</Form.Label>
                         <Form.Control
-                          as='select'
+                          as="select"
                           value={rating}
                           onChange={(e) => setRating(e.target.value)}
                         >
-                          <option value=''>Select...</option>
-                          <option value='1'>1-Poor</option>
-                          <option value='2'>2-Fair</option>
-                          <option value='3'>3-Good</option>
-                          <option value='4'>4-Very Good</option>
-                          <option value='5'>5-Excellent</option>
+                          <option value="">Select...</option>
+                          <option value="1">1-Poor</option>
+                          <option value="2">2-Fair</option>
+                          <option value="3">3-Good</option>
+                          <option value="4">4-Very Good</option>
+                          <option value="5">5-Excellent</option>
                         </Form.Control>
                       </Form.Group>
-                      <Form.Group controlId='comment'>
+                      <Form.Group controlId="comment">
                         <Form.Label>Comment (Optional)</Form.Label>
                         <Form.Control
-                          as='textarea'
-                          row='3'
+                          as="textarea"
+                          row="3"
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
                       </Form.Group>
                       {reviewed && (
-                        <Message variant='success'>
+                        <Message variant="success">
                           Review submitted successfully
                         </Message>
                       )}
-                      <Button type='submit' variant='primary'>
+                      <Button type="submit" variant="primary">
                         Submit
                       </Button>
                     </Form>
                   ) : (
                     <Message>
-                      Please <Link to='/login'>Sign In</Link> to write a review
+                      Please <Link to="/login">Sign In</Link> to write a review
                     </Message>
                   )}
                 </ListGroup.Item>{" "}
