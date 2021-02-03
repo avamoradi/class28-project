@@ -23,7 +23,7 @@ import {
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
   PRODUCT_TOP_FAIL,
-  SET_SORT_BY,
+  //SET_SORT_BY,
 
 } from "../constants/productConstants";
 
@@ -41,11 +41,11 @@ export const productListReducer = (state = { products: [] }, action) => {
         pages: action.payload.pages,
         page: action.payload.page,
       };
-    case  SET_SORT_BY:
-      return {
-        ...state,
-        sortBy: action.payload,
-      };
+    // case  SET_SORT_BY:
+    //   return {
+    //     ...state,
+    //     sortBy: action.payload,
+    //   };
     case PRODUCT_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:

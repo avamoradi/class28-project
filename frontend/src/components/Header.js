@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { MdNotifications } from 'react-icons/md'
 import { Route } from 'react-router-dom'
-import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
