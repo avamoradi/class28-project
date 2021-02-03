@@ -26,7 +26,13 @@ import PhotographyScreen from './screens/PhotographyScreen'
 import DrawingsScreen from './screens/DrawingsScreen'
 import SculptureScreen from './screens/SculptureScreen'
 
+import { logPageView } from './analytic'
+import { initGA } from './analytic'
+
 function App() {
+  initGA()
+  logPageView()
+
   return (
     <Router>
       <Header />
@@ -43,6 +49,12 @@ function App() {
           <Route path='/sell' component={SellScreen} />
 
           <Route path='/' component={HomeScreen} exact />
+          <Route path='/page/:pageNumber' component={HomeScreen} exact />
+          <Route
+            path='/search/:keyword/page/:pageNumber'
+            component={HomeScreen}
+            exact
+          />
 
           <Route
             path='/search/:keyword/page/:pageNumber'
@@ -53,7 +65,6 @@ function App() {
           <Route path='/photography' component={PhotographyScreen} />
           <Route path='/drawings' component={DrawingsScreen} />
           <Route path='/sculpture' component={SculptureScreen} />
-          <Route path='/page/:pageNumber' component={HomeScreen} exact />
           <Route
             path='/search/:keyword/sortBy/:sorts/'
             component={HomeScreen}
@@ -75,7 +86,11 @@ function App() {
             component={HomeScreen}
             exact
           />
-
+          <Route
+            path='/page/:pageNumber/:location/:minPrice/:maxPrice/:color'
+            component={HomeScreen}
+            exact
+          />
           <Route path='/search/:keyword' component={HomeScreen} exact />
           <Route path='/product/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { useGAEventTracker } from '../analytic'
 import axios from 'axios'
 import useDebounce from '../hooks/useDebounce'
 
 const SearchBox = ({ history }) => {
+  const GAEventsTracker = useGAEventTracker('Search for item')
+
   const [keyword, setKeyword] = useState('')
   const [searchResults, setSearchResults] = useState([])
 
@@ -28,6 +31,8 @@ const SearchBox = ({ history }) => {
   }, [debouncedKeyword])
 
   const submitHandler = (e) => {
+    GAEventsTracker('Clicked on search bar')
+
     e.preventDefault()
     if (keyword.trim()) {
       history.push(`/search/${keyword}`)

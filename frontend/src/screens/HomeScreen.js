@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
+import CookiePopup from '../components/CookiePopup'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
@@ -17,14 +18,20 @@ import AboutGalileo from '../components/AboutGalileo'
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
-
-  let [sorts, setSort] = useState('')
-  let [location, setLocation] = useState('')
-  let [minPrice, setMinPrice] = useState(0)
-  let [maxPrice, setMaxPrice] = useState(Infinity)
-  let [style, setStyle] = useState('')
-
+  const [location, setLocation] = useState('')
+  const [minPrice, setMinPrice] = useState(0)
+  const [maxPrice, setMaxPrice] = useState(Infinity)
+  const [color, setColor] = useState('')
+  const [sort, setSort] = useState('')
   const dispatch = useDispatch()
+  //const sort = match.params.sort;
+  console.log(sort)
+
+  const cookiesFromStorage = localStorage.getItem('isCookies')
+    ? JSON.parse(localStorage.getItem('isCookies'))
+    : true
+
+  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage)
 
   const pageNumber = match.params.pageNumber || 1
 
@@ -32,6 +39,7 @@ const HomeScreen = ({ match }) => {
   const { loading, error, products, page, pages } = productList
 
   useEffect(() => {
+    localStorage.setItem('isCookies', cookiePopup)
     dispatch(
       listProducts(
         keyword,
@@ -39,8 +47,8 @@ const HomeScreen = ({ match }) => {
         location,
         minPrice,
         maxPrice,
-        style,
-        sorts
+        color,
+        sort
       )
     )
   }, [
@@ -50,16 +58,18 @@ const HomeScreen = ({ match }) => {
     location,
     minPrice,
     maxPrice,
-    style,
-    sorts,
+    color,
+    sort,
+    cookiePopup,
   ])
 
   return (
     <>
+      {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
       <HomeSlider />
       <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts ? (
+      {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
         <ProductCarousel />
       ) : (
         <Link to='/' className='btn btn-light'>
@@ -73,25 +83,22 @@ const HomeScreen = ({ match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <>
+          <Row>
             <Filtering
               location={location}
               setLocation={setLocation}
-              style={style}
-              setStyle={setStyle}
+              color={color}
+              setColor={setColor}
               minPrice={minPrice}
               setMinPrice={setMinPrice}
               maxPrice={maxPrice}
               setMaxPrice={setMaxPrice}
             />
-          </>
-          <>
-            <Route
-              render={({ history }) => (
-                <Sorting history={history} sorts={sorts} setSort={setSort} />
-              )}
-            />
-          </>
+          </Row>
+          <Row>
+            {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
+            <Sorting sort={sort} setSort={setSort} />
+          </Row>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>

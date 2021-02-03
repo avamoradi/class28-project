@@ -17,6 +17,21 @@ h2 {
   padding: 0.5rem 0;
 }
 
+.cookie-terms {
+margin-top: 10px;
+text-align: left;
+}
+
+
+.cookie-policy-footer {
+  margin-left: 3px;
+}
+
+.cookie-policy-footer:hover {
+cursor: pointer;
+text-decoration: underline;
+}
+
 .rating span {
   margin: 0.1rem;
 }
@@ -97,10 +112,28 @@ h2 {
   filter: invert(1);
 }
 .modal-content {
-  color: rgb(2, 248, 203);
-  font-weight: bold;
   text-align: center;
 }
+
+.cookie-form {
+  margin: 20px 10px 20px;
+  text-align: justify;
+}
+
+.cookie-form button {
+  justify-content: center;
+  width: 100%;
+}
+
+
+
+.cookie-footer {
+  flex-direction: column;
+  justify-content:stretch;
+}
+
+
+
 
 .carousel-caption h2 {
   color: black;
