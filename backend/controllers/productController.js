@@ -6,7 +6,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
   const pageSize = 10;
   const page = Number(req.query.pageNumber) || 1;
-  const { location, minPrice, maxPrice, style } = req.query;
+  const { location, minPrice, maxPrice, style, sorts } = req.query;
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false;
     
   const sortItems = {     
@@ -16,7 +16,7 @@ const getProducts = asyncHandler(async (req, res) => {
     'Newest': {'type': 'createdAt', 'order': -1}
   };
 
-  const sortType = (req.query.sorts) ? [[sortItems[req.query.sorts].type, sortItems[req.query.sorts].order]] : "";
+  const sortType = (sorts) ? [[sortItems[sorts].type, sortItems[sorts].order]] : "";
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ''
@@ -44,9 +44,6 @@ const getProducts = asyncHandler(async (req, res) => {
           } 
     }),
   };
-
-  console.log(style)
-  console.log(location)
 
   const count = await Product.countDocuments(filterObj);
   const products = await Product.find(filterObj)

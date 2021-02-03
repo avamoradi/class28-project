@@ -17,14 +17,10 @@ const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
   
   let [sorts, setSort] =useState("");
-  sorts = match.params.sorts;
-
-  const [location, setLocation] = useState("");
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [style, setStyle] = useState("");
-  
-  console.log(location);
+  let [location, setLocation] = useState("");
+  let [minPrice, setMinPrice] = useState(0);
+  let [maxPrice, setMaxPrice] = useState(Infinity);
+  let [style, setStyle] = useState("");
 
   const dispatch = useDispatch();
   
@@ -67,7 +63,7 @@ const HomeScreen = ({ match }) => {
                 setMinPrice={setMinPrice}
                 maxPrice={maxPrice}
                 setMaxPrice={setMaxPrice}
-              />  
+              /> 
           </>
           <>
           <Route render={({ history }) => 

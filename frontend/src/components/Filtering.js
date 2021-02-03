@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Col } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 const Filtering = ({
     location, 
@@ -38,7 +38,7 @@ const Filtering = ({
                 <option value="Italy">Italy</option>
                 <option value="....">Unknown</option>
             </Form.Control>
-            <>
+            < >
                 <span className='filter-price-name'>Price:</span>
                 <Form.Control
                     as='select'
@@ -72,7 +72,7 @@ const Filtering = ({
                             <option value="4500">4500</option>
                             <option value={7500}>7500</option>
                         </Form.Control>
-                        </>
+                </>
                         
                         <Form.Control
                             as='select'

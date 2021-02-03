@@ -44,8 +44,8 @@ function App() {
           <Route path="/search/:keyword/sortBy/:sorts/" component={HomeScreen} exact />
           <Route path="/sortBy/:sorts/page/:pageNumber" component={HomeScreen} exact />
           <Route path="/sortBy/:sorts" component={HomeScreen} exact />
-          <Route path="/sortBy/:sorts/filter/location/:location/minPrice/:minPrice/maxPrice/:maxPrice/color/:color" component={HomeScreen} exact />
-          <Route path="/filter/:location/filter/:minPrice/filter/:maxPrice/filter/:color" component={HomeScreen} exact />
+          <Route path="/sortBy/:sorts/filter/location/:location/minPrice/:minPrice/maxPrice/:maxPrice/style/:style" component={HomeScreen} exact />
+          <Route path="/filter/:location?/:style?" component={HomeScreen} exact />
 
           <Route path="/search/:keyword" component={HomeScreen} exact />
           <Route path="/product/:id" component={ProductScreen} />

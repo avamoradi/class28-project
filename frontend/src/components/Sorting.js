@@ -5,7 +5,6 @@ const Sorting = ({  history, sorts, setSort }) => {
     
     const onChangeHandler = (e) => {
         e.preventDefault();
-        console.log('onChange' + e.target.value + 'works' );
         if (e.target.value) {
             setSort(e.target.value);
             history.push(`/sortBy/${e.target.value}`);
