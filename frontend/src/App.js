@@ -20,6 +20,10 @@ import ProductEditScreen from './screens/ProductEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
 import NotificationsScreen from './screens/NotificationsScreen'
 import SellScreen from './screens/SellScreen'
+import PaintingScreen from './screens/PaintingScreen'
+import PhotographyScreen from './screens/PhotographyScreen'
+import DrawingsScreen from './screens/DrawingsScreen'
+import SculptureScreen from './screens/SculptureScreen'
 
 function App() {
 
@@ -37,9 +41,18 @@ function App() {
           <Route path="/register" component={RegisterScreen} />
           <Route path="/login" component={LoginScreen} />
           <Route path='/sell' component={SellScreen} />
+<<<<<<< HEAD
           <Route path="/" component={HomeScreen} exact />
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route path="/search/:keyword/page/:pageNumber" component={HomeScreen} exact />
+=======
+          <Route path='/paintings' component={PaintingScreen} />
+          <Route path='/photography' component={PhotographyScreen} />
+          <Route path='/drawings' component={DrawingsScreen} />
+          <Route path='/sculpture' component={SculptureScreen} />
+          <Route path='/' component={HomeScreen} exact />
+          <Route path='/page/:pageNumber' component={HomeScreen} exact />
+>>>>>>> development
 
           <Route path="/search/:keyword/sortBy/:sorts/" component={HomeScreen} exact />
           <Route path="/sortBy/:sorts/page/:pageNumber" component={HomeScreen} exact />
