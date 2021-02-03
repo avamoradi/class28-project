@@ -45,7 +45,6 @@ const ProductScreen = ({ history, match }) => {
     if (successProductReview) {
       setRating(0)
       setComment('')
-      setModalShow(true)
       setReviewed(true)
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
@@ -67,7 +66,10 @@ const ProductScreen = ({ history, match }) => {
   return (
     <>
       {modalShow && (
-        <ReviewsPopup show={modalShow} onHide={() => setModalShow(false)} />
+        <ReviewsPopup
+          show={modalShow}
+          onHideReview={() => setModalShow(false)}
+        />
       )}
       <Link className='btn btn-light my-3' to='/'>
         Go Back
