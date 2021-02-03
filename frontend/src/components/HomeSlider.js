@@ -7,30 +7,6 @@ import Message from './Message'
 import { listRandomProducts } from '../actions/productActions'
 import { HashLink } from 'react-router-hash-link'
 
-/*
-import React from 'react'
-import { HashLink } from 'react-router-hash-link'
-import { Carousel, Button } from 'react-bootstrap'
-
-const sliderImages = [
-  {
-    title: 'painting',
-    subtitle: 'Fine Art Painting',
-    img: 'images/home-slider-painting.jpg',
-  },
-  {
-    title: 'installation',
-    subtitle: 'Modern Installation',
-    img: 'images/home-slider-installation.jpg',
-  },
-  {
-    title: 'photography',
-    subtitle: 'Black and White Photography',
-    img: 'images/home-slider-photography.jpg',
-  },
-]
-*/
-
 const HomeSlider = () => {
   const dispatch = useDispatch()
   const productRandom = useSelector((state) => state.productRandom)
