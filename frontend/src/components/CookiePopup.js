@@ -66,7 +66,7 @@ function CookiePopup(props) {
               Manage Settings
             </Accordion.Toggle>
             <Accordion.Collapse eventKey='1'>
-              <Form className='cookie-form'>
+              <Form className='cookie-form font-weight-normal'>
                 <Accordion>
                   {cookieTerms.map((term) => {
                     return (
@@ -89,7 +89,9 @@ function CookiePopup(props) {
                         <Accordion.Collapse eventKey={term.id}>
                           <Container>
                             <Row style={{ padding: 15 }}>
-                              <Col sm={10}>Allow {term.type}</Col>
+                              <Col className='font-weight-bold' sm={10}>
+                                Allow {term.type}
+                              </Col>
                               <Col sm={2}>
                                 <Form.Check type='switch' id={term.type} />
                               </Col>
