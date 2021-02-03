@@ -70,6 +70,9 @@ const ProductListScreen = ({ history, match }) => {
   }
 
   logPageView()
+  
+    history.push(`/admin/product/create`);
+  
 
   return (
     <>
