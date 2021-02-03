@@ -22,6 +22,8 @@ import Loader from "../components/Loader";
 import Meta from "../components/Meta";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+
 const ProductScreen = ({ history, match }) => {
   const [modalShow, setModalShow] = useState(false);
   const [reviewed, setReviewed] = useState(false);
@@ -83,7 +85,33 @@ const ProductScreen = ({ history, match }) => {
           <Meta title={product.name} />
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+              <TransformWrapper
+                defaultScale={1}
+                defaultPositionX={100}
+                defaultPositionY={100}
+              >
+                {({ zoomIn, zoomOut, ...rest }) => (
+                  <>
+                    <TransformComponent>
+                      <Image src={product.image} alt={product.name} fluid />
+                    </TransformComponent>
+                    <div className='text-center'>
+                      <button
+                        className='btn btn-online-primary mr-2'
+                        onClick={zoomIn}
+                      >
+                        <i className='fas fa-search-plus'></i>
+                      </button>
+                      <button
+                        className='btn btn-online-primary mr-2'
+                        onClick={zoomOut}
+                      >
+                        <i className=' fas fa-search-minus'></i>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </TransformWrapper>
             </Col>
             <Col md={3}>
               <ListGroup variant='flush'>

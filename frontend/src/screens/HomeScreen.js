@@ -10,9 +10,22 @@ import Meta from "../components/Meta";
 import CookiePopup from "../components/CookiePopup";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
+import Filtering from "../components/Filtering";
+import Sorting from "../components/Sorting";
+import { Route } from "react-router-dom";
+import HomeSlider from "../components/HomeSlider";
+import AboutGalileo from "../components/AboutGalileo";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
+  const [location, setLocation] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(Infinity);
+  const [color, setColor] = useState("");
+  const [sort, setSort] = useState("");
+  const dispatch = useDispatch();
+  //const sort = match.params.sort;
+  console.log(sort);
 
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
@@ -22,33 +35,69 @@ const HomeScreen = ({ match }) => {
 
   const pageNumber = match.params.pageNumber || 1;
 
-  const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
 
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
+    dispatch(
+      listProducts(
+        keyword,
+        pageNumber,
+        location,
+        minPrice,
+        maxPrice,
+        color,
+        sort
+      )
+    );
+  }, [
+    dispatch,
+    keyword,
+    pageNumber,
+    location,
+    minPrice,
+    maxPrice,
+    color,
+    sort,
+  ]);
 
-    dispatch(listProducts(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber, cookiePopup]);
   return (
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      {!keyword ? (
+      <HomeSlider />
+      <AboutGalileo />
+      {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
         <ProductCarousel />
       ) : (
         <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
       )}
-      <h1>Latest Products</h1>
+      <h1 id='latest-art'>Latest Art</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
+          <Row>
+            <Filtering
+              location={location}
+              setLocation={setLocation}
+              color={color}
+              setColor={setColor}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+            />
+          </Row>
+          <Row>
+            {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
+            <Sorting sort={sort} setSort={setSort} />
+          </Row>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
