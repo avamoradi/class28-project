@@ -44,12 +44,13 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  filter: brightness(50%);
 }
 
 .slider-title {
   margin-top: 10rem;
   font-family: 'PT Serif', serif;
-  color: black;
+  color: white;
   font-size: 2.2rem;
 }
 
