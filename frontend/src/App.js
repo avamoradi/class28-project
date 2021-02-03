@@ -26,6 +26,7 @@ import PhotographyScreen from "./screens/PhotographyScreen";
 import DrawingsScreen from "./screens/DrawingsScreen";
 import SculptureScreen from "./screens/SculptureScreen";
 import Subscribe from "./components/Subscribe";
+import UnSubscribe from "./components/UnSubscribe";
 
 import { logPageView } from "./analytic";
 import { initGA } from "./analytic";
@@ -48,6 +49,7 @@ function App() {
           <Route path="/register" component={RegisterScreen} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/sell" component={SellScreen} />
+          <Route path="/unsubscribe" component={UnSubscribe} />
 
           <Route path="/" component={HomeScreen} exact />
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
