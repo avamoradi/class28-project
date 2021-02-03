@@ -1,6 +1,15 @@
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Carousel, Button } from 'react-bootstrap'
+import Loader from './Loader'
+import Message from './Message'
+import { listRandomProducts } from '../actions/productActions'
+import { HashLink } from 'react-router-hash-link'
+
+/*
 import React from 'react'
 import { HashLink } from 'react-router-hash-link'
-import { Link } from 'react-router-dom'
 import { Carousel, Button } from 'react-bootstrap'
 
 const sliderImages = [
@@ -20,16 +29,29 @@ const sliderImages = [
     img: 'images/home-slider-photography.jpg',
   },
 ]
+*/
 
 const HomeSlider = () => {
-  return (
+  const dispatch = useDispatch()
+  const productRandom = useSelector((state) => state.productRandom)
+  const { loading, error, products } = productRandom
+
+  useEffect(() => {
+    dispatch(listRandomProducts())
+  }, [dispatch])
+
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant='danger'>{error}</Message>
+  ) : (
     <Carousel pause='hover'>
-      {sliderImages.map((image) => (
-        <Carousel.Item key={image.title}>
+      {products.map((product) => (
+        <Carousel.Item key={product._id}>
           <div
             className='home-slider-inner'
             style={{
-              backgroundImage: `url(${image.img})`,
+              backgroundImage: `url(${product.image})`,
             }}
           ></div>
           <Carousel.Caption className='carousel-caption'>

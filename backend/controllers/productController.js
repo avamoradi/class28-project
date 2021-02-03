@@ -65,7 +65,6 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
-
     createNotification(req.user._id, product.id, 'removed', product.name)
 
     await product.remove()
@@ -98,7 +97,6 @@ const createProduct = asyncHandler(async (req, res) => {
     'added new product',
     product.name
   )
-
 
   res.status(201).json(createdProduct)
 })
@@ -164,18 +162,15 @@ const createProductReview = asyncHandler(async (req, res) => {
       throw new Error('Please select one of the rating options')
     }
 
-
     product.reviews.push(review)
     product.numReviews = product.reviews.length
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
       product.reviews.length
 
-
     await product.save()
 
     createNotification(req.user._id, product.id, 'reviewed', product.name)
-
 
     res.status(201).json({ message: 'Review added' })
   } else {
@@ -190,6 +185,12 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+// Get random rated products: GET /api/products/random (public)
+const getRandomProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ category: '' }).limit(4)
+  res.json(products)
+})
+
 export {
   getProducts,
   getProductById,
@@ -198,4 +199,5 @@ export {
   updateProduct,
   createProductReview,
   getTopProducts,
+  getRandomProducts,
 }
