@@ -111,11 +111,7 @@ text-decoration: underline;
   filter: invert(1);
 }
 .modal-content {
-  color: rgb(2, 248, 203);
-  font-weight: bold;
   text-align: center;
-  align-items:stretch;
-  justify-content: center;
 }
 
 .cookie-form {

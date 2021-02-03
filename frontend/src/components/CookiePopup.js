@@ -96,7 +96,9 @@ function CookiePopup(props) {
                                 <Form.Check type='switch' id={term.type} />
                               </Col>
                             </Row>
-                            <Row style={{ padding: 5 }}>{term.explanation}</Row>
+                            <Row style={{ padding: 15 }}>
+                              {term.explanation}
+                            </Row>
                           </Container>
                         </Accordion.Collapse>
                       </Card>
