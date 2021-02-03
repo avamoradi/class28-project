@@ -1,74 +1,75 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Card,
-  Button,
-  Form,
-} from "react-bootstrap";
-
-import Rating from "../components/Rating";
-import ReviewsPopup from "../components/ReviewsPopup";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
+import { Route } from 'react-router-dom'
+import Rating from '../components/Rating'
+import ReviewsPopup from '../components/ReviewsPopup'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   listProductDetails,
   createProductReview,
-} from "../actions/productActions";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import Meta from "../components/Meta";
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
+} from '../actions/productActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import Meta from '../components/Meta'
+import ProductPending from '../components/ProductPending'
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import { logPageView, useGAEventTracker } from '../analytic'
 
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
 const ProductScreen = ({ history, match }) => {
-  const [modalShow, setModalShow] = useState(false);
-  const [reviewed, setReviewed] = useState(false);
-  const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const GAEventsTracker = useGAEventTracker('Button')
 
-  const dispatch = useDispatch();
+  const [qty, setQty] = useState(1)
+  const [rating, setRating] = useState(0)
+  const [comment, setComment] = useState('')
+  const [modalShow, setModalShow] = useState(false)
+  const [reviewed, setReviewed] = useState(false)
 
-  const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const dispatch = useDispatch()
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const productDetails = useSelector((state) => state.productDetails)
+  const { loading, error, product } = productDetails
 
-  const productReviewCreate = useSelector((state) => state.productReviewCreate);
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  const productReviewCreate = useSelector((state) => state.productReviewCreate)
   const {
     error: errorProductReview,
     success: successProductReview,
-  } = productReviewCreate;
+  } = productReviewCreate
 
   useEffect(() => {
     if (successProductReview) {
-      setRating(0);
-      setComment("");
-      setModalShow(true);
-      setReviewed(true);
-      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+      setRating(0)
+      setComment('')
+      setReviewed(true)
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
-    dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match, successProductReview, reviewed]);
+    dispatch(listProductDetails(match.params.id))
+  }, [dispatch, match, successProductReview, reviewed])
 
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`);
-  };
+    history.push(`/cart/${match.params.id}?qty=${qty}`)
+  }
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(createProductReview(match.params.id, { rating, comment }));
-  };
+    e.preventDefault()
+    dispatch(createProductReview(match.params.id, { rating, comment }))
+    GAEventsTracker('Clicked ADD TO CART button in product screen')
+  }
+
+  logPageView()
 
   return (
     <>
       {modalShow && (
-        <ReviewsPopup show={modalShow} onHide={() => setModalShow(false)} />
+        <ReviewsPopup
+          show={modalShow}
+          onHideReview={() => setModalShow(false)}
+        />
       )}
       <Link className='btn btn-light my-3' to='/'>
         Go Back
@@ -77,9 +78,24 @@ const ProductScreen = ({ history, match }) => {
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
+      ) : product.validation && product.validation.status !== 'validated' ? (
+        <Route
+          render={({ history }) => (
+            <ProductPending product={product} history={history} />
+          )}
+        />
       ) : (
         <>
           <Meta title={product.name} />
+          <Row>
+            <Col>
+              {product.validation && (
+                <p className='text-success font-weight-bold'>
+                  {product.validation.message}
+                </p>
+              )}
+            </Col>
+          </Row>
           <Row>
             <Col md={6}>
               <TransformWrapper
@@ -142,7 +158,7 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Status:</Col>
                       <Col>
-                        {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                        {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -156,7 +172,7 @@ const ProductScreen = ({ history, match }) => {
                             as='select'
                             value={qty}
                             onChange={(e) => {
-                              setQty(e.target.value);
+                              setQty(e.target.value)
                             }}
                           >
                             {[...Array(product.countInStock).keys()].map(
@@ -247,14 +263,14 @@ const ProductScreen = ({ history, match }) => {
                       Please <Link to='/login'>Sign In</Link> to write a review
                     </Message>
                   )}
-                </ListGroup.Item>{" "}
+                </ListGroup.Item>{' '}
               </ListGroup>
             </Col>
           </Row>
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default ProductScreen;
+export default ProductScreen

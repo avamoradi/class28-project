@@ -1,22 +1,28 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-
-
-const Sorting = ({sort, setSort}) => {
-    //const [sorts, setSort] =useState("");
-    const submitHandler = (e) => {
+const Sorting = ({  history, sorts, setSort }) => {
+    
+    const onChangeHandler = (e) => {
         e.preventDefault();
-    };
+        if (e.target.value) {
+            setSort(e.target.value);
+            history.push(`/sortBy/${e.target.value}`);
+        } else {
+            history.push("/");
+        } 
+    }; 
+    
     return (
         < >
-            <Form onSubmit={submitHandler} inline>
+            <Form  inline>
                         <Form.Control
+                        type="text"
                         as='select'
                         className='filter-select'
-                        value={sort}
+                        value={sorts}
                         checked
-                        onChange={(e) => setSort(e.target.value)}
+                        onChange={onChangeHandler}
                         >
                             <option value="">Sort by:</option>
                             <option value="HighestPrice">Highest Price</option>

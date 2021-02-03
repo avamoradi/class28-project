@@ -1,11 +1,39 @@
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
-import { createNotification } from './notificationController.js'
+import User from '../models/userModel.js'
+import Notification from '../models/notificationModel.js'
+import {
+  createNotification,
+  createValidateArtNotification,
+  notificationForUserCreateArt,
+} from './notificationController.js'
+
+// Check if users have 2 reviews or more to mark them as experts.
+const markUserAsExpert = async (userId) => {
+  const allProducts = await Product.find()
+
+  const user = await User.findById(userId)
+
+  const reviewsArray = allProducts
+    .map((product) => product.reviews)
+    .filter((review) => review.length > 0)
+
+  const allReviews = [].concat.apply([], reviewsArray)
+
+  const userReviews = allReviews.filter(
+    (review) => review.user.toString() === userId.toString()
+  )
+
+  if (userReviews.length > 2) {
+    user.isExpert = true
+    await user.save()
+  }
+}
 
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
-  const { location, minPrice, maxPrice, color, sort } = req.query
+  const { location, minPrice, maxPrice, style, sorts } = req.query
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false
 
   const sortItems = {
@@ -15,7 +43,9 @@ const getProducts = asyncHandler(async (req, res) => {
     Newest: { type: 'createdAt', order: -1 },
   }
 
-  const sortType = sort ? [[sortItems[sort].type, sortItems[sort].order]] : ''
+  const sortType = sorts
+    ? [[sortItems[sorts].type, sortItems[sorts].order]]
+    : ''
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ''
@@ -27,14 +57,15 @@ const getProducts = asyncHandler(async (req, res) => {
         }
       : {}
 
-  //    gte = greater than or equal
-  //    lte = lesser than or equal
-  //    lt = lesser than
-  //    gt = greater than
+  //  gte = greater than or equal
+  //  lte = lesser than or equal
+  //  lt = lesser than
+  //  gt = greater than
+  //  in = to match values
   const filterObj = {
     ...keyword,
-    ...(location && { location: location }),
-    ...(color && { color: color }),
+    ...(location && { country: { $in: location } }),
+    ...(style && { style: { $in: style } }),
     ...(price && {
       price: {
         $gte: price.minPrice,
@@ -43,8 +74,19 @@ const getProducts = asyncHandler(async (req, res) => {
     }),
   }
 
-  const count = await Product.countDocuments(filterObj)
-  const products = await Product.find(filterObj)
+  const count = await Product.countDocuments({
+    $and: [
+      filterObj,
+      { 'validation.status': { $nin: ['pending', 'rejected'] } },
+    ],
+  })
+  const products = await Product.find({
+    $and: [
+      filterObj,
+      { 'validation.status': { $nin: ['pending', 'rejected'] } },
+    ],
+  })
+
     .sort(sortType)
     .limit(pageSize)
     .skip(pageSize * (page - 1))
@@ -65,7 +107,6 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
-
     createNotification(req.user._id, product.id, 'removed', product.name)
 
     await product.remove()
@@ -78,27 +119,45 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // Create product: POST /api/products (private/Admin)
 const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
-    name: 'Sample name',
-    price: 0,
-    user: req.user._id,
-    image: '/images/sample.jpg',
-    brand: 'Sample brand',
-    category: 'Sample category',
-    countInStok: 0,
-    numReviews: 0,
+  const {
+    name,
+    price,
+    description,
+    image,
+    brand,
+    medium,
+    subject,
+    country,
+    category,
+    countInStock,
+  } = req.body
 
-    description: 'Sample description',
+  const product = new Product({
+    name,
+    price,
+    user: req.user._id,
+    image,
+    brand,
+    medium,
+    subject,
+    country,
+    category,
+    countInStock,
+    numReviews: 0,
+    description,
   })
   const createdProduct = await product.save()
-
-  createNotification(
+  notificationForUserCreateArt(
     req.user._id,
-    product.id,
-    'added new product',
-    product.name
+    req.user._id,
+    createdProduct._id,
+    `You added a new art, ${createdProduct.name}`
   )
-
+  createValidateArtNotification(
+    req.user._id,
+    createdProduct._id,
+    createdProduct.name
+  )
 
   res.status(201).json(createdProduct)
 })
@@ -164,18 +223,16 @@ const createProductReview = asyncHandler(async (req, res) => {
       throw new Error('Please select one of the rating options')
     }
 
-
     product.reviews.push(review)
     product.numReviews = product.reviews.length
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
       product.reviews.length
 
-
     await product.save()
-
     createNotification(req.user._id, product.id, 'reviewed', product.name)
 
+    markUserAsExpert(req.user._id)
 
     res.status(201).json({ message: 'Review added' })
   } else {
@@ -190,6 +247,58 @@ const getTopProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
+const verifyProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
+  const user = await User.findById(req.user._id)
+  const notification = await Notification.findById(req.body.notificationId)
+
+  if (product) {
+    product.validation.status = 'validated'
+    product.validation.message = `Art is verified by expert ${user.name}`
+    const verifiedProduct = await product.save()
+    await notification.remove()
+    notificationForUserCreateArt(
+      req.user._id,
+      product.user,
+      product._id,
+      `${user.name} validated your art, ${product.name}`
+    )
+    res.json(verifiedProduct)
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
+  }
+})
+
+const rejectProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
+  const user = await User.findById(req.user._id)
+  const notification = await Notification.findById(req.body.notificationId)
+
+  if (product) {
+    product.validation.status = 'rejected'
+    product.validation.message = req.body.message
+    const verifiedProduct = await product.save()
+    await notification.remove()
+    notificationForUserCreateArt(
+      req.user._id,
+      product.user,
+      product._id,
+      `${user.name} rejected your art, ${product.name}`
+    )
+    res.json(verifiedProduct)
+  } else {
+    res.status(404)
+    throw new Error('Product not found')
+  }
+})
+
+// Get random rated products: GET /api/products/random (public)
+const getRandomProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ category: '' }).limit(4)
+  res.json(products)
+})
+
 export {
   getProducts,
   getProductById,
@@ -198,4 +307,7 @@ export {
   updateProduct,
   createProductReview,
   getTopProducts,
+  getRandomProducts,
+  verifyProduct,
+  rejectProduct,
 }

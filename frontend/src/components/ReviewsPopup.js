@@ -15,7 +15,7 @@ function ReviewsPopup(props) {
         <p>Review submitted</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHideReview}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { register } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
+import { logPageView } from "../analytic";
 
 const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -36,6 +37,8 @@ const RegisterScreen = ({ location, history }) => {
       dispatch(register(name, email, password, subscription));
     }
   };
+
+  logPageView();
 
   return (
     <FormContainer>
