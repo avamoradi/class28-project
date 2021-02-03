@@ -56,11 +56,15 @@ function App() {
             exact
           />
 
+          <Route
+            path='/search/:keyword/page/:pageNumber'
+            component={HomeScreen}
+            exact
+          />
           <Route path='/paintings' component={PaintingScreen} />
           <Route path='/photography' component={PhotographyScreen} />
           <Route path='/drawings' component={DrawingsScreen} />
           <Route path='/sculpture' component={SculptureScreen} />
-
           <Route
             path='/search/:keyword/sortBy/:sorts/'
             component={HomeScreen}
@@ -82,7 +86,6 @@ function App() {
             component={HomeScreen}
             exact
           />
-
           <Route
             path='/page/:pageNumber/:location/:minPrice/:maxPrice/:color'
             component={HomeScreen}
