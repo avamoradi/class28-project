@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Navbar, Container } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import CookiePopup from "../components/CookiePopup";
@@ -21,10 +21,10 @@ const HomeScreen = ({ match, history }) => {
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [color, setColor] = useState("");
-  const [sort, setSort] = useState("");
+  const [style, setStyle] = useState("");
+  let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
-  //const sort = match.params.sort;
+  sorts = match.params.sorts;
 
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
@@ -46,8 +46,8 @@ const HomeScreen = ({ match, history }) => {
         location,
         minPrice,
         maxPrice,
-        color,
-        sort
+        style,
+        sorts
       )
     );
   }, [
@@ -57,8 +57,8 @@ const HomeScreen = ({ match, history }) => {
     location,
     minPrice,
     maxPrice,
-    color,
-    sort,
+    style,
+    sorts,
     cookiePopup,
   ]);
 
@@ -68,7 +68,7 @@ const HomeScreen = ({ match, history }) => {
       <Meta />
       <HomeSlider />
       <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
+      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts ? (
         <ProductCarousel />
       ) : (
         <Link to="/" className="btn btn-light">
@@ -82,21 +82,28 @@ const HomeScreen = ({ match, history }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Row>
+        <Navbar collapseOnSelect> 
+        <Container>         
             <Filtering
               location={location}
               setLocation={setLocation}
-              color={color}
-              setColor={setColor}
+              style={style}
+              setStyle={setStyle}
               minPrice={minPrice}
               setMinPrice={setMinPrice}
               maxPrice={maxPrice}
               setMaxPrice={setMaxPrice}
             />
-          </Row>
-          <Row>
-            <Sorting sort={sort} setSort={setSort} history={history} />
-          </Row>
+
+            <Route render={({ history }) => 
+              <Sorting 
+                history={history} 
+                sorts={sorts} 
+                setSort={setSort}/>
+            } />
+
+            </Container>
+          </Navbar>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
