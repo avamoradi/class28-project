@@ -31,6 +31,11 @@ h2 {
   color: #4bbf73;
 }
 
+/*secondary nav bar menu */
+.sec-nav-btn {
+  margin: 1rem;
+}
+
 /* HomeSlider */
 
 .home-slider-inner {
@@ -75,7 +80,6 @@ h2 {
 .carousel-caption h2 span {
   font-size: 1rem;
   color: gray;
-
 }
 
 .carousel-caption h2 {
@@ -89,7 +93,6 @@ h2 {
   color: rgb(2, 248, 203);
   font-weight: bold;
   text-align: center;
-
 }
 
 .carousel-caption h2 {
