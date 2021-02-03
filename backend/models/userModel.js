@@ -21,6 +21,11 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    newsletterSubscription: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     isExpert: {
       type: Boolean,
       required: true,
