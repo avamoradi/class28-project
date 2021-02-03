@@ -17,14 +17,14 @@ import AboutGalileo from '../components/AboutGalileo'
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
-  const [location, setLocation] = useState('')
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(Infinity)
-  const [color, setColor] = useState('')
-  const [sort, setSort] = useState('')
+
+  let [sorts, setSort] = useState('')
+  let [location, setLocation] = useState('')
+  let [minPrice, setMinPrice] = useState(0)
+  let [maxPrice, setMaxPrice] = useState(Infinity)
+  let [style, setStyle] = useState('')
+
   const dispatch = useDispatch()
-  //const sort = match.params.sort;
-  console.log(sort)
 
   const pageNumber = match.params.pageNumber || 1
 
@@ -39,18 +39,27 @@ const HomeScreen = ({ match }) => {
         location,
         minPrice,
         maxPrice,
-        color,
-        sort
+        style,
+        sorts
       )
     )
-  }, [dispatch, keyword, pageNumber, location, minPrice, maxPrice, color, sort])
+  }, [
+    dispatch,
+    keyword,
+    pageNumber,
+    location,
+    minPrice,
+    maxPrice,
+    style,
+    sorts,
+  ])
 
   return (
     <>
       <Meta />
       <HomeSlider />
       <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
+      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts ? (
         <ProductCarousel />
       ) : (
         <Link to='/' className='btn btn-light'>
@@ -64,22 +73,25 @@ const HomeScreen = ({ match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Row>
+          <>
             <Filtering
               location={location}
               setLocation={setLocation}
-              color={color}
-              setColor={setColor}
+              style={style}
+              setStyle={setStyle}
               minPrice={minPrice}
               setMinPrice={setMinPrice}
               maxPrice={maxPrice}
               setMaxPrice={setMaxPrice}
             />
-          </Row>
-          <Row>
-            {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
-            <Sorting sort={sort} setSort={setSort} />
-          </Row>
+          </>
+          <>
+            <Route
+              render={({ history }) => (
+                <Sorting history={history} sorts={sorts} setSort={setSort} />
+              )}
+            />
+          </>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
