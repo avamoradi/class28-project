@@ -2,6 +2,47 @@ import asyncHandler from "express-async-handler";
 import Notification from "../models/notificationModel.js";
 import User from "../models/userModel.js";
 
+export const notificationForUserCreateArt = async (
+  userId,
+  artOnwerId,
+  productId,
+  message
+) => {
+  const notification = new Notification({
+    user: userId,
+    product: productId,
+    message: `${message}`,
+    users: [{ userId: artOnwerId, isRead: false }],
+  });
+  await notification.save();
+};
+
+export const createValidateArtNotification = async (
+  userId,
+  productId,
+  productName
+) => {
+  const userCreatedNotification = await User.findById(userId);
+
+  const allUsers = await User.find({});
+
+  const notifiedUsers = allUsers
+    .filter((user) => user.isExpert && user._id.toString() !== userId.toString())
+    .map((user) => {
+      return { userId: user._id, isRead: false };
+    });
+
+  if (notifiedUsers.length > 0) {
+    const notification = new Notification({
+      user: userId,
+      product: productId,
+      message: `${userCreatedNotification.name} added ${productName}, please validate it`,
+      users: notifiedUsers,
+    });
+    await notification.save();
+  }
+};
+
 export const createNotification = async (
   userId,
   productId,
