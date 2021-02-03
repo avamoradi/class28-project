@@ -1,22 +1,12 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
-import { useGAEventTracker } from '../analytic'
-
-const SearchBox = ({ history }) => {
-  const GAEventsTracker = useGAEventTracker('Search for item')
-
-  const [keyword, setKeyword] = useState('')
-
-  const submitHandler = (e) => {
-    GAEventsTracker('Clicked on search bar')
-=======
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
+import { useGAEventTracker } from '../analytic'
 import axios from 'axios'
 import useDebounce from '../hooks/useDebounce'
 
 const SearchBox = ({ history }) => {
+  const GAEventsTracker = useGAEventTracker('Search for item')
+
   const [keyword, setKeyword] = useState('')
   const [searchResults, setSearchResults] = useState([])
 
@@ -41,7 +31,8 @@ const SearchBox = ({ history }) => {
   }, [debouncedKeyword])
 
   const submitHandler = (e) => {
->>>>>>> development
+    GAEventsTracker('Clicked on search bar')
+
     e.preventDefault()
     if (keyword.trim()) {
       history.push(`/search/${keyword}`)
@@ -56,13 +47,6 @@ const SearchBox = ({ history }) => {
         name='q'
         onChange={(e) => setKeyword(e.target.value)}
         placeholder='Search Products...'
-<<<<<<< HEAD
-        className='mr-sm-2 ml-sm-5'
-      ></Form.Control>
-      <Button type='submit' variant='outline-success' className='p-2'>
-        Search
-      </Button>
-=======
         className='ml-sm-5'
         autoComplete='off'
         value={keyword}
@@ -85,7 +69,6 @@ const SearchBox = ({ history }) => {
       )}
 
       <Button type='submit'>Search</Button>
->>>>>>> development
     </Form>
   )
 }
