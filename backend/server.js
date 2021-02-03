@@ -9,12 +9,23 @@ import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import notificationRoutes from './routes/notificationRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
-
+import cookieSession from "cookie-session";
+import passport from "passport";
+import passportSetup from "./config/passportSetup.js";
 dotenv.config()
 
 connectDB()
 
 const app = express()
+
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: ["cookieKey"],
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
