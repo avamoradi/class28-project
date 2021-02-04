@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Row, Col, Navbar, Container } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
-import CookiePopup from '../components/CookiePopup'
 import Loader from '../components/Loader'
-import Paginate from '../components/Paginate'
 import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
@@ -14,9 +12,6 @@ import { Route } from 'react-router-dom'
 import { login } from '../actions/userActions'
 
 const PaintingScreen = ({ match, history }) => {
-  //set category
-  const [category, setCategory] = useState('')
-
   const keyword = match.params.keyword
   const [location, setLocation] = useState('')
   const [minPrice, setMinPrice] = useState(0)
@@ -26,12 +21,6 @@ const PaintingScreen = ({ match, history }) => {
   const dispatch = useDispatch()
   sorts = match.params.sorts
 
-  const cookiesFromStorage = localStorage.getItem('isCookies')
-    ? JSON.parse(localStorage.getItem('isCookies'))
-    : true
-
-  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage)
-
   const pageNumber = match.params.pageNumber || 1
 
   const productList = useSelector((state) => state.productList)
@@ -39,7 +28,6 @@ const PaintingScreen = ({ match, history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
   useEffect(() => {
-    localStorage.setItem('isCookies', cookiePopup)
     dispatch(
       listProducts(
         keyword,
@@ -65,13 +53,11 @@ const PaintingScreen = ({ match, history }) => {
     maxPrice,
     style,
     sorts,
-    cookiePopup,
     userInfo,
   ])
 
   return (
     <>
-      {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
       {!keyword || !location || !minPrice || !maxPrice || !style || !sorts}
       <h1 className='h1-category'>Original Paintings For Sale</h1>
@@ -106,17 +92,16 @@ const PaintingScreen = ({ match, history }) => {
             </Container>
           </Navbar>
           <Row>
-            {products.map((product) => (
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <Product product={product} />
-              </Col>
-            ))}
+            {products.map((product) =>
+              product.category === 'Painting' ? (
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  <Product product={product} />
+                </Col>
+              ) : (
+                false
+              )
+            )}
           </Row>
-          <Paginate
-            pages={pages}
-            page={page}
-            keyword={keyword ? keyword : ''}
-          />
         </>
       )}
     </>

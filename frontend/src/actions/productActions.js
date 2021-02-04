@@ -34,7 +34,8 @@ export const listProducts = (
   minPrice = 0,
   maxPrice = Infinity,
   style = '',
-  sorts = ''
+  sorts = '',
+  category = ''
 ) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
