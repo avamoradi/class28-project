@@ -73,10 +73,12 @@ const HomeScreen = ({ match, history }) => {
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      <HomeSlider />
-      <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts ? (
-        <ProductCarousel />
+      {!keyword ? (
+        <>
+          <HomeSlider />
+          <AboutGalileo />
+          <ProductCarousel />
+        </>
       ) : (
         <Link to="/" className="btn btn-light">
           Go Back
@@ -89,26 +91,24 @@ const HomeScreen = ({ match, history }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-        <Navbar collapseOnSelect> 
-        <Container>         
-            <Filtering
-              location={location}
-              setLocation={setLocation}
-              style={style}
-              setStyle={setStyle}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-            />
+          <Navbar collapseOnSelect>
+            <Container>
+              <Filtering
+                location={location}
+                setLocation={setLocation}
+                style={style}
+                setStyle={setStyle}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+              />
 
-            <Route render={({ history }) => 
-              <Sorting 
-                history={history} 
-                sorts={sorts} 
-                setSort={setSort}/>
-            } />
-
+              <Route
+                render={({ history }) => (
+                  <Sorting history={history} sorts={sorts} setSort={setSort} />
+                )}
+              />
             </Container>
           </Navbar>
           <Row>
