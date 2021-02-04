@@ -57,6 +57,15 @@ const getProducts = asyncHandler(async (req, res) => {
         }
       : {}
 
+  const artCategory =
+    req.query.artCategory && req.query.artCategory.trim() !== ''
+      ? {
+          category: {
+            $regex: req.query.artCategory,
+          },
+        }
+      : {}
+
   //  gte = greater than or equal
   //  lte = lesser than or equal
   //  lt = lesser than

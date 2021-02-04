@@ -14,6 +14,9 @@ import { Route } from 'react-router-dom'
 import { login } from '../actions/userActions'
 
 const PaintingScreen = ({ match, history }) => {
+  //set category
+  const [category, setCategory] = useState('')
+
   const keyword = match.params.keyword
   const [location, setLocation] = useState('')
   const [minPrice, setMinPrice] = useState(0)
