@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Navbar, Container } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import CookiePopup from "../components/CookiePopup";
@@ -15,17 +15,16 @@ import Sorting from "../components/Sorting";
 import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
-
-const HomeScreen = ({ match }) => {
+import { login } from "../actions/userActions";
+const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [color, setColor] = useState("");
-  const [sort, setSort] = useState("");
+  const [style, setStyle] = useState("");
+  let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
-  //const sort = match.params.sort;
-  console.log(sort);
+  sorts = match.params.sorts;
 
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
@@ -37,7 +36,8 @@ const HomeScreen = ({ match }) => {
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
     dispatch(
@@ -47,10 +47,15 @@ const HomeScreen = ({ match }) => {
         location,
         minPrice,
         maxPrice,
-        color,
-        sort
+        style,
+        sorts
       )
     );
+    const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+    if (isOAuth) {
+      dispatch(login());
+      console.log(isOAuth);
+    }
   }, [
     dispatch,
     keyword,
@@ -58,19 +63,22 @@ const HomeScreen = ({ match }) => {
     location,
     minPrice,
     maxPrice,
-    color,
-    sort,
+    style,
+    sorts,
     cookiePopup,
+    userInfo,
   ]);
 
   return (
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      <HomeSlider />
-      <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
-        <ProductCarousel />
+      {!keyword ? (
+        <>
+          <HomeSlider />
+          <AboutGalileo />
+          <ProductCarousel />
+        </>
       ) : (
         <Link to='/' className='btn btn-light'>
           Go Back

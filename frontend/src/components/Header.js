@@ -7,7 +7,8 @@ import { logout } from "../actions/userActions";
 import { listNotification } from "../actions/notificationsActions";
 import SearchBox from "./SearchBox";
 import DropdownMenu from "./DropdownMenu";
-const Header = () => {
+
+const Header = ({ history }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -23,7 +24,8 @@ const Header = () => {
     .length;
 
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch(logout(userInfo));
+    history.push("/");
   };
 
   return (

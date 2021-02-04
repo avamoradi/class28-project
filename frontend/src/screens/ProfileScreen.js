@@ -15,6 +15,7 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState(null)
+  const [subscription, setSubscription] = useState(true)
 
   const dispatch = useDispatch()
 
@@ -41,6 +42,7 @@ const ProfileScreen = ({ location, history }) => {
       } else {
         setName(user.name)
         setEmail(user.email)
+        setSubscription(user.newsletterSubscription)
       }
     }
   }, [dispatch, history, userInfo, user, success])
@@ -50,7 +52,9 @@ const ProfileScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }))
+      dispatch(
+        updateUserProfile({ id: user._id, name, email, password, subscription })
+      )
     }
   }
 
@@ -83,23 +87,35 @@ const ProfileScreen = ({ location, history }) => {
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlId='password'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Enter password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-          <Form.Group controlId='confirmPassword'>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type='password'
-              placeholder='Confirm password'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></Form.Control>
+          {!userInfo.googleId && (
+            <Form.Group controlId='password'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                placeholder='Enter password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          )}
+          {!userInfo.googleId && (
+            <Form.Group controlId='confirmPassword'>
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type='password'
+                placeholder='Confirm password'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          )}
+          <Form.Group controlId='formBasicCheckbox'>
+            <Form.Check
+              type='checkbox'
+              checked={subscription}
+              onChange={(e) => setSubscription(e.target.checked)}
+              label='I agree to recieve a newsletter on my e-mail'
+            />
           </Form.Group>
 
           <Button type='submit' variant='primary'>

@@ -23,14 +23,14 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_UPDATE_LOGIN_SUCCESS,
 } from "../constants/userConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 import axios from "axios";
-import { CART_REMOVE_ITEM } from "../constants/cartConstants";
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 export const login = (email, password) => async (dispatch) => {
   try {
+    let info = {};
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
@@ -41,18 +41,24 @@ export const login = (email, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      "/api/users/login",
-      { email, password },
-      config
-    );
-
+    if (email && password) {
+      const { data } = await axios.post(
+        "/api/users/login",
+        { email, password },
+        config
+      );
+      info = { ...data };
+    } else {
+      const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+      if (isOAuth) window.localStorage.clear("isOAuth");
+      const { data } = await axios.get("/api/users/current_user");
+      info = { ...data };
+    }
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: data,
+      payload: info,
     });
-
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem("userInfo", JSON.stringify(info));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -64,17 +70,20 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
+export const logout = (userInfo) => async (dispatch) => {
+  if (userInfo.googleId) {
+    await axios.get("/api/users/logout");
+  }
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
-  dispatch({ type: CART_REMOVE_ITEM });
-  dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
 };
 
-export const register = (name, email, password) => async (dispatch) => {
+export const register = (name, email, password, subscription) => async (
+  dispatch
+) => {
   try {
     dispatch({
       type: USER_REGISTER_REQUEST,
@@ -88,7 +97,7 @@ export const register = (name, email, password) => async (dispatch) => {
 
     const { data } = await axios.post(
       "/api/users",
-      { name, email, password },
+      { name, email, password, subscription },
       config
     );
 
@@ -287,4 +296,28 @@ export const updateUser = (user) => async (dispatch, getState) => {
           : error.response,
     });
   }
+};
+
+export const updateUserLogin = () => async (dispatch, getState) => {
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/users/profile`, config);
+    data.token = userInfo.token;
+
+    dispatch({
+      type: USER_UPDATE_LOGIN_SUCCESS,
+      payload: data,
+    });
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {}
 };
