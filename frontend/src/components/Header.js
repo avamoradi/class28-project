@@ -38,11 +38,12 @@ const Header = ({ history }) => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />
-            <Nav className='ml-auto'>
+            <Nav className='ml-auto notification-cart-login-container'>
               {userInfo && (
                 <LinkContainer to='/notifications'>
                   <Nav.Link>
                     <i className='fas fa-bell'></i>
+                    <span className='nav-hide'>notifications</span>
                     {notificationsNum > 0 && (
                       <div className='notifications-num_container'>
                         <span className='notifications-num'>
@@ -57,6 +58,7 @@ const Header = ({ history }) => {
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <i className='fas fa-shopping-cart'></i>
+                  <span className='nav-hide'>cart</span>
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (

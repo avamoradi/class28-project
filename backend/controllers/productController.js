@@ -299,12 +299,6 @@ const getRandomProducts = asyncHandler(async (req, res) => {
   res.json(products);
 });
 
-// Get random rated products: GET /api/products/random (public)
-const getRandomProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ category: "" }).limit(4);
-  res.json(products);
-});
-
 export {
   getProducts,
   getProductById,

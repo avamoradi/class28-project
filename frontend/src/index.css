@@ -293,12 +293,42 @@ select .filter-select .form-control:hover{
 
 
 
+
+
 /* media for pictures items */
 
 @media (min-width: 992px) {
   .sec-nav-container i {
     display: none;
     }
+}
+
+
+
+@media (min-width: 575px) {
+  .nav-hide{
+    display: none;
+
+  }}
+
+@media (max-width: 574px) {
+  .galileo-src-btn{
+    width: 100%;
+
+  }
+
+  .galileo-src-form{
+    margin-top: 10px;
+
+  }
+
+  .notification-cart-login-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
 }
 
 @media (max-width: 767px) {

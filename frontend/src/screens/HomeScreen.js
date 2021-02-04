@@ -92,7 +92,7 @@ const HomeScreen = ({ match, history }) => {
       ) : (
         <>
           <Navbar collapseOnSelect>
-            <Container>
+            <Container className='d-flex justify-content-even'>
               <Filtering
                 location={location}
                 setLocation={setLocation}

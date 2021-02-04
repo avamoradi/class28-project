@@ -41,7 +41,7 @@ const SearchBox = ({ history }) => {
     }
   };
   return (
-    <Form onSubmit={submitHandler} inline className='relative'>
+    <Form onSubmit={submitHandler} inline className='galileo-src-form relative'>
       <Form.Control
         type='text'
         name='q'
@@ -68,8 +68,9 @@ const SearchBox = ({ history }) => {
         </div>
       )}
 
-      <Button type='submit'>
-        <i className='fas fa-search'></i>
+      <Button className='galileo-src-btn ' type='submit'>
+        <i className='fas fa-search'></i>{" "}
+        <span className='nav-hide'>search</span>
       </Button>
     </Form>
   );
