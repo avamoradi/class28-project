@@ -275,8 +275,10 @@ const unSubscribeUser = asyncHandler(async (req, res) => {
   try {
     await mailchimp.patch(`/lists/${listId}/members/${emailHash}`, {
       email_address: email,
+
       status: 'unsubscribed',
     })
+
     if (user && user.newsletterSubscription) {
       try {
         user.newsletterSubscription = false
