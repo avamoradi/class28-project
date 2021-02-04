@@ -130,8 +130,4 @@ const HomeScreen = ({ match, history }) => {
   )
 }
 
-<<<<<<< HEAD
 export default HomeScreen
-=======
-export default HomeScreen;
->>>>>>> development

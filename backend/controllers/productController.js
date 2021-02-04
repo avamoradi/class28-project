@@ -57,15 +57,6 @@ const getProducts = asyncHandler(async (req, res) => {
         }
       : {}
 
-  const artCategory =
-    req.query.artCategory && req.query.artCategory.trim() !== ''
-      ? {
-          category: {
-            $regex: req.query.artCategory,
-          },
-        }
-      : {}
-
   //  gte = greater than or equal
   //  lte = lesser than or equal
   //  lt = lesser than
@@ -304,7 +295,13 @@ const rejectProduct = asyncHandler(async (req, res) => {
 
 // Get random rated products: GET /api/products/random (public)
 const getRandomProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ category: '' }).limit(4)
+  const products = await Product.find({}).sort({ brand: '' }).limit(4)
+  res.json(products)
+})
+
+// Get random rated products: GET /api/products/all (public)
+const getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
   res.json(products)
 })
 
@@ -319,4 +316,5 @@ export {
   getRandomProducts,
   verifyProduct,
   rejectProduct,
+  getAllProducts,
 }

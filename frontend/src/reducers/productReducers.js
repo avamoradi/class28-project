@@ -27,6 +27,9 @@ import {
   PRODUCT_RANDOM_LIST_REQUEST,
   PRODUCT_RANDOM_LIST_SUCCESS,
   PRODUCT_RANDOM_LIST_FAIL,
+  PRODUCT_ALL_REQUEST,
+  PRODUCT_ALL_SUCCESS,
+  PRODUCT_ALL_FAIL,
 } from '../constants/productConstants'
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -147,6 +150,19 @@ export const productRandomReducer = (state = { products: [] }, action) => {
     case PRODUCT_RANDOM_LIST_SUCCESS:
       return { loading: false, products: action.payload }
     case PRODUCT_RANDOM_LIST_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const productAllReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_ALL_REQUEST:
+      return { loading: true, products: [] }
+    case PRODUCT_ALL_SUCCESS:
+      return { loading: false, products: action.payload }
+    case PRODUCT_ALL_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

@@ -3,13 +3,13 @@ import { Row, Col, Navbar, Container } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../actions/productActions'
 import Filtering from '../components/Filtering'
 import Sorting from '../components/Sorting'
 import { Route } from 'react-router-dom'
 import { login } from '../actions/userActions'
+import { listAllProducts } from '../actions/productActions'
+import { listProducts } from '../actions/productActions'
 
 const PaintingScreen = ({ match, history }) => {
   const keyword = match.params.keyword
@@ -22,6 +22,17 @@ const PaintingScreen = ({ match, history }) => {
   sorts = match.params.sorts
 
   const pageNumber = match.params.pageNumber || 1
+
+  const productAll = useSelector((state) => state.productAll)
+  const {
+    loading: loadingAll,
+    error: errorAll,
+    products: productsAll,
+  } = productAll
+
+  useEffect(() => {
+    dispatch(listAllProducts())
+  }, [dispatch])
 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
@@ -37,7 +48,8 @@ const PaintingScreen = ({ match, history }) => {
         maxPrice,
         style,
         sorts
-      )
+      ),
+      listProducts()
     )
     const isOAuth = JSON.parse(localStorage.getItem('isOAuth'))
     if (isOAuth) {
@@ -58,11 +70,10 @@ const PaintingScreen = ({ match, history }) => {
 
   return (
     <>
-      <Meta />
       {!keyword || !location || !minPrice || !maxPrice || !style || !sorts}
       <h1 className='h1-category'>Original Paintings For Sale</h1>
       <p className='p-category'>
-        Galileo has over 1,000,000 original paintings for sale from emerging
+        Galileo has over a thousand original paintings for sale from emerging
         artists around the world.
       </p>
       {loading ? (

@@ -24,6 +24,9 @@ import {
   PRODUCT_RANDOM_LIST_REQUEST,
   PRODUCT_RANDOM_LIST_SUCCESS,
   PRODUCT_RANDOM_LIST_FAIL,
+  PRODUCT_ALL_REQUEST,
+  PRODUCT_ALL_SUCCESS,
+  PRODUCT_ALL_FAIL,
 } from '../constants/productConstants'
 import axios from 'axios'
 
@@ -316,6 +319,22 @@ export const listRandomProducts = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_RANDOM_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
+
+export const listAllProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_ALL_REQUEST })
+    const { data } = await axios.get(`/api/products/all`)
+    dispatch({ type: PRODUCT_ALL_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_ALL_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -9,6 +9,7 @@ import {
   createProductReview,
   getTopProducts,
   getRandomProducts,
+  getAllProducts,
   verifyProduct,
   rejectProduct,
 } from '../controllers/productController.js'
@@ -20,6 +21,7 @@ router.route('/:id/verify').put(protect, verifyProduct)
 router.route('/:id/reject').put(protect, rejectProduct)
 router.get('/top', getTopProducts)
 router.get('/random', getRandomProducts)
+router.get('/all', getAllProducts)
 router
   .route('/:id')
   .get(getProductById)
