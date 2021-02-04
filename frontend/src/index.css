@@ -52,7 +52,7 @@ h2 {
 
 /*secondary nav bar menu */
 .sec-nav-btn {
-  margin: 1rem;
+  width: 100%;
 }
 
 /* HomeSlider */
@@ -113,15 +113,6 @@ h2 {
   text-align: center;
 }
 
-.galileo-icon{
-color: #fff;
-}
-
-
-
-i {
-  margin-right:5px;
-}
 .cookie-form {
   margin: 20px 10px 20px;
   text-align: justify;
@@ -275,6 +266,14 @@ select.filter-select.form-control {
 }
 
 /* media for pictures items */
+
+@media (max-width: 767px) {
+  .card-img-top {
+    aspect-ratio: 1/1;
+    height: 25.8rem;
+  }
+}
+
 @media (max-width: 767px) {
   .card-img-top {
     aspect-ratio: 1/1;
