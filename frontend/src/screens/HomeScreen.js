@@ -91,23 +91,26 @@ const HomeScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Row className='filter-sorting-container'>
-            <Col md={10} xl={10}>
+          <Navbar collapseOnSelect>
+            <Container>
               <Filtering
                 location={location}
                 setLocation={setLocation}
-                color={color}
-                setColor={setColor}
+                style={style}
+                setStyle={setStyle}
                 minPrice={minPrice}
                 setMinPrice={setMinPrice}
                 maxPrice={maxPrice}
                 setMaxPrice={setMaxPrice}
               />
-            </Col>
-            <Col md={2} xl={2}>
-              <Sorting sort={sort} setSort={setSort} />
-            </Col>
-          </Row>
+
+              <Route
+                render={({ history }) => (
+                  <Sorting history={history} sorts={sorts} setSort={setSort} />
+                )}
+              />
+            </Container>
+          </Navbar>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
