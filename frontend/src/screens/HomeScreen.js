@@ -15,7 +15,7 @@ import Sorting from "../components/Sorting";
 import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
-
+import { login } from "../actions/userActions";
 const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
   const [location, setLocation] = useState("");
@@ -36,7 +36,8 @@ const HomeScreen = ({ match, history }) => {
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
-
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
     dispatch(
@@ -50,6 +51,7 @@ const HomeScreen = ({ match, history }) => {
         sorts
       )
     );
+    if (!userInfo) dispatch(login());
   }, [
     dispatch,
     keyword,
@@ -60,6 +62,7 @@ const HomeScreen = ({ match, history }) => {
     style,
     sorts,
     cookiePopup,
+    userInfo,
   ]);
 
   return (

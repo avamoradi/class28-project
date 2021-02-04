@@ -41,19 +41,23 @@ export const login = (email, password) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-
-    const { data } = await axios.post(
-      "/api/users/login",
-      { email, password },
-      config
-    );
-
+    let info = {};
+    if (email && password) {
+      const { data } = await axios.post(
+        "/api/users/login",
+        { email, password },
+        config
+      );
+      info = data;
+    } else {
+      const { data } = await axios.get("/api/users/current_user");
+      info = data;
+    }
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: data,
+      payload: info,
     });
-
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem("userInfo", JSON.stringify(info));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -65,14 +69,15 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-export const logout = () => (dispatch) => {
+export const logout = (userInfo) => async (dispatch) => {
+  if (userInfo.googleId) {
+    await axios.get("/api/users/logout");
+  }
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
-  dispatch({ type: CART_REMOVE_ITEM });
-  dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
 };
 
 export const register = (name, email, password, subscription) => async (
