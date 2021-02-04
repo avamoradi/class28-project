@@ -1,69 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Image,
-  ListGroup,
-  Card,
-  Button,
-  Form,
-} from "react-bootstrap";
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
 
-import Rating from "../components/Rating";
-import ReviewsPopup from "../components/ReviewsPopup";
-import { useDispatch, useSelector } from "react-redux";
+import Rating from '../components/Rating'
+import ReviewsPopup from '../components/ReviewsPopup'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   listProductDetails,
   createProductReview,
-} from "../actions/productActions";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import Meta from "../components/Meta";
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
+} from '../actions/productActions'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import Meta from '../components/Meta'
+import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
 const ProductScreen = ({ history, match }) => {
-  const [modalShow, setModalShow] = useState(false);
-  const [reviewed, setReviewed] = useState(false);
-  const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const [modalShow, setModalShow] = useState(false)
+  const [reviewed, setReviewed] = useState(false)
+  const [qty, setQty] = useState(1)
+  const [rating, setRating] = useState(0)
+  const [comment, setComment] = useState('')
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const productDetails = useSelector((state) => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const productDetails = useSelector((state) => state.productDetails)
+  const { loading, error, product } = productDetails
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
 
-  const productReviewCreate = useSelector((state) => state.productReviewCreate);
+  const productReviewCreate = useSelector((state) => state.productReviewCreate)
   const {
     error: errorProductReview,
     success: successProductReview,
-  } = productReviewCreate;
+  } = productReviewCreate
 
   useEffect(() => {
     if (successProductReview) {
-      setRating(0);
-      setComment("");
-      setModalShow(true);
-      setReviewed(true);
-      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+      setRating(0)
+      setComment('')
+      setModalShow(true)
+      setReviewed(true)
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
-    dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match, successProductReview, reviewed]);
+    dispatch(listProductDetails(match.params.id))
+  }, [dispatch, match, successProductReview, reviewed])
 
   const addToCartHandler = () => {
-    history.push(`/cart/${match.params.id}?qty=${qty}`);
-  };
+    history.push(`/cart/${match.params.id}?qty=${qty}`)
+  }
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(createProductReview(match.params.id, { rating, comment }));
-  };
+    e.preventDefault()
+    dispatch(createProductReview(match.params.id, { rating, comment }))
+  }
 
   return (
     <>
@@ -81,7 +73,7 @@ const ProductScreen = ({ history, match }) => {
         <>
           <Meta title={product.name} />
           <Row>
-            <Col md={6}>
+            <Col md={6} className='mr-5'>
               <TransformWrapper
                 defaultScale={1}
                 defaultPositionX={100}
@@ -110,7 +102,7 @@ const ProductScreen = ({ history, match }) => {
                 )}
               </TransformWrapper>
             </Col>
-            <Col md={3}>
+            {/* <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
                   <h3>{product.name}</h3>
@@ -126,9 +118,9 @@ const ProductScreen = ({ history, match }) => {
                   Description: {product.description}
                 </ListGroup.Item>
               </ListGroup>
-            </Col>
-            <Col md={3}>
-              <Card>
+            </Col> */}
+            <Col md={4}>
+              <Card style={{ border: 'none' }}>
                 <ListGroup variant='flush'>
                   <ListGroup.Item>
                     <Row>
@@ -142,7 +134,7 @@ const ProductScreen = ({ history, match }) => {
                     <Row>
                       <Col>Status:</Col>
                       <Col>
-                        {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                        {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -156,7 +148,7 @@ const ProductScreen = ({ history, match }) => {
                             as='select'
                             value={qty}
                             onChange={(e) => {
-                              setQty(e.target.value);
+                              setQty(e.target.value)
                             }}
                           >
                             {[...Array(product.countInStock).keys()].map(
@@ -186,7 +178,35 @@ const ProductScreen = ({ history, match }) => {
               </Card>
             </Col>
           </Row>
+
           <Row>
+            <Col>
+              <h3>{product.name}</h3>
+            </Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>DESCRIPTION: {product.description}</Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>SUBJECT: {product.subject}</Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>MEDIUM: {product.medium}</Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>CATEGORY: {product.category}</Col>
+          </Row>
+
+          <Row className='mt-3'>
+            <Col>
+              <Rating
+                value={product.rating}
+                text={`${product.numReviews} reviews`}
+              />
+            </Col>
+          </Row>
+
+          <Row className='mt-3'>
             <Col md={6}>
               <h2>Reviews</h2>
               {product.reviews.length === 0 && (
@@ -247,14 +267,14 @@ const ProductScreen = ({ history, match }) => {
                       Please <Link to='/login'>Sign In</Link> to write a review
                     </Message>
                   )}
-                </ListGroup.Item>{" "}
+                </ListGroup.Item>{' '}
               </ListGroup>
             </Col>
           </Row>
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default ProductScreen;
+export default ProductScreen
