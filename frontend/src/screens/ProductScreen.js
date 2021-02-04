@@ -97,7 +97,7 @@ const ProductScreen = ({ history, match }) => {
             </Col>
           </Row>
           <Row>
-            <Col md={6}>
+            <Col md={6} className='mr-5'>
               <TransformWrapper
                 defaultScale={1}
                 defaultPositionX={100}
@@ -126,25 +126,9 @@ const ProductScreen = ({ history, match }) => {
                 )}
               </TransformWrapper>
             </Col>
-            <Col md={3}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-                <ListGroup.Item>
-                  Description: {product.description}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={3}>
-              <Card>
+
+            <Col md={4}>
+              <Card style={{ border: 'none' }}>
                 <ListGroup variant='flush'>
                   <ListGroup.Item>
                     <Row>
@@ -202,7 +186,35 @@ const ProductScreen = ({ history, match }) => {
               </Card>
             </Col>
           </Row>
+
           <Row>
+            <Col>
+              <h3>{product.name}</h3>
+            </Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>DESCRIPTION: {product.description}</Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>SUBJECT: {product.subject}</Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>MEDIUM: {product.medium}</Col>
+          </Row>
+          <Row className='mt-3'>
+            <Col>CATEGORY: {product.category}</Col>
+          </Row>
+
+          <Row className='mt-3'>
+            <Col>
+              <Rating
+                value={product.rating}
+                text={`${product.numReviews} reviews`}
+              />
+            </Col>
+          </Row>
+
+          <Row className='mt-3'>
             <Col md={6}>
               <h2>Reviews</h2>
               {product.reviews.length === 0 && (
