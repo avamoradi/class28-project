@@ -32,6 +32,7 @@ import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 export const login = (email, password) => async (dispatch) => {
   try {
+    let info = {};
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
@@ -41,17 +42,19 @@ export const login = (email, password) => async (dispatch) => {
         "Content-Type": "application/json",
       },
     };
-    let info = {};
+
     if (email && password) {
       const { data } = await axios.post(
         "/api/users/login",
         { email, password },
         config
       );
-      info = data;
+      info = { ...data };
     } else {
+      const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+      if (isOAuth) window.localStorage.clear("isOAuth");
       const { data } = await axios.get("/api/users/current_user");
-      info = { ...data, isOAuth: true };
+      info = { ...data };
     }
     dispatch({
       type: USER_LOGIN_SUCCESS,

@@ -51,9 +51,11 @@ const HomeScreen = ({ match, history }) => {
         sort
       )
     );
-    if (userInfo) {
-      if (userInfo.isOAuth) dispatch(login());
-    };
+    const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+    if (isOAuth) {
+      dispatch(login());
+      console.log(isOAuth);
+    }
   }, [
     dispatch,
     keyword,
