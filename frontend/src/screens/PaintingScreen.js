@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Navbar, Container } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
 import CookiePopup from '../components/CookiePopup'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
-import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
@@ -20,10 +18,10 @@ const PaintingScreen = ({ match, history }) => {
   const [location, setLocation] = useState('')
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(Infinity)
-  const [color, setColor] = useState('')
-  const [sort, setSort] = useState('')
+  const [style, setStyle] = useState('')
+  let [sorts, setSort] = useState('')
   const dispatch = useDispatch()
-  //const sort = match.params.sort;
+  sorts = match.params.sorts
 
   const cookiesFromStorage = localStorage.getItem('isCookies')
     ? JSON.parse(localStorage.getItem('isCookies'))
@@ -46,11 +44,15 @@ const PaintingScreen = ({ match, history }) => {
         location,
         minPrice,
         maxPrice,
-        color,
-        sort
+        style,
+        sorts
       )
     )
-    if (!userInfo) dispatch(login())
+    const isOAuth = JSON.parse(localStorage.getItem('isOAuth'))
+    if (isOAuth) {
+      dispatch(login())
+      console.log(isOAuth)
+    }
   }, [
     dispatch,
     keyword,
@@ -58,8 +60,8 @@ const PaintingScreen = ({ match, history }) => {
     location,
     minPrice,
     maxPrice,
-    color,
-    sort,
+    style,
+    sorts,
     cookiePopup,
     userInfo,
   ])
@@ -68,7 +70,7 @@ const PaintingScreen = ({ match, history }) => {
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sort}
+      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts}
       <h1 className='h1-category'>Original Paintings For Sale</h1>
       <p className='p-category'>
         Galileo has over 1,000,000 original paintings for sale from emerging
@@ -80,21 +82,26 @@ const PaintingScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Row>
-            <Filtering
-              location={location}
-              setLocation={setLocation}
-              color={color}
-              setColor={setColor}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-            />
-          </Row>
-          <Row>
-            <Sorting sort={sort} setSort={setSort} history={history} />
-          </Row>
+          <Navbar collapseOnSelect>
+            <Container>
+              <Filtering
+                location={location}
+                setLocation={setLocation}
+                style={style}
+                setStyle={setStyle}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+              />
+
+              <Route
+                render={({ history }) => (
+                  <Sorting history={history} sorts={sorts} setSort={setSort} />
+                )}
+              />
+            </Container>
+          </Navbar>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
