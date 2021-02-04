@@ -51,7 +51,9 @@ const HomeScreen = ({ match, history }) => {
         sort
       )
     );
-    if (!userInfo) dispatch(login());
+    if (userInfo) {
+      if (userInfo.isOAuth) dispatch(login());
+    };
   }, [
     dispatch,
     keyword,

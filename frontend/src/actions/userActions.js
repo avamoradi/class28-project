@@ -51,7 +51,7 @@ export const login = (email, password) => async (dispatch) => {
       info = data;
     } else {
       const { data } = await axios.get("/api/users/current_user");
-      info = data;
+      info = { ...data, isOAuth: true };
     }
     dispatch({
       type: USER_LOGIN_SUCCESS,
