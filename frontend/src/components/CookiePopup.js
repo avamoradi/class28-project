@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
 import {
   Modal,
   Button,
@@ -35,17 +33,17 @@ function CookiePopup(props) {
   ];
   return (
     <Modal
-      dialogClassName='modal-0w'
+      dialogClassName="modal-0w"
       {...props}
-      size='bg'
-      aria-labelledby='contained-modal-title-vcenter'
+      size="bg"
+      aria-labelledby="contained-modal-title-vcenter"
       centered
-      backdrop='static'
+      backdrop="static"
     >
       <Modal.Header>
         <h3>Manage Your Privacy</h3>
       </Modal.Header>
-      <Modal.Body className='cookie-form'>
+      <Modal.Body className="cookie-form">
         <p>
           When you use this site, you give us permission to access and use
           information about your device for the following purposes. By clicking
@@ -54,32 +52,32 @@ function CookiePopup(props) {
           the 'Cookie Policy' link at the bottom of your screen.
         </p>
       </Modal.Body>
-      <Modal.Footer className='cookie-footer'>
+      <Modal.Footer className="cookie-footer">
         <Container fluid>
-          <Accordion defaultActiveKey='0'>
+          <Accordion defaultActiveKey="0">
             <Accordion.Toggle
               as={Button}
-              variant='outline-secondary'
-              eventKey='1'
+              variant="outline-secondary"
+              eventKey="1"
               fluid
             >
               Manage Settings
             </Accordion.Toggle>
-            <Accordion.Collapse eventKey='1'>
-              <Form className='cookie-form font-weight-normal'>
+            <Accordion.Collapse eventKey="1">
+              <Form className="cookie-form font-weight-normal">
                 <Accordion>
                   {cookieTerms.map((term) => {
                     return (
                       <Card fluid>
                         <Card.Header
-                          className='toggle-btn d-flex justify-content-center'
+                          className="toggle-btn d-flex justify-content-center"
                           fluid
-                          variant='outline-secondary'
+                          variant="outline-secondary"
                         >
                           <Accordion.Toggle
                             as={Button}
                             eventKey={term.id}
-                            variant='outline-secondary'
+                            variant="outline-secondary"
                           >
                             <Form.Label style={{ marginRight: 22 }}>
                               {term.type}
@@ -89,11 +87,11 @@ function CookiePopup(props) {
                         <Accordion.Collapse eventKey={term.id}>
                           <Container>
                             <Row style={{ padding: 15 }}>
-                              <Col className='font-weight-bold' sm={10}>
+                              <Col className="font-weight-bold" sm={10}>
                                 Allow {term.type}
                               </Col>
                               <Col sm={2}>
-                                <Form.Check type='switch' id={term.type} />
+                                <Form.Check type="switch" id={term.type} />
                               </Col>
                             </Row>
                             <Row style={{ padding: 15 }}>
@@ -107,10 +105,10 @@ function CookiePopup(props) {
                   <Card>
                     <Button
                       fluid
-                      eventKey='1'
+                      eventKey="1"
                       onClick={() => props.onHide(false)}
-                      size='sm'
-                      variant='outline-info'
+                      size="sm"
+                      variant="outline-info"
                     >
                       Save and Exit
                     </Button>
@@ -121,7 +119,7 @@ function CookiePopup(props) {
           </Accordion>
         </Container>
         <Card fluid>
-          <Button fluid variant='primary' onClick={() => props.onHide(false)}>
+          <Button fluid variant="primary" onClick={() => props.onHide(false)}>
             Accept All
           </Button>
         </Card>

@@ -74,10 +74,12 @@ const HomeScreen = ({ match, history }) => {
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      <HomeSlider />
-      <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts ? (
-        <ProductCarousel />
+      {!keyword ? (
+        <>
+          <HomeSlider />
+          <AboutGalileo />
+          <ProductCarousel />
+        </>
       ) : (
         <Link to='/' className='btn btn-light'>
           Go Back
@@ -128,4 +130,8 @@ const HomeScreen = ({ match, history }) => {
   )
 }
 
+<<<<<<< HEAD
 export default HomeScreen
+=======
+export default HomeScreen;
+>>>>>>> development
