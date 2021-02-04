@@ -27,8 +27,6 @@ import {
 } from "../constants/userConstants";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 import axios from "axios";
-import { CART_REMOVE_ITEM } from "../constants/cartConstants";
-import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 
 export const login = (email, password) => async (dispatch) => {
   try {
