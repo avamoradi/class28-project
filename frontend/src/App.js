@@ -37,7 +37,7 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      <Route render={({ history }) => <Header history={history} />} />
       <main className="py-3">
         <Container>
           <Route path="/notifications" component={NotificationsScreen} />
