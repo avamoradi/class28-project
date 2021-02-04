@@ -83,21 +83,22 @@ const HomeScreen = ({ match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Row>
-            <Filtering
-              location={location}
-              setLocation={setLocation}
-              color={color}
-              setColor={setColor}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-            />
-          </Row>
-          <Row>
-            {/* <Route render={({ history }) => <Sorting history={history} />} /> */}
-            <Sorting sort={sort} setSort={setSort} />
+          <Row className='filter-sorting-container'>
+            <Col md={10} xl={10}>
+              <Filtering
+                location={location}
+                setLocation={setLocation}
+                color={color}
+                setColor={setColor}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+              />
+            </Col>
+            <Col md={2} xl={2}>
+              <Sorting sort={sort} setSort={setSort} />
+            </Col>
           </Row>
           <Row>
             {products.map((product) => (

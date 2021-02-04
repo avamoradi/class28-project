@@ -9,8 +9,6 @@ const DropdownMenu = () => {
       <Navbar expand='lg' collapseOnSelect>
         <Container className='sec-nav-container'>
           <Navbar.Toggle
-            fluid
-            as={Button}
             aria-controls='basic-navbar-nav'
             className='navbar-toggle'
           >
@@ -22,31 +20,32 @@ const DropdownMenu = () => {
           >
             <LinkContainer to='/paintings'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
+                <i className='fa fa-paint-brush' aria-hidden='true'></i>
                 Paintings
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/photography'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
-                Photography
+                <i className='fas fa-camera'></i>Photography
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/drawings'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
-                Drawings
+                <i className='fas fa-pencil-ruler'></i>Drawings
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/sculpture'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
-                Sculpture
+                <i className='fas fa-portrait'></i>Sculpture
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/sell'>
               <Button className='sec-nav-btn' variant='success' size='md'>
-                Sell Art
+                <i class='fas fa-hand-holding-usd'></i>Sell Art
               </Button>
             </LinkContainer>
           </Navbar.Collapse>
