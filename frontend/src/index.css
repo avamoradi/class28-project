@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif&display=swap");
 main {
   min-height: 80vh;
 }
@@ -18,18 +18,17 @@ h2 {
 }
 
 .cookie-terms {
-margin-top: 10px;
-text-align: left;
+  margin-top: 10px;
+  text-align: left;
 }
-
 
 .cookie-policy-footer {
   margin-left: 3px;
 }
 
 .cookie-policy-footer:hover {
-cursor: pointer;
-text-decoration: underline;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .rating span {
@@ -40,7 +39,6 @@ text-decoration: underline;
   aspect-ratio: 1/1;
   height: 15.8rem;
 }
-
 
 /* nav bar toggle */
 .navbar-toggle {
@@ -65,12 +63,13 @@ text-decoration: underline;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  filter: brightness(50%);
 }
 
 .slider-title {
   margin-top: 10rem;
-  font-family: 'PT Serif', serif;
-  color: #ffffff;
+  font-family: "PT Serif", serif;
+  color: white;
   font-size: 2.2rem;
 }
 
@@ -114,6 +113,15 @@ text-decoration: underline;
   text-align: center;
 }
 
+.galileo-icon{
+color: #fff;
+}
+
+
+
+i {
+  margin-right:5px;
+}
 .cookie-form {
   margin: 20px 10px 20px;
   text-align: justify;
@@ -124,15 +132,10 @@ text-decoration: underline;
   width: 100%;
 }
 
-
-
 .cookie-footer {
   flex-direction: column;
-  justify-content:stretch;
+  justify-content: stretch;
 }
-
-
-
 
 .carousel-caption h2 {
   color: black;
@@ -150,6 +153,24 @@ text-decoration: underline;
 
 .carousel a {
   margin: 0 auto;
+}
+
+.subscribe {
+  width: 40%;
+  min-width: 320px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subscribe h3 {
+  text-align: center;
+}
+
+.subscription-error {
+  width: 80%;
+  margin: 1rem auto;
 }
 
 /*notifications number*/
@@ -230,7 +251,7 @@ select.filter-select.form-control {
   font-weight: 600;
   text-decoration: underline;
   display: block;
-  padding: .6em 1.4em .5em .8em;
+  padding: 0.6em 1.4em 0.5em 0.8em;
   max-width: 100%;
   margin: 0;
   -moz-appearance: none;
@@ -239,8 +260,8 @@ select.filter-select.form-control {
   background-color: #fff;
   background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2355595c%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E);
   background-repeat: no-repeat, repeat;
-  background-position: right .7em top 50%, 0 0;
-  background-size: .65em auto, 100%;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
   cursor: pointer;
 }
 

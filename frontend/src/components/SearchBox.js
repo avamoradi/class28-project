@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import { Form, Button } from 'react-bootstrap'
-import { useGAEventTracker } from '../analytic'
-import axios from 'axios'
-import useDebounce from '../hooks/useDebounce'
+import React, { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useGAEventTracker } from "../analytic";
+import axios from "axios";
+import useDebounce from "../hooks/useDebounce";
 
 const SearchBox = ({ history }) => {
-  const GAEventsTracker = useGAEventTracker('Search for item')
+  const GAEventsTracker = useGAEventTracker("Search for item");
 
-  const [keyword, setKeyword] = useState('')
-  const [searchResults, setSearchResults] = useState([])
+  const [keyword, setKeyword] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
-  const debouncedKeyword = useDebounce(keyword, 300)
+  const debouncedKeyword = useDebounce(keyword, 300);
 
   useEffect(() => {
     const fetchSearchData = async () => {
       try {
-        if (debouncedKeyword.length > 0 && debouncedKeyword !== ' ') {
+        if (debouncedKeyword.length > 0 && debouncedKeyword !== " ") {
           const { data } = await axios.get(
             `/api/products?keyword=${debouncedKeyword}&pageNumber=1`
-          )
-          setSearchResults(data.products)
+          );
+          setSearchResults(data.products);
         } else {
-          setSearchResults([])
+          setSearchResults([]);
         }
       } catch (error) {
-        setSearchResults([])
+        setSearchResults([]);
       }
-    }
-    fetchSearchData()
-  }, [debouncedKeyword])
+    };
+    fetchSearchData();
+  }, [debouncedKeyword]);
 
   const submitHandler = (e) => {
-    GAEventsTracker('Clicked on search bar')
+    GAEventsTracker("Clicked on search bar");
 
-    e.preventDefault()
+    e.preventDefault();
     if (keyword.trim()) {
-      history.push(`/search/${keyword}`)
+      history.push(`/search/${keyword}`);
     } else {
-      history.push('/')
+      history.push("/");
     }
-  }
+  };
   return (
     <Form onSubmit={submitHandler} inline className='relative'>
       <Form.Control
@@ -68,9 +68,11 @@ const SearchBox = ({ history }) => {
         </div>
       )}
 
-      <Button type='submit'>Search</Button>
+      <Button type='submit'>
+        <i className='fas fa-search'></i>
+      </Button>
     </Form>
-  )
-}
+  );
+};
 
-export default SearchBox
+export default SearchBox;

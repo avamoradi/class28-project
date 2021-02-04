@@ -1,32 +1,31 @@
-import React, { useEffect } from 'react'
-import { MdNotifications } from 'react-icons/md'
-import { Route } from 'react-router-dom'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../actions/userActions'
-import { listNotification } from '../actions/notificationsActions'
-import SearchBox from './SearchBox'
-import DropdownMenu from './DropdownMenu'
+import React, { useEffect } from "react";
+import { MdNotifications } from "react-icons/md";
+import { Route } from "react-router-dom";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../actions/userActions";
+import { listNotification } from "../actions/notificationsActions";
+import SearchBox from "./SearchBox";
+import DropdownMenu from "./DropdownMenu";
 const Header = () => {
-  const dispatch = useDispatch()
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
-    dispatch(listNotification())
-  }, [dispatch, userLogin])
+    dispatch(listNotification());
+  }, [dispatch, userLogin]);
 
-  const notificationsList = useSelector((state) => state.notificationsList)
-  const { notifications } = notificationsList
+  const notificationsList = useSelector((state) => state.notificationsList);
+  const { notifications } = notificationsList;
 
   const notificationsNum = notifications.filter((x) => !x.users[0].isRead)
-    .length
-
+    .length;
 
   const logoutHandler = () => {
-    dispatch(logout())
-  }
+    dispatch(logout());
+  };
 
   return (
     <header>
@@ -39,11 +38,10 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />
             <Nav className='ml-auto'>
-
               {userInfo && (
                 <LinkContainer to='/notifications'>
-                  <Nav.Link className=' p-2 pb-3 position-relative'>
-                    <MdNotifications size={25} color='#9a9da0' />
+                  <Nav.Link>
+                    <i className='fas fa-bell'></i>
                     {notificationsNum > 0 && (
                       <div className='notifications-num_container'>
                         <span className='notifications-num'>
@@ -63,10 +61,12 @@ const Header = () => {
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
                   <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <i className='fas fa-user'></i>Profile
+                    </NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
+                    <i className='fas fa-sign-out-alt'></i>Logout
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
@@ -95,9 +95,8 @@ const Header = () => {
       </Navbar>
 
       <DropdownMenu />
-
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
