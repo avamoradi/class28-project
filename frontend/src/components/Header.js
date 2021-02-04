@@ -23,10 +23,9 @@ const Header = () => {
   const notificationsNum = notifications.filter((x) => !x.users[0].isRead)
     .length
 
-
   const logoutHandler = () => {
-    dispatch(logout())
-  }
+    dispatch(logout(userInfo));
+  };
 
   return (
     <header>
