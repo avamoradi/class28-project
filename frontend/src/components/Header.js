@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { MdNotifications } from "react-icons/md";
 import { Route } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
