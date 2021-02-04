@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { register } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
+import { logPageView } from "../analytic";
 
 const RegisterScreen = ({ location, history }) => {
   const [name, setName] = useState("");
@@ -13,6 +14,7 @@ const RegisterScreen = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [subscription, setSubscription] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -32,9 +34,11 @@ const RegisterScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(register(name, email, password));
+      dispatch(register(name, email, password, subscription));
     }
   };
+
+  logPageView();
 
   return (
     <FormContainer>
@@ -80,6 +84,14 @@ const RegisterScreen = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
 
+        <Form.Group controlId="formBasicCheckbox">
+          <Form.Check
+            type="checkbox"
+            checked={subscription}
+            onChange={(e) => setSubscription(e.target.checked)}
+            label="I agree to recieve a newsletter on my e-mail"
+          />
+        </Form.Group>
         <Button type="submit" variant="primary">
           Register
         </Button>

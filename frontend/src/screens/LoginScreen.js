@@ -1,34 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import { login } from "../actions/userActions";
-import FormContainer from "../components/FormContainer";
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { Form, Button, Row, Col } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { login } from '../actions/userActions'
+import FormContainer from '../components/FormContainer'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 const LoginScreen = ({ location, history }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const GAEventsTracker = useGAEventTracker('Button')
 
-  const dispatch = useDispatch();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const dispatch = useDispatch()
 
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  const userLogin = useSelector((state) => state.userLogin)
+  const { loading, error, userInfo } = userLogin
+
+  const redirect = location.search ? location.search.split('=')[1] : '/'
 
   useEffect(() => {
     if (userInfo) {
-      history.push(redirect);
+      history.push(redirect)
     }
-  }, [history, userInfo, redirect]);
+  }, [history, userInfo, redirect])
 
   const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(login(email, password));
-  };
+    e.preventDefault()
+    dispatch(login(email, password))
+    GAEventsTracker('Clicked the button in login screen')
+  }
 
+  logPageView()
+  const loginGoogle = () => {
+    window.open("http://localhost:5000/api/users/auth/google", "_self");
+  };
   return (
     <FormContainer>
       <h1>Sign In</h1>
@@ -66,8 +74,15 @@ const LoginScreen = ({ location, history }) => {
           </Link>
         </Col>
       </Row>
+      <Row className="py-3">
+        <Col>
+          <Button variant="success" onClick={() => loginGoogle()}>
+            Continue With Google
+          </Button>
+        </Col>
+      </Row>
     </FormContainer>
   );
-};
+}
 
-export default LoginScreen;
+export default LoginScreen

@@ -21,6 +21,21 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    newsletterSubscription: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    isExpert: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    googleId: {
+      type: String,
+      required: false,
+      unique: true,
+    },
   },
   { timestamps: true }
 );

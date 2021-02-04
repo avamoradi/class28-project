@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button, Form } from 'react-bootstrap'
-
+import { Route } from 'react-router-dom'
 import Rating from '../components/Rating'
 import ReviewsPopup from '../components/ReviewsPopup'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,16 +12,20 @@ import {
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
+import ProductPending from '../components/ProductPending'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import { logPageView, useGAEventTracker } from '../analytic'
 
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
 const ProductScreen = ({ history, match }) => {
-  const [modalShow, setModalShow] = useState(false)
-  const [reviewed, setReviewed] = useState(false)
+  const GAEventsTracker = useGAEventTracker('Button')
+
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
+  const [modalShow, setModalShow] = useState(false)
+  const [reviewed, setReviewed] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -41,7 +45,6 @@ const ProductScreen = ({ history, match }) => {
     if (successProductReview) {
       setRating(0)
       setComment('')
-      setModalShow(true)
       setReviewed(true)
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
@@ -55,12 +58,18 @@ const ProductScreen = ({ history, match }) => {
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(createProductReview(match.params.id, { rating, comment }))
+    GAEventsTracker('Clicked ADD TO CART button in product screen')
   }
+
+  logPageView()
 
   return (
     <>
       {modalShow && (
-        <ReviewsPopup show={modalShow} onHide={() => setModalShow(false)} />
+        <ReviewsPopup
+          show={modalShow}
+          onHideReview={() => setModalShow(false)}
+        />
       )}
       <Link className='btn btn-light my-3' to='/'>
         Go Back
@@ -69,9 +78,24 @@ const ProductScreen = ({ history, match }) => {
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
+      ) : product.validation && product.validation.status !== 'validated' ? (
+        <Route
+          render={({ history }) => (
+            <ProductPending product={product} history={history} />
+          )}
+        />
       ) : (
         <>
           <Meta title={product.name} />
+          <Row>
+            <Col>
+              {product.validation && (
+                <p className='text-success font-weight-bold'>
+                  {product.validation.message}
+                </p>
+              )}
+            </Col>
+          </Row>
           <Row>
             <Col md={6} className='mr-5'>
               <TransformWrapper
@@ -102,23 +126,7 @@ const ProductScreen = ({ history, match }) => {
                 )}
               </TransformWrapper>
             </Col>
-            {/* <Col md={3}>
-              <ListGroup variant='flush'>
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-                <ListGroup.Item>
-                  Description: {product.description}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col> */}
+
             <Col md={4}>
               <Card style={{ border: 'none' }}>
                 <ListGroup variant='flush'>
