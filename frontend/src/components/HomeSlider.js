@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Carousel, Button } from 'react-bootstrap'
 import Loader from './Loader'
@@ -21,7 +20,7 @@ const HomeSlider = () => {
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : (
-    <Carousel pause='hover' size='lg'>
+    <Carousel pause='hover' className='carousel-slider'>
       {products.map((product) => (
         <Carousel.Item key={product._id}>
           <div

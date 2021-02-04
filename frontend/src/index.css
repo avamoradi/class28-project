@@ -272,3 +272,9 @@ select.filter-select.form-control {
     height: 25.8rem;
   }
 }
+
+/* category screens */
+.h1-category,
+.p-category {
+  text-align: center;
+}
