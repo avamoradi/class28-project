@@ -7,6 +7,7 @@ import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
 import Filtering from '../components/Filtering'
+import PaintingFiltering from '../components/PaintingFiltering'
 import Sorting from '../components/Sorting'
 import { Route } from 'react-router-dom'
 import { login } from '../actions/userActions'
@@ -17,6 +18,8 @@ const PaintingScreen = ({ match, history }) => {
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(Infinity)
   const [style, setStyle] = useState('')
+  const [subject, setSubject] = useState('')
+  const [medium, setMedium] = useState('')
   let [sorts, setSort] = useState('')
   const dispatch = useDispatch()
   sorts = match.params.sorts
@@ -36,6 +39,8 @@ const PaintingScreen = ({ match, history }) => {
         minPrice,
         maxPrice,
         style,
+        subject,
+        medium,
         sorts
       )
     )
@@ -52,6 +57,8 @@ const PaintingScreen = ({ match, history }) => {
     minPrice,
     maxPrice,
     style,
+    subject,
+    medium,
     sorts,
     userInfo,
   ])
@@ -73,6 +80,12 @@ const PaintingScreen = ({ match, history }) => {
         <>
           <Navbar collapseOnSelect>
             <Container>
+              <PaintingFiltering
+                subject={setSubject}
+                setSubject={setSubject}
+                medium={setMedium}
+                setMedium={setMedium}
+              />
               <Filtering
                 location={location}
                 setLocation={setLocation}

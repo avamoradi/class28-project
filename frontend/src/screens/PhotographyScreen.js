@@ -7,6 +7,7 @@ import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../actions/productActions'
 import Filtering from '../components/Filtering'
+import PhotographyFiltering from '../components/PhotographyFiltering'
 import Sorting from '../components/Sorting'
 import { Route } from 'react-router-dom'
 import { login } from '../actions/userActions'
@@ -17,6 +18,8 @@ const PhotographyScreen = ({ match, history }) => {
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(Infinity)
   const [style, setStyle] = useState('')
+  const [subject, setSubject] = useState('')
+  const [medium, setMedium] = useState('')
   let [sorts, setSort] = useState('')
   const dispatch = useDispatch()
   sorts = match.params.sorts
@@ -36,6 +39,8 @@ const PhotographyScreen = ({ match, history }) => {
         minPrice,
         maxPrice,
         style,
+        subject,
+        medium,
         sorts
       )
     )
@@ -52,6 +57,8 @@ const PhotographyScreen = ({ match, history }) => {
     minPrice,
     maxPrice,
     style,
+    subject,
+    medium,
     sorts,
     userInfo,
   ])
@@ -59,10 +66,11 @@ const PhotographyScreen = ({ match, history }) => {
     <>
       <Meta />
       {!keyword}
-      <h1 className='category-h1'>Original Photography For Sale</h1>
+      <h1 className='category-h1'>Original Paintings For Sale</h1>
       <p className='category-p'>
-        With many limited edition and open edition prints to choose from,
-        Galileo offers high quality photography perfectly suited for your space.
+        Whether you are looking for an original painting or a high quality art
+        print, Galileo has many original paintings for sale from emerging
+        artists around the world.
       </p>
       {loading ? (
         <Loader />
@@ -72,6 +80,12 @@ const PhotographyScreen = ({ match, history }) => {
         <>
           <Navbar collapseOnSelect>
             <Container>
+              <PhotographyFiltering
+                subject={setSubject}
+                setSubject={setSubject}
+                medium={setMedium}
+                setMedium={setMedium}
+              />
               <Filtering
                 location={location}
                 setLocation={setLocation}

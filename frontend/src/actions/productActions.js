@@ -37,12 +37,14 @@ export const listProducts = (
   minPrice = 0,
   maxPrice = Infinity,
   style = '',
+  subject = '',
+  medium = '',
   sorts = ''
 ) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&style=${style}&sorts=${sorts}`
+      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&location=${location}&minPrice=${minPrice}&maxPrice=${maxPrice}&style=${style}&subject=${subject}&medium=${medium}&sorts=${sorts}`
     )
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data })
   } catch (error) {
