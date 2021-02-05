@@ -277,7 +277,6 @@ const unSubscribeUser = asyncHandler(async (req, res) => {
       email_address: email,
       status: "unsubscribed",
     });
-
     if (user && user.newsletterSubscription) {
       try {
         user.newsletterSubscription = false;

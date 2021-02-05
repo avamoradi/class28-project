@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Navbar, Container } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import CookiePopup from "../components/CookiePopup";
@@ -10,21 +10,19 @@ import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
-import Filtering from "../components/Filtering";
-import Sorting from "../components/Sorting";
-import { Route } from "react-router-dom";
+import FilteringSorting from "../components/FilteringSorting";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 import { login } from "../actions/userActions";
+
 const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
-  const [location, setLocation] = useState("");
+  let [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [color, setColor] = useState("");
-  const [sort, setSort] = useState("");
+  let [style, setStyle] = useState("");
+  let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
-  //const sort = match.params.sort;
 
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
@@ -47,11 +45,15 @@ const HomeScreen = ({ match, history }) => {
         location,
         minPrice,
         maxPrice,
-        color,
-        sort
+        style,
+        sorts
       )
     );
-    if (!userInfo) dispatch(login());
+    const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+    if (isOAuth) {
+      dispatch(login());
+      console.log(isOAuth);
+    }
   }, [
     dispatch,
     keyword,
@@ -59,8 +61,8 @@ const HomeScreen = ({ match, history }) => {
     location,
     minPrice,
     maxPrice,
-    color,
-    sort,
+    style,
+    sorts,
     cookiePopup,
     userInfo,
   ]);
@@ -69,10 +71,12 @@ const HomeScreen = ({ match, history }) => {
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      <HomeSlider />
-      <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !color || !sort ? (
-        <ProductCarousel />
+      {!keyword ?  (
+        <>
+          <HomeSlider />
+          <AboutGalileo />
+          <ProductCarousel />
+        </>
       ) : (
         <Link to="/" className="btn btn-light">
           Go Back
@@ -85,21 +89,24 @@ const HomeScreen = ({ match, history }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Row>
-            <Filtering
-              location={location}
-              setLocation={setLocation}
-              color={color}
-              setColor={setColor}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-            />
-          </Row>
-          <Row>
-            <Sorting sort={sort} setSort={setSort} history={history} />
-          </Row>
+          <Navbar collapseOnSelect>
+            <Container>
+              <FilteringSorting
+                location={location}
+                setLocation={setLocation}
+                style={style}
+                setStyle={setStyle}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+                sorts={sorts} 
+                setSort={setSort}
+              />
+            </Container>
+          </Navbar>
+          { !style || !location ?  ( 
+        <>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -111,7 +118,13 @@ const HomeScreen = ({ match, history }) => {
             pages={pages}
             page={page}
             keyword={keyword ? keyword : ""}
-          />
+          /> </> ) : (
+            <>
+            <Message>
+              We don't have such products! Please, choose another parameters.
+            </Message>
+              </>
+              ) }
         </>
       )}
     </>

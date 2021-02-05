@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const Filtering = ({
+const FilteringSorting = ({
     location, 
     setLocation, 
     style, 
@@ -9,13 +9,18 @@ const Filtering = ({
     minPrice, 
     setMinPrice, 
     maxPrice, 
-    setMaxPrice}) => {
+    setMaxPrice,
+    sorts, 
+    setSort}) => {
     
     const submitHandler = (e) => {
         e.preventDefault();
         
     };
-
+    const onChangeHandler = (e) => {
+        e.preventDefault();
+            setSort(e.target.value);
+    }; 
     return (
         <Form onSubmit={submitHandler} inline>
             <Form.Control
@@ -99,13 +104,23 @@ const Filtering = ({
                             <option value="Conceptual">Conceptual</option>
                             <option value="Folk">Folk</option>
                         </Form.Control>
-
-
-                        
-
+                        <Form.Control
+                        type="text"
+                        as='select'
+                        className='filter-select'
+                        value={sorts}
+                        checked
+                        onChange={onChangeHandler}
+                        >
+                            <option value="">Sort by:</option>
+                            <option value="HighestPrice">Highest Price</option>
+                            <option value="LowestPrice">Lowest Price</option>
+                            <option value="BestRating">Best Rating</option>
+                            <option value="Newest">Newest</option>
+                        </Form.Control>
         </Form>
         
     );
 };
 
-export default Filtering;
+export default FilteringSorting;
