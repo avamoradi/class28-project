@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Navbar, Container } from "react-bootstrap";
+import { Row, Col, Navbar, Nav } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import CookiePopup from "../components/CookiePopup";
@@ -36,7 +36,7 @@ const HomeScreen = ({ match, history }) => {
   const { loading, error, products, page, pages } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  
+
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
     dispatch(
@@ -50,7 +50,11 @@ const HomeScreen = ({ match, history }) => {
         sorts
       )
     );
-    if (!userInfo) dispatch(login());
+    const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+    if (isOAuth) {
+      dispatch(login());
+      console.log(isOAuth);
+    }
   }, [
     dispatch,
     keyword,
@@ -69,26 +73,32 @@ const HomeScreen = ({ match, history }) => {
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      <HomeSlider />
-      <AboutGalileo />
-      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts ? (
-        <ProductCarousel />
+      {!keyword ?  (
+        <>
+          <HomeSlider />
+          <AboutGalileo />
+          <ProductCarousel />
+        </>
       ) : (
-        <Link to="/" className="btn btn-light">
+        <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
       )}
-      <h1 id="latest-art">Latest Art</h1>
+      <h1 className='text-center' id='latest-art'>
+        Latest Art
+      </h1>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <>
-        <Navbar collapseOnSelect> 
-        <Container> 
-                
-            <Filtering
+        <Navbar
+            expand='md'
+            className='d-flex justify-content-even filter-sort-container'
+          >
+          <Nav lg={10} md={10} sm={10}>                
+          <Filtering
               location={location}
               setLocation={setLocation}
               style={style}
@@ -100,8 +110,7 @@ const HomeScreen = ({ match, history }) => {
               sorts={sorts} 
               setSort={setSort} 
             />
-
-            </Container>
+            </Nav>
           </Navbar>
           { !style || !location ?  ( 
         <>

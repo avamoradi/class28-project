@@ -13,8 +13,7 @@ const Sorting = ({  sorts, setSort }) => {
             <Form  inline>
                         <Form.Control
                         type="text"
-                        as='select'
-                        className='filter-select'
+                        as='select' 
                         value={sorts}
                         checked
                         onChange={onChangeHandler}

@@ -1,7 +1,6 @@
-import React from 'react'
-import { Navbar, Container, Button, NavDropdown } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
-import { DropdownSubmenu, NavDropdownMenu } from 'react-bootstrap-submenu'
+import React from "react";
+import { Navbar, Container, Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 const DropdownMenu = () => {
   return (
@@ -20,38 +19,39 @@ const DropdownMenu = () => {
           >
             <LinkContainer to='/paintings'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
+                <i className='fa fa-paint-brush' aria-hidden='true'></i>
                 Paintings
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/photography'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
-                Photography
+                <i className='fas fa-camera'></i>Photography
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/drawings'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
-                Drawings
+                <i className='fas fa-pencil-ruler'></i>Drawings
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/sculpture'>
               <Button className='sec-nav-btn' variant='secondary' size='md'>
-                Sculpture
+                <i className='fas fa-portrait'></i>Sculpture
               </Button>
             </LinkContainer>
 
             <LinkContainer to='/sell'>
               <Button className='sec-nav-btn' variant='success' size='md'>
-                Sell Art
+                <i className='fas fa-hand-holding-usd'></i>Sell Art
               </Button>
             </LinkContainer>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </>
-  )
-}
+  );
+};
 
-export default DropdownMenu
+export default DropdownMenu;

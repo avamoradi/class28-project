@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
 import {
   Modal,
   Button,
@@ -55,13 +53,12 @@ function CookiePopup(props) {
         </p>
       </Modal.Body>
       <Modal.Footer className='cookie-footer'>
-        <Container fluid>
+        <Container>
           <Accordion defaultActiveKey='0'>
             <Accordion.Toggle
               as={Button}
               variant='outline-secondary'
               eventKey='1'
-              fluid
             >
               Manage Settings
             </Accordion.Toggle>
@@ -70,10 +67,9 @@ function CookiePopup(props) {
                 <Accordion>
                   {cookieTerms.map((term) => {
                     return (
-                      <Card fluid>
+                      <Card key={term.id}>
                         <Card.Header
                           className='toggle-btn d-flex justify-content-center'
-                          fluid
                           variant='outline-secondary'
                         >
                           <Accordion.Toggle
@@ -106,7 +102,7 @@ function CookiePopup(props) {
                   })}
                   <Card>
                     <Button
-                      fluid
+                      fluid='true'
                       eventKey='1'
                       onClick={() => props.onHide(false)}
                       size='sm'
@@ -120,8 +116,8 @@ function CookiePopup(props) {
             </Accordion.Collapse>
           </Accordion>
         </Container>
-        <Card fluid>
-          <Button fluid variant='primary' onClick={() => props.onHide(false)}>
+        <Card>
+          <Button variant='primary' onClick={() => props.onHide(false)}>
             Accept All
           </Button>
         </Card>
