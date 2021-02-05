@@ -16,16 +16,22 @@ import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 import { login } from "../actions/userActions";
+
 const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
-  const [location, setLocation] = useState("");
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [style, setStyle] = useState("");
+  let [location, setLocation] = useState("");
+  let [minPrice, setMinPrice] = useState(0);
+  let [maxPrice, setMaxPrice] = useState(Infinity);
+  let [style, setStyle] = useState("");
   let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
   sorts = match.params.sorts;
+  //minPrice = match.params.minPrice;
+  //maxPrice = match.params.maxPrice;
+  // style = match.params.style;
+  location = match.params.location;
 
+  console.log(match.params.style)
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
     : true;
@@ -65,6 +71,7 @@ const HomeScreen = ({ match, history }) => {
     userInfo,
   ]);
 
+
   return (
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
@@ -86,8 +93,10 @@ const HomeScreen = ({ match, history }) => {
       ) : (
         <>
         <Navbar collapseOnSelect> 
-        <Container>         
+        <Container> 
+        <Route render={({ history }) =>         
             <Filtering
+              history={history}
               location={location}
               setLocation={setLocation}
               style={style}
@@ -96,13 +105,15 @@ const HomeScreen = ({ match, history }) => {
               setMinPrice={setMinPrice}
               maxPrice={maxPrice}
               setMaxPrice={setMaxPrice}
+              pageNumber={pageNumber}
             />
-
+          } />
             <Route render={({ history }) => 
               <Sorting 
                 history={history} 
                 sorts={sorts} 
-                setSort={setSort}/>
+                setSort={setSort} pageNumber={pageNumber}/>
+                
             } />
 
             </Container>

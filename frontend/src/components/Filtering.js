@@ -2,6 +2,7 @@ import React from "react";
 import { Form } from "react-bootstrap";
 
 const Filtering = ({
+    history,
     location, 
     setLocation, 
     style, 
@@ -9,12 +10,22 @@ const Filtering = ({
     minPrice, 
     setMinPrice, 
     maxPrice, 
-    setMaxPrice}) => {
+    setMaxPrice,
+    pageNumber}) => {
     
     const submitHandler = (e) => {
         e.preventDefault();
         
     };
+    const onChangeHandlerLocation = (e) => {
+        e.preventDefault();
+        if (e.target.value) {
+            setLocation(e.target.value);
+            history.push(`/filter/${e.target.value}`);
+        } else {
+            history.push("/");
+        } 
+    }; 
 
     return (
         <Form onSubmit={submitHandler} inline>
@@ -24,7 +35,7 @@ const Filtering = ({
                 title="Location" 
                 value={location}
                 checked
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={onChangeHandlerLocation}
             >
                 <option value="">Location</option>
                 <option value="China">China</option>

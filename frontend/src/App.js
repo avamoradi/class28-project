@@ -59,37 +59,32 @@ function App() {
             exact
           />
 
-          <Route
-            path="/search/:keyword/page/:pageNumber"
-            component={HomeScreen}
-            exact
-          />
           <Route path="/paintings" component={PaintingScreen} />
           <Route path="/photography" component={PhotographyScreen} />
           <Route path="/drawings" component={DrawingsScreen} />
           <Route path="/sculpture" component={SculptureScreen} />
-          <Route
-            path="/search/:keyword/sortBy/:sorts/"
-            component={HomeScreen}
-            exact
-          />
-          <Route
-            path="/sortBy/:sorts/:pageNumber"
-            component={HomeScreen}
-            exact
-          />
+          
+          {/* it works */}
           <Route path="/sortBy/:sorts" component={HomeScreen} exact />
           <Route
-            path="/page/:pageNumber?/sortBy/:sorts"
+            path="/page/:pageNumber/sortBy/:sorts"
+            component={HomeScreen}
+            exact
+          />
+          {/*  */}
+          <Route path="/page/:pageNumber/sortBy/:sorts/filter/:location" component={HomeScreen} exact />
+          <Route
+            path="/page/:pageNumber/filter/:location/sortBy/:sorts"
             component={HomeScreen}
             exact
           />
           <Route
-            path="/filter/:location/:style"
+            path="/filter/:location"
             component={HomeScreen}
             exact
           />
           
+
           <Route path="/search/:keyword" component={HomeScreen} exact />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
