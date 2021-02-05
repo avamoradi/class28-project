@@ -33,7 +33,15 @@ const markUserAsExpert = async (userId) => {
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
-  const { location, minPrice, maxPrice, style, sorts } = req.query
+  const {
+    location,
+    minPrice,
+    maxPrice,
+    style,
+    subject,
+    medium,
+    sorts,
+  } = req.query
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false
 
   const sortItems = {
@@ -66,6 +74,8 @@ const getProducts = asyncHandler(async (req, res) => {
     ...keyword,
     ...(location && { country: { $in: location } }),
     ...(style && { style: { $in: style } }),
+    ...(subject && { subject: { $in: subject } }),
+    ...(medium && { medium: { $in: medium } }),
     ...(price && {
       price: {
         $gte: price.minPrice,
@@ -302,8 +312,16 @@ const rejectProduct = asyncHandler(async (req, res) => {
 
 // Get random rated products: GET /api/products/random (public)
 const getRandomProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ category: '' }).limit(4)
+  const products = await Product.find({})
+    .sort({ country: '', category: '' })
+    .limit(4)
   res.json(products)
+})
+
+// Get random rated products: GET /api/products/all (public)
+const getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+  res.json({ products })
 })
 
 export {
@@ -317,4 +335,5 @@ export {
   getRandomProducts,
   verifyProduct,
   rejectProduct,
+  getAllProducts,
 }
