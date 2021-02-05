@@ -56,39 +56,42 @@ const Subscribe = () => {
   };
 
   return !user?.newsletterSubscription ? (
-    <div className="subscribe">
-      <h3>Subscribe to newsletter</h3>
+    <div className='subscribe'>
+      <h3>Subscribe to our newsletter</h3>
       {loading && <p>Loading...</p>}
       {message ? (
         <Message>{message}</Message>
       ) : (
-        <Form onSubmit={submitHandler}>
+        <Form
+          className='d-flex flex-column justify-content-center'
+          onSubmit={submitHandler}
+        >
           <Form.Control
-            type="email"
+            type='email'
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail..."
+            placeholder='E-mail...'
             value={email}
           ></Form.Control>
-          <Form.Group controlId="formBasicCheckbox">
+          <Form.Group controlId='formBasicCheckbox'>
             <Form.Check
-              type="checkbox"
+              type='checkbox'
               checked={subscription}
               onChange={(e) => setSubscription(e.target.checked)}
-              label="I agree to recieve a newsletter on my e-mail"
+              label='I agree to recieve a newsletter on my e-mail'
             />
           </Form.Group>
-          <Button type="submit" variant="outline-success" className="p-2">
+          <Button type='submit' variant='outline-success' className=' p-2'>
             Subscribe
           </Button>
         </Form>
       )}
 
-      <div className="subscription-error">
-        {error && <Message variant="danger">{error}</Message>}
+      <div className='subscription-error'>
+        {error && <Message variant='danger'>{error}</Message>}
       </div>
     </div>
   ) : (
-    <div className="text-center py-3">
+    <div className='text-center py-3'>
       <Link to={`/unsubscribe`}>Unsubscribe</Link>
     </div>
   );

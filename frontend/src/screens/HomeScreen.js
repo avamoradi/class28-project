@@ -1,46 +1,45 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Row, Col, Navbar, Container } from 'react-bootstrap'
-import Product from '../components/Product'
-import Message from '../components/Message'
-import CookiePopup from '../components/CookiePopup'
-import Loader from '../components/Loader'
-import Paginate from '../components/Paginate'
-import ProductCarousel from '../components/ProductCarousel'
-import Meta from '../components/Meta'
-import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../actions/productActions'
-import Filtering from '../components/Filtering'
-import Sorting from '../components/Sorting'
-import { Route } from 'react-router-dom'
-import HomeSlider from '../components/HomeSlider'
-import AboutGalileo from '../components/AboutGalileo'
-import { login } from '../actions/userActions'
-
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Row, Col, Navbar, Nav } from "react-bootstrap";
+import Product from "../components/Product";
+import Message from "../components/Message";
+import CookiePopup from "../components/CookiePopup";
+import Loader from "../components/Loader";
+import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
+import { useDispatch, useSelector } from "react-redux";
+import { listProducts } from "../actions/productActions";
+import Filtering from "../components/Filtering";
+import Sorting from "../components/Sorting";
+import { Route } from "react-router-dom";
+import HomeSlider from "../components/HomeSlider";
+import AboutGalileo from "../components/AboutGalileo";
+import { login } from "../actions/userActions";
 const HomeScreen = ({ match, history }) => {
-  const keyword = match.params.keyword
-  const [location, setLocation] = useState('')
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(Infinity)
-  const [style, setStyle] = useState('')
-  let [sorts, setSort] = useState('')
-  const dispatch = useDispatch()
-  sorts = match.params.sorts
+  const keyword = match.params.keyword;
+  const [location, setLocation] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(Infinity);
+  const [style, setStyle] = useState("");
+  let [sorts, setSort] = useState("");
+  const dispatch = useDispatch();
+  sorts = match.params.sorts;
 
-  const cookiesFromStorage = localStorage.getItem('isCookies')
-    ? JSON.parse(localStorage.getItem('isCookies'))
-    : true
+  const cookiesFromStorage = localStorage.getItem("isCookies")
+    ? JSON.parse(localStorage.getItem("isCookies"))
+    : true;
 
-  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage)
+  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage);
 
-  const pageNumber = match.params.pageNumber || 1
+  const pageNumber = match.params.pageNumber || 1;
 
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products, page, pages } = productList
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const productList = useSelector((state) => state.productList);
+  const { loading, error, products, page, pages } = productList;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
   useEffect(() => {
-    localStorage.setItem('isCookies', cookiePopup)
+    localStorage.setItem("isCookies", cookiePopup);
     dispatch(
       listProducts(
         keyword,
@@ -51,11 +50,11 @@ const HomeScreen = ({ match, history }) => {
         style,
         sorts
       )
-    )
-    const isOAuth = JSON.parse(localStorage.getItem('isOAuth'))
+    );
+    const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
     if (isOAuth) {
-      dispatch(login())
-      console.log(isOAuth)
+      dispatch(login());
+      console.log(isOAuth);
     }
   }, [
     dispatch,
@@ -68,7 +67,7 @@ const HomeScreen = ({ match, history }) => {
     sorts,
     cookiePopup,
     userInfo,
-  ])
+  ]);
 
   return (
     <>
@@ -85,15 +84,20 @@ const HomeScreen = ({ match, history }) => {
           Go Back
         </Link>
       )}
-      <h1 id='latest-art'>Latest Art</h1>
+      <h1 className='text-center' id='latest-art'>
+        Latest Art
+      </h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Navbar collapseOnSelect>
-            <Container>
+          <Navbar
+            expand='md'
+            className='d-flex justify-content-even filter-sort-container'
+          >
+            <Nav lg={10} md={10} sm={10}>
               <Filtering
                 location={location}
                 setLocation={setLocation}
@@ -104,13 +108,20 @@ const HomeScreen = ({ match, history }) => {
                 maxPrice={maxPrice}
                 setMaxPrice={setMaxPrice}
               />
+            </Nav>
 
+            <Nav lg={2} md={2} sm={12}>
               <Route
                 render={({ history }) => (
-                  <Sorting history={history} sorts={sorts} setSort={setSort} />
+                  <Sorting
+                    sm={12}
+                    history={history}
+                    sorts={sorts}
+                    setSort={setSort}
+                  />
                 )}
               />
-            </Container>
+            </Nav>
           </Navbar>
           <Row>
             {products.map((product) => (
@@ -122,12 +133,12 @@ const HomeScreen = ({ match, history }) => {
           <Paginate
             pages={pages}
             page={page}
-            keyword={keyword ? keyword : ''}
+            keyword={keyword ? keyword : ""}
           />
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default HomeScreen
+export default HomeScreen;
