@@ -1,7 +1,6 @@
 import React from "react";
-import { Navbar, Container, Button, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 
 const DropdownMenu = () => {
   return (
@@ -45,7 +44,7 @@ const DropdownMenu = () => {
 
             <LinkContainer to='/sell'>
               <Button className='sec-nav-btn' variant='success' size='md'>
-                <i class='fas fa-hand-holding-usd'></i>Sell Art
+                <i className='fas fa-hand-holding-usd'></i>Sell Art
               </Button>
             </LinkContainer>
           </Navbar.Collapse>

@@ -42,7 +42,7 @@ const ProductRejectInput = ({
         <Button
           type="submit"
           variant="danger"
-          disabled={feedback.trim() == "" ? true : false}
+          disabled={feedback.trim() === "" ? true : false}
           onClick={(e) => submitHandler(e)}
         >
           Reject Art

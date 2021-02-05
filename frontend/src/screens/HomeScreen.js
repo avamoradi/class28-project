@@ -11,20 +11,18 @@ import Meta from "../components/Meta";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
 import Filtering from "../components/Filtering";
-import Sorting from "../components/Sorting";
-import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 import { login } from "../actions/userActions";
+
 const HomeScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
-  const [location, setLocation] = useState("");
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(Infinity);
-  const [style, setStyle] = useState("");
+  let [location, setLocation] = useState("");
+  let [minPrice, setMinPrice] = useState(0);
+  let [maxPrice, setMaxPrice] = useState(Infinity);
+  let [style, setStyle] = useState("");
   let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
-  sorts = match.params.sorts;
 
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
@@ -38,6 +36,7 @@ const HomeScreen = ({ match, history }) => {
   const { loading, error, products, page, pages } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
     dispatch(
@@ -69,11 +68,12 @@ const HomeScreen = ({ match, history }) => {
     userInfo,
   ]);
 
+
   return (
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      {!keyword ? (
+      {!keyword ?  (
         <>
           <HomeSlider />
           <AboutGalileo />
@@ -93,36 +93,27 @@ const HomeScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Navbar
+        <Navbar
             expand='md'
             className='d-flex justify-content-even filter-sort-container'
           >
-            <Nav lg={10} md={10} sm={10}>
-              <Filtering
-                location={location}
-                setLocation={setLocation}
-                style={style}
-                setStyle={setStyle}
-                minPrice={minPrice}
-                setMinPrice={setMinPrice}
-                maxPrice={maxPrice}
-                setMaxPrice={setMaxPrice}
-              />
-            </Nav>
-
-            <Nav lg={2} md={2} sm={12}>
-              <Route
-                render={({ history }) => (
-                  <Sorting
-                    sm={12}
-                    history={history}
-                    sorts={sorts}
-                    setSort={setSort}
-                  />
-                )}
-              />
+          <Nav lg={10} md={10} sm={10}>                
+          <Filtering
+              location={location}
+              setLocation={setLocation}
+              style={style}
+              setStyle={setStyle}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              sorts={sorts} 
+              setSort={setSort} 
+            />
             </Nav>
           </Navbar>
+          { !style || !location ?  ( 
+        <>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -134,7 +125,13 @@ const HomeScreen = ({ match, history }) => {
             pages={pages}
             page={page}
             keyword={keyword ? keyword : ""}
-          />
+          /> </> ) : (
+            <>
+            <Message>
+              We don't have such products! Please, choose another parameters.
+            </Message>
+              </>
+              ) }
         </>
       )}
     </>

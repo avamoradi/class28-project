@@ -1,16 +1,11 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const Sorting = ({  history, sorts, setSort }) => {
+const Sorting = ({  sorts, setSort }) => {
     
     const onChangeHandler = (e) => {
         e.preventDefault();
-        if (e.target.value) {
-            setSort(e.target.value);
-            history.push(`/sortBy/${e.target.value}`);
-        } else {
-            history.push("/");
-        } 
+        setSort(e.target.value);
     }; 
     
     return (
@@ -18,8 +13,7 @@ const Sorting = ({  history, sorts, setSort }) => {
             <Form  inline>
                         <Form.Control
                         type="text"
-                        as='select'
-                        className='filter-select'
+                        as='select' 
                         value={sorts}
                         checked
                         onChange={onChangeHandler}

@@ -47,6 +47,7 @@ const getProducts = asyncHandler(async (req, res) => {
   const sortType = sorts
     ? [[sortItems[sorts].type, sortItems[sorts].order]]
     : "";
+    
 
   const keyword =
     req.query.keyword && req.query.keyword.trim() !== ""
@@ -57,7 +58,7 @@ const getProducts = asyncHandler(async (req, res) => {
           },
         }
       : {};
-
+      
   //  gte = greater than or equal
   //  lte = lesser than or equal
   //  lt = lesser than
@@ -87,7 +88,6 @@ const getProducts = asyncHandler(async (req, res) => {
       { "validation.status": { $nin: ["pending", "rejected"] } },
     ],
   })
-
     .sort(sortType)
     .limit(pageSize)
     .skip(pageSize * (page - 1));
