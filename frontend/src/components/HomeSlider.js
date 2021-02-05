@@ -20,7 +20,7 @@ const HomeSlider = () => {
   ) : error ? (
     <Message variant='danger'>{error}</Message>
   ) : (
-    <Carousel pause='hover'>
+    <Carousel pause='hover' className='carousel-slider'>
       {products.map((product) => (
         <Carousel.Item key={product._id}>
           <div

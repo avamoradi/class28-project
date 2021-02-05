@@ -24,20 +24,20 @@ const HomeScreen = ({ match, history }) => {
   let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
 
-  const cookiesFromStorage = localStorage.getItem("isCookies")
-    ? JSON.parse(localStorage.getItem("isCookies"))
-    : true;
+  const cookiesFromStorage = localStorage.getItem('isCookies')
+    ? JSON.parse(localStorage.getItem('isCookies'))
+    : true
 
-  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage);
+  const [cookiePopup, setCookiePopup] = useState(cookiesFromStorage)
 
-  const pageNumber = match.params.pageNumber || 1;
+  const pageNumber = match.params.pageNumber || 1
 
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products, page, pages } = productList;
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const productList = useSelector((state) => state.productList)
+  const { loading, error, products, page, pages } = productList
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
   useEffect(() => {
-    localStorage.setItem("isCookies", cookiePopup);
+    localStorage.setItem('isCookies', cookiePopup)
     dispatch(
       listProducts(
         keyword,
@@ -48,11 +48,11 @@ const HomeScreen = ({ match, history }) => {
         style,
         sorts
       )
-    );
-    const isOAuth = JSON.parse(localStorage.getItem("isOAuth"));
+    )
+    const isOAuth = JSON.parse(localStorage.getItem('isOAuth'))
     if (isOAuth) {
-      dispatch(login());
-      console.log(isOAuth);
+      dispatch(login())
+      console.log(isOAuth)
     }
   }, [
     dispatch,
@@ -65,7 +65,7 @@ const HomeScreen = ({ match, history }) => {
     sorts,
     cookiePopup,
     userInfo,
-  ]);
+  ])
 
   return (
     <>
@@ -78,15 +78,15 @@ const HomeScreen = ({ match, history }) => {
           <ProductCarousel />
         </>
       ) : (
-        <Link to="/" className="btn btn-light">
+        <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
       )}
-      <h1 id="latest-art">Latest Art</h1>
+      <h1 id='latest-art'>Latest Art</h1>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant="danger">{error}</Message>
+        <Message variant='danger'>{error}</Message>
       ) : (
         <>
           <Navbar collapseOnSelect>
@@ -128,7 +128,7 @@ const HomeScreen = ({ match, history }) => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default HomeScreen;
+export default HomeScreen

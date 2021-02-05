@@ -106,10 +106,10 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
-    if (product.validation.status === "validated") {
+    if (product.validation.status === 'validated') {
       createNotification(req.user._id, product.id, 'removed', product.name)
     } else {
-      null 
+      null
     }
 
     await product.remove()
@@ -267,7 +267,12 @@ const verifyProduct = asyncHandler(async (req, res) => {
       `${user.name} validated your art, ${product.name}`
     )
 
-    createNotification(product.user, product._id, 'added new art, ', product.name)
+    createNotification(
+      product.user,
+      product._id,
+      'added new art, ',
+      product.name
+    )
 
     res.json(verifiedProduct)
   } else {
@@ -301,8 +306,16 @@ const rejectProduct = asyncHandler(async (req, res) => {
 
 // Get random rated products: GET /api/products/random (public)
 const getRandomProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ category: '' }).limit(4)
+  const products = await Product.find({})
+    .sort({ country: '', category: '' })
+    .limit(4)
   res.json(products)
+})
+
+// Get random rated products: GET /api/products/all (public)
+const getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({})
+  res.json({ products })
 })
 
 export {
@@ -316,4 +329,5 @@ export {
   getRandomProducts,
   verifyProduct,
   rejectProduct,
+  getAllProducts,
 }
