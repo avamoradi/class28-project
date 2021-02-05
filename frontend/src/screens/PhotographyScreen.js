@@ -66,11 +66,10 @@ const PhotographyScreen = ({ match, history }) => {
     <>
       <Meta />
       {!keyword}
-      <h1 className='category-h1'>Original Paintings For Sale</h1>
+      <h1 className='category-h1'>Original Photography For Sale</h1>
       <p className='category-p'>
-        Whether you are looking for an original painting or a high quality art
-        print, Galileo has many original paintings for sale from emerging
-        artists around the world.
+        With many limited edition and open edition prints to choose from,
+        Galileo offers high quality photography perfectly suited for your space.
       </p>
       {loading ? (
         <Loader />

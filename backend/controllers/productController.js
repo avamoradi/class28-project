@@ -311,10 +311,10 @@ const getRandomProducts = asyncHandler(async (req, res) => {
   res.json(products)
 })
 
-// Get random rated products: GET /api/products/random (public)
+// Get random rated products: GET /api/products/all (public)
 const getAllProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({})
-  res.json(products)
+  res.json({ products })
 })
 
 export {
