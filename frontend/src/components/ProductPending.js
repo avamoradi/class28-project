@@ -5,6 +5,7 @@ import Message from "../components/Message";
 import Meta from "./Meta";
 import ProductRejectInput from "./ProductRejectInput";
 import { verifyProduct, deleteProduct } from "../actions/productActions";
+import { PRODUCT_DELETE_RESET} from "../constants/productConstants"
 
 const ProductPending = ({ product, history }) => {
   const [toggle, setToggle] = useState(false);
@@ -31,6 +32,7 @@ const ProductPending = ({ product, history }) => {
     if (!userInfo) {
       history.push("/login");
     }
+    dispatch({ type: PRODUCT_DELETE_RESET })
   }, [userInfo, history]);
 
   const deleteHandle = (id) => {
