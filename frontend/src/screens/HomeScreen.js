@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Navbar, Container } from "react-bootstrap";
+import { Row, Col, Navbar, Nav } from "react-bootstrap";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import CookiePopup from "../components/CookiePopup";
@@ -84,32 +84,51 @@ const HomeScreen = ({ match, history }) => {
           Go Back
         </Link>
       )}
-      <h1 id='latest-art'>Latest Art</h1>
+      <h1 className='text-center' id='latest-art'>
+        Latest Art
+      </h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Navbar collapseOnSelect>
-            <Container className='d-flex justify-content-even'>
-              <Filtering
-                location={location}
-                setLocation={setLocation}
-                style={style}
-                setStyle={setStyle}
-                minPrice={minPrice}
-                setMinPrice={setMinPrice}
-                maxPrice={maxPrice}
-                setMaxPrice={setMaxPrice}
-              />
+          <Navbar expand='md' collapseOnSelect>
+            <Navbar.Toggle
+              aria-controls='basic-navbar-nav'
+              className='navbar-toggle'
+            >
+              <i className='fas fa-chevron-down'></i>
+            </Navbar.Toggle>
+            <Navbar.Collapse
+              id='basic-navbar-nav'
+              className='d-flex justify-content-even'
+            >
+              <Nav lg={10} md={10} sm={10}>
+                <Filtering
+                  location={location}
+                  setLocation={setLocation}
+                  style={style}
+                  setStyle={setStyle}
+                  minPrice={minPrice}
+                  setMinPrice={setMinPrice}
+                  maxPrice={maxPrice}
+                  setMaxPrice={setMaxPrice}
+                />
+              </Nav>
 
-              <Route
-                render={({ history }) => (
-                  <Sorting history={history} sorts={sorts} setSort={setSort} />
-                )}
-              />
-            </Container>
+              <Nav lg={2} md={2} sm={2}>
+                <Route
+                  render={({ history }) => (
+                    <Sorting
+                      history={history}
+                      sorts={sorts}
+                      setSort={setSort}
+                    />
+                  )}
+                />
+              </Nav>
+            </Navbar.Collapse>
           </Navbar>
           <Row>
             {products.map((product) => (

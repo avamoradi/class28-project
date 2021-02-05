@@ -98,6 +98,7 @@ font-size: 22px;
 /* carousel */
 .carousel {
   margin-top: 1vh;
+  margin-bottom: 8vh;
 }
 .carousel-item-next,
 .carousel-item-prev,
@@ -163,6 +164,7 @@ font-size: 22px;
   width: 40%;
   min-width: 320px;
   margin: auto;
+  margin-top: 6vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -249,7 +251,6 @@ select.filter-select.form-control {
   border: 0px solid #ffffff;
   border-radius: 0;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  margin-right: 1.4rem;
   font-size: 0.765625rem;
   text-transform: uppercase;
   font-weight: 600;  
@@ -281,14 +282,12 @@ select .filter-select .form-control:hover{
   color: #000000;
 }
 
-
-/* filter-sorting-container */
-
-.filter-sorting-container option {
-  list-style: none;
-  text-decoration: none;
-  background-color: #d0dcd4;
+select option:checked,
+select option:hover {
+    box-shadow: 0 0 10px 100px #4bbf73 inset;
 }
+
+
 
 
 
@@ -315,6 +314,10 @@ select .filter-select .form-control:hover{
   .galileo-src-btn{
     width: 100%;
 
+  }
+
+  .filter-col:hover {
+    background-color: #4bbf73;
   }
 
   .galileo-src-form{
