@@ -5,7 +5,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
-import { listAllProducts } from '../actions/productActions'
+import { listProducts } from '../actions/productActions'
 import Filtering from '../components/Filtering'
 import Sorting from '../components/Sorting'
 import { Route } from 'react-router-dom'
@@ -13,8 +13,6 @@ import { login } from '../actions/userActions'
 
 const PhotographyScreen = ({ match, history }) => {
   const keyword = match.params.keyword
-  const [subject, setSubject] = useState('')
-  const [medium, setMedium] = useState('')
   const [location, setLocation] = useState('')
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(Infinity)
@@ -23,17 +21,17 @@ const PhotographyScreen = ({ match, history }) => {
   const dispatch = useDispatch()
   sorts = match.params.sorts
 
-  const productAll = useSelector((state) => state.productAll)
-  const { loading, error, products } = productAll
+  const pageNumber = match.params.pageNumber || 1
+
+  const productList = useSelector((state) => state.productList)
+  const { loading, error, products, page, pages } = productList
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
-  console.log(products)
   useEffect(() => {
     dispatch(
-      listAllProducts(
+      listProducts(
         keyword,
-        subject,
-        medium,
+        pageNumber,
         location,
         minPrice,
         maxPrice,
@@ -49,8 +47,7 @@ const PhotographyScreen = ({ match, history }) => {
   }, [
     dispatch,
     keyword,
-    subject,
-    medium,
+    pageNumber,
     location,
     minPrice,
     maxPrice,
@@ -58,12 +55,15 @@ const PhotographyScreen = ({ match, history }) => {
     sorts,
     userInfo,
   ])
-
   return (
     <>
       <Meta />
       {!keyword}
-      <h1 id='latest-art'>Latest Art</h1>
+      <h1 className='category-h1'>Original Photography For Sale</h1>
+      <p className='category-p'>
+        With many limited edition and open edition prints to choose from,
+        Galileo offers high quality photography perfectly suited for your space.
+      </p>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -73,8 +73,6 @@ const PhotographyScreen = ({ match, history }) => {
           <Navbar collapseOnSelect>
             <Container>
               <Filtering
-                subject={subject}
-                medium={medium}
                 location={location}
                 setLocation={setLocation}
                 style={style}
