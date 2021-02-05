@@ -93,42 +93,35 @@ const HomeScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Navbar expand='md' collapseOnSelect>
-            <Navbar.Toggle
-              aria-controls='basic-navbar-nav'
-              className='navbar-toggle'
-            >
-              <i className='fas fa-chevron-down'></i>
-            </Navbar.Toggle>
-            <Navbar.Collapse
-              id='basic-navbar-nav'
-              className='d-flex justify-content-even'
-            >
-              <Nav lg={10} md={10} sm={10}>
-                <Filtering
-                  location={location}
-                  setLocation={setLocation}
-                  style={style}
-                  setStyle={setStyle}
-                  minPrice={minPrice}
-                  setMinPrice={setMinPrice}
-                  maxPrice={maxPrice}
-                  setMaxPrice={setMaxPrice}
-                />
-              </Nav>
+          <Navbar
+            expand='md'
+            className='d-flex justify-content-even filter-sort-container'
+          >
+            <Nav lg={10} md={10} sm={10}>
+              <Filtering
+                location={location}
+                setLocation={setLocation}
+                style={style}
+                setStyle={setStyle}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+              />
+            </Nav>
 
-              <Nav lg={2} md={2} sm={2}>
-                <Route
-                  render={({ history }) => (
-                    <Sorting
-                      history={history}
-                      sorts={sorts}
-                      setSort={setSort}
-                    />
-                  )}
-                />
-              </Nav>
-            </Navbar.Collapse>
+            <Nav lg={2} md={2} sm={12}>
+              <Route
+                render={({ history }) => (
+                  <Sorting
+                    sm={12}
+                    history={history}
+                    sorts={sorts}
+                    setSort={setSort}
+                  />
+                )}
+              />
+            </Nav>
           </Navbar>
           <Row>
             {products.map((product) => (

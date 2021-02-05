@@ -52,15 +52,20 @@ h2 {
 
 }
 .sec-nav-container i {
-margin: 12px;
-font-size: 22px;
+margin: 10px;
+font-size: 16px;
 }
 
 
 
 .navbar-toggle i {
+
   text-align: center;
   color: #4bbf73;
+} 
+
+i {
+  margin-right: 5px;
 }
 
 /*secondary nav bar menu */
@@ -300,6 +305,7 @@ select option:hover {
   .sec-nav-container i {
     display: none;
     }
+    
 }
 
 
@@ -325,14 +331,24 @@ select option:hover {
 
   }
 
-  .notification-cart-login-container{
+  .notification-cart-login-container, .filter-sort-container{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
 
+
 }
+
+@media (max-width: 574px) {
+  .nav-item {
+    margin-right: 0;
+  }
+
+
+}
+
 
 @media (max-width: 767px) {
   .card-img-top {
