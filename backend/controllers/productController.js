@@ -33,15 +33,7 @@ const markUserAsExpert = async (userId) => {
 const getProducts = asyncHandler(async (req, res) => {
   const pageSize = 10
   const page = Number(req.query.pageNumber) || 1
-  const {
-    location,
-    minPrice,
-    maxPrice,
-    style,
-    subject,
-    medium,
-    sorts,
-  } = req.query
+  const { location, minPrice, maxPrice, style, sorts } = req.query
   const price = minPrice && maxPrice ? { minPrice, maxPrice } : false
 
   const sortItems = {
@@ -74,8 +66,6 @@ const getProducts = asyncHandler(async (req, res) => {
     ...keyword,
     ...(location && { country: { $in: location } }),
     ...(style && { style: { $in: style } }),
-    ...(subject && { subject: { $in: subject } }),
-    ...(medium && { medium: { $in: medium } }),
     ...(price && {
       price: {
         $gte: price.minPrice,
@@ -117,10 +107,10 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
-    if (product.validation.status === "validated") {
+    if (product.validation.status === 'validated') {
       createNotification(req.user._id, product.id, 'removed', product.name)
     } else {
-      null 
+      null
     }
 
     await product.remove()
@@ -278,7 +268,12 @@ const verifyProduct = asyncHandler(async (req, res) => {
       `${user.name} validated your art, ${product.name}`
     )
 
-    createNotification(product.user, product._id, 'added new art, ', product.name)
+    createNotification(
+      product.user,
+      product._id,
+      'added new art, ',
+      product.name
+    )
 
     res.json(verifiedProduct)
   } else {
