@@ -1,71 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { Row, Col, Navbar, Container } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../actions/productActions'
-import Filtering from '../components/Filtering'
-import PaintingFiltering from '../components/PaintingFiltering'
-import Sorting from '../components/Sorting'
-import { Route } from 'react-router-dom'
-import { login } from '../actions/userActions'
+import { listAllProducts } from '../actions/productActions'
 
-const PaintingScreen = ({ match, history }) => {
-  const keyword = match.params.keyword
-  const [location, setLocation] = useState('')
-  const [minPrice, setMinPrice] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(Infinity)
-  const [style, setStyle] = useState('')
-  const [subject, setSubject] = useState('')
-  const [medium, setMedium] = useState('')
-  let [sorts, setSort] = useState('')
+const PaintingScreen = () => {
   const dispatch = useDispatch()
-  sorts = match.params.sorts
+  const productAll = useSelector((state) => state.productAll)
+  const { loading, error, products } = productAll
 
-  const pageNumber = match.params.pageNumber || 1
-
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products, page, pages } = productList
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
   useEffect(() => {
-    dispatch(
-      listProducts(
-        keyword,
-        pageNumber,
-        location,
-        minPrice,
-        maxPrice,
-        style,
-        subject,
-        medium,
-        sorts
-      )
-    )
-    const isOAuth = JSON.parse(localStorage.getItem('isOAuth'))
-    if (isOAuth) {
-      dispatch(login())
-      console.log(isOAuth)
-    }
-  }, [
-    dispatch,
-    keyword,
-    pageNumber,
-    location,
-    minPrice,
-    maxPrice,
-    style,
-    subject,
-    medium,
-    sorts,
-    userInfo,
-  ])
+    dispatch(listAllProducts())
+  }, [dispatch])
   return (
     <>
       <Meta />
-      {!keyword}
       <h1 className='category-h1'>Original Paintings For Sale</h1>
       <p className='category-p'>
         Whether you are looking for an original painting or a high quality art
@@ -78,32 +30,6 @@ const PaintingScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Navbar collapseOnSelect>
-            <Container>
-              <PaintingFiltering
-                subject={setSubject}
-                setSubject={setSubject}
-                medium={setMedium}
-                setMedium={setMedium}
-              />
-              <Filtering
-                location={location}
-                setLocation={setLocation}
-                style={style}
-                setStyle={setStyle}
-                minPrice={minPrice}
-                setMinPrice={setMinPrice}
-                maxPrice={maxPrice}
-                setMaxPrice={setMaxPrice}
-              />
-
-              <Route
-                render={({ history }) => (
-                  <Sorting history={history} sorts={sorts} setSort={setSort} />
-                )}
-              />
-            </Container>
-          </Navbar>
           <Row>
             {products.map((product) =>
               product.category === 'Painting' ? (
