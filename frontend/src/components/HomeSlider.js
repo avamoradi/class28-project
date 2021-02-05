@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Carousel, Button } from 'react-bootstrap'
-import Loader from './Loader'
-import Message from './Message'
-import { listRandomProducts } from '../actions/productActions'
-import { HashLink } from 'react-router-hash-link'
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Carousel, Button } from "react-bootstrap";
+import Loader from "./Loader";
+import Message from "./Message";
+import { listRandomProducts } from "../actions/productActions";
+import { HashLink } from "react-router-hash-link";
 
 const HomeSlider = () => {
-  const dispatch = useDispatch()
-  const productRandom = useSelector((state) => state.productRandom)
-  const { loading, error, products } = productRandom
+  const dispatch = useDispatch();
+  const productRandom = useSelector((state) => state.productRandom);
+  const { loading, error, products } = productRandom;
 
   useEffect(() => {
-    dispatch(listRandomProducts())
-  }, [dispatch])
+    dispatch(listRandomProducts());
+  }, [dispatch]);
 
   return loading ? (
     <Loader />
@@ -40,6 +41,6 @@ const HomeSlider = () => {
         </Carousel.Item>
       ))}
     </Carousel>
-  )
-}
-export default HomeSlider
+  );
+};
+export default HomeSlider;

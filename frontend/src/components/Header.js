@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { MdNotifications } from "react-icons/md";
 import { Route } from "react-router-dom";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
@@ -8,6 +7,7 @@ import { logout } from "../actions/userActions";
 import { listNotification } from "../actions/notificationsActions";
 import SearchBox from "./SearchBox";
 import DropdownMenu from "./DropdownMenu";
+
 const Header = ({ history }) => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -30,22 +30,23 @@ const Header = ({ history }) => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
+          <LinkContainer to='/'>
             <Navbar.Brand>Galileo</Navbar.Brand>
           </LinkContainer>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox history={history} />} />
-            <Nav className="ml-auto">
+            <Nav className='ml-auto notification-cart-login-container'>
               {userInfo && (
-                <LinkContainer to="/notifications">
-                  <Nav.Link className=" p-2 pb-3 position-relative">
-                    <MdNotifications size={25} color="#9a9da0" />
+                <LinkContainer to='/notifications'>
+                  <Nav.Link>
+                    <i className='fas fa-bell'></i>
+                    <span className='nav-hide'>notifications</span>
                     {notificationsNum > 0 && (
-                      <div className="notifications-num_container">
-                        <span className="notifications-num">
+                      <div className='notifications-num_container'>
+                        <span className='notifications-num'>
                           {notificationsNum}
                         </span>
                       </div>
@@ -54,36 +55,39 @@ const Header = ({ history }) => {
                 </LinkContainer>
               )}
 
-              <LinkContainer to="/cart">
+              <LinkContainer to='/cart'>
                 <Nav.Link>
-                  <i className="fas fa-shopping-cart"></i>
+                  <i className='fas fa-shopping-cart'></i>
+                  <span className='nav-hide'>cart</span>
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
-                  <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                <NavDropdown title={userInfo.name} id='username'>
+                  <LinkContainer to='/profile'>
+                    <NavDropdown.Item>
+                      <i className='fas fa-user'></i>Profile
+                    </NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
+                    <i className='fas fa-sign-out-alt'></i>Logout
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to="/login">
+                <LinkContainer to='/login'>
                   <Nav.Link>
-                    <i className="fas fa-user"></i>
+                    <i className='fas fa-user'></i>
                   </Nav.Link>
                 </LinkContainer>
               )}
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title="Admin" id="adminmenu">
-                  <LinkContainer to="/admin/userlist">
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/userlist'>
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/admin/productlist">
+                  <LinkContainer to='/admin/productlist'>
                     <NavDropdown.Item>Products</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/admin/orderlist">
+                  <LinkContainer to='/admin/orderlist'>
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
