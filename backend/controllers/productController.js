@@ -295,72 +295,16 @@ const rejectProduct = asyncHandler(async (req, res) => {
 
 // Get random rated products: GET /api/products/random (public)
 const getRandomProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ brand: '' }).limit(4)
+  const products = await Product.find({})
+    .sort({ country: '', category: '' })
+    .limit(4)
   res.json(products)
 })
 
-// Get random rated products: GET /api/products/all (public)
+// Get random rated products: GET /api/products/random (public)
 const getAllProducts = asyncHandler(async (req, res) => {
-  const pageSize = 20
-  const page = Number(req.query.pageNumber) || 1
-  const { location, minPrice, maxPrice, style, sorts } = req.query
-  const price = minPrice && maxPrice ? { minPrice, maxPrice } : false
-
-  const sortItems = {
-    BestRating: { type: 'rating', order: -1 },
-    HighestPrice: { type: 'price', order: -1 },
-    LowestPrice: { type: 'price', order: 1 },
-    Newest: { type: 'createdAt', order: -1 },
-  }
-
-  const sortType = sorts
-    ? [[sortItems[sorts].type, sortItems[sorts].order]]
-    : ''
-
-  const keyword =
-    req.query.keyword && req.query.keyword.trim() !== ''
-      ? {
-          name: {
-            $regex: req.query.keyword,
-            $options: 'i',
-          },
-        }
-      : {}
-
-  //  gte = greater than or equal
-  //  lte = lesser than or equal
-  //  lt = lesser than
-  //  gt = greater than
-  //  in = to match values
-  const filterObj = {
-    ...keyword,
-    ...(location && { country: { $in: location } }),
-    ...(style && { style: { $in: style } }),
-    ...(price && {
-      price: {
-        $gte: price.minPrice,
-        $lte: price.maxPrice,
-      },
-    }),
-  }
-
-  const count = await Product.countDocuments({
-    $and: [
-      filterObj,
-      { 'validation.status': { $nin: ['pending', 'rejected'] } },
-    ],
-  })
-  const products = await Product.find({
-    $and: [
-      filterObj,
-      { 'validation.status': { $nin: ['pending', 'rejected'] } },
-    ],
-  })
-
-    .sort(sortType)
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
-  res.json({ products, page, pages: Math.ceil(count / pageSize) })
+  const products = await Product.find({})
+  res.json(products)
 })
 
 export {

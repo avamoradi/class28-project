@@ -326,18 +326,10 @@ export const listRandomProducts = () => async (dispatch) => {
   }
 }
 
-export const listAllProducts = (
-  keyword = '',
-  pageNumber = '',
-  location = '',
-  minPrice = 0,
-  maxPrice = Infinity,
-  style = '',
-  sorts = ''
-) => async (dispatch) => {
+export const listAllProducts = () => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_ALL_REQUEST })
-    const { data } = await axios.get(`/api/products/all?keyword=${keyword}`)
+    const { data } = await axios.get(`/api/products/all`)
     dispatch({ type: PRODUCT_ALL_SUCCESS, payload: data })
   } catch (error) {
     dispatch({
