@@ -101,14 +101,10 @@ const HomeScreen = ({ match, history }) => {
               setSort={setSort} 
             />
 
-              {/* <Sorting 
-                history={history} 
-                sorts={sorts} 
-                setSort={setSort} 
-                pageNumber={pageNumber}/> */}
-
             </Container>
           </Navbar>
+          { !style || !location ?  ( 
+        <>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -120,7 +116,13 @@ const HomeScreen = ({ match, history }) => {
             pages={pages}
             page={page}
             keyword={keyword ? keyword : ""}
-          />
+          /> </> ) : (
+            <>
+            <Message>
+              We don't have such products! Please, choose another parameters.
+            </Message>
+              </>
+              ) }
         </>
       )}
     </>
