@@ -11,8 +11,6 @@ import Meta from "../components/Meta";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
 import Filtering from "../components/Filtering";
-import Sorting from "../components/Sorting";
-import { Route } from "react-router-dom";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 import { login } from "../actions/userActions";
@@ -25,13 +23,7 @@ const HomeScreen = ({ match, history }) => {
   let [style, setStyle] = useState("");
   let [sorts, setSort] = useState("");
   const dispatch = useDispatch();
-  sorts = match.params.sorts;
-  //minPrice = match.params.minPrice;
-  //maxPrice = match.params.maxPrice;
-  // style = match.params.style;
-  location = match.params.location;
 
-  console.log(match.params.style)
   const cookiesFromStorage = localStorage.getItem("isCookies")
     ? JSON.parse(localStorage.getItem("isCookies"))
     : true;
@@ -44,6 +36,7 @@ const HomeScreen = ({ match, history }) => {
   const { loading, error, products, page, pages } = productList;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+  
   useEffect(() => {
     localStorage.setItem("isCookies", cookiePopup);
     dispatch(
@@ -94,9 +87,8 @@ const HomeScreen = ({ match, history }) => {
         <>
         <Navbar collapseOnSelect> 
         <Container> 
-        <Route render={({ history }) =>         
+                
             <Filtering
-              history={history}
               location={location}
               setLocation={setLocation}
               style={style}
@@ -105,16 +97,15 @@ const HomeScreen = ({ match, history }) => {
               setMinPrice={setMinPrice}
               maxPrice={maxPrice}
               setMaxPrice={setMaxPrice}
-              pageNumber={pageNumber}
+              sorts={sorts} 
+              setSort={setSort} 
             />
-          } />
-            <Route render={({ history }) => 
-              <Sorting 
+
+              {/* <Sorting 
                 history={history} 
                 sorts={sorts} 
-                setSort={setSort} pageNumber={pageNumber}/>
-                
-            } />
+                setSort={setSort} 
+                pageNumber={pageNumber}/> */}
 
             </Container>
           </Navbar>

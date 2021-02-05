@@ -1,16 +1,11 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-const Sorting = ({  history, sorts, setSort, pageNumber, match }) => {
+const Sorting = ({  sorts, setSort }) => {
     
     const onChangeHandler = (e) => {
         e.preventDefault();
-        if (e.target.value) {
-            setSort(e.target.value);
-            history.push(`/page/${pageNumber}/sortBy/${e.target.value}`);
-        } else {
-            history.push("/");
-        } 
+        setSort(e.target.value);
     }; 
     
     return (

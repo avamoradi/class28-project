@@ -2,7 +2,6 @@ import React from "react";
 import { Form } from "react-bootstrap";
 
 const Filtering = ({
-    history,
     location, 
     setLocation, 
     style, 
@@ -11,20 +10,17 @@ const Filtering = ({
     setMinPrice, 
     maxPrice, 
     setMaxPrice,
-    pageNumber}) => {
+    sorts, 
+    setSort
+    }) => {
     
     const submitHandler = (e) => {
         e.preventDefault();
         
     };
-    const onChangeHandlerLocation = (e) => {
+    const onChangeHandler = (e) => {
         e.preventDefault();
-        if (e.target.value) {
-            setLocation(e.target.value);
-            history.push(`/filter/${e.target.value}`);
-        } else {
-            history.push("/");
-        } 
+        setSort(e.target.value);
     }; 
 
     return (
@@ -35,7 +31,7 @@ const Filtering = ({
                 title="Location" 
                 value={location}
                 checked
-                onChange={onChangeHandlerLocation}
+                onChange={(e) => setLocation(e.target.value)}
             >
                 <option value="">Location</option>
                 <option value="China">China</option>
@@ -110,10 +106,20 @@ const Filtering = ({
                             <option value="Conceptual">Conceptual</option>
                             <option value="Folk">Folk</option>
                         </Form.Control>
-
-
-                        
-
+                        <Form.Control
+                        type="text"
+                        as='select'
+                        className='filter-select'
+                        value={sorts}
+                        checked
+                        onChange={onChangeHandler}
+                        >
+                            <option value="">Sort by:</option>
+                            <option value="HighestPrice">Highest Price</option>
+                            <option value="LowestPrice">Lowest Price</option>
+                            <option value="BestRating">Best Rating</option>
+                            <option value="Newest">Newest</option>
+                        </Form.Control>
         </Form>
         
     );
