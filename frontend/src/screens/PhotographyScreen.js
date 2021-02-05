@@ -3,16 +3,18 @@ import { Row, Col, Navbar, Container } from 'react-bootstrap'
 import Product from '../components/Product'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import { useDispatch, useSelector } from 'react-redux'
+import { listAllProducts } from '../actions/productActions'
 import Filtering from '../components/Filtering'
 import Sorting from '../components/Sorting'
 import { Route } from 'react-router-dom'
 import { login } from '../actions/userActions'
-import { listAllProducts } from '../actions/productActions'
-import { listProducts } from '../actions/productActions'
 
 const PhotographyScreen = ({ match, history }) => {
   const keyword = match.params.keyword
+  const [subject, setSubject] = useState('')
+  const [medium, setMedium] = useState('')
   const [location, setLocation] = useState('')
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(Infinity)
@@ -21,35 +23,23 @@ const PhotographyScreen = ({ match, history }) => {
   const dispatch = useDispatch()
   sorts = match.params.sorts
 
-  const pageNumber = match.params.pageNumber || 1
-
   const productAll = useSelector((state) => state.productAll)
-  const {
-    loading: loadingAll,
-    error: errorAll,
-    products: productsAll,
-  } = productAll
-
-  useEffect(() => {
-    dispatch(listAllProducts())
-  }, [dispatch])
-
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products, page, pages } = productList
+  const { loading, error, products } = productAll
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+  console.log(products)
   useEffect(() => {
     dispatch(
-      listProducts(
+      listAllProducts(
         keyword,
-        pageNumber,
+        subject,
+        medium,
         location,
         minPrice,
         maxPrice,
         style,
         sorts
-      ),
-      listProducts()
+      )
     )
     const isOAuth = JSON.parse(localStorage.getItem('isOAuth'))
     if (isOAuth) {
@@ -59,7 +49,8 @@ const PhotographyScreen = ({ match, history }) => {
   }, [
     dispatch,
     keyword,
-    pageNumber,
+    subject,
+    medium,
     location,
     minPrice,
     maxPrice,
@@ -70,12 +61,9 @@ const PhotographyScreen = ({ match, history }) => {
 
   return (
     <>
-      {!keyword || !location || !minPrice || !maxPrice || !style || !sorts}
-      <h1 className='h1-category'>Original Photography For Sale</h1>
-      <p className='p-category'>
-        With many limited edition and open edition prints to choose from,
-        Galileo offers high quality photography perfectly suited for your space.
-      </p>
+      <Meta />
+      {!keyword}
+      <h1 id='latest-art'>Latest Art</h1>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -85,6 +73,8 @@ const PhotographyScreen = ({ match, history }) => {
           <Navbar collapseOnSelect>
             <Container>
               <Filtering
+                subject={subject}
+                medium={medium}
                 location={location}
                 setLocation={setLocation}
                 style={style}
