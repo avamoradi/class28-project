@@ -117,7 +117,11 @@ const getProductById = asyncHandler(async (req, res) => {
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
   if (product) {
-    createNotification(req.user._id, product.id, 'removed', product.name)
+    if (product.validation.status === "validated") {
+      createNotification(req.user._id, product.id, 'removed', product.name)
+    } else {
+      null 
+    }
 
     await product.remove()
     res.json({ message: 'Product removed' })
@@ -273,6 +277,9 @@ const verifyProduct = asyncHandler(async (req, res) => {
       product._id,
       `${user.name} validated your art, ${product.name}`
     )
+
+    createNotification(product.user, product._id, 'added new art, ', product.name)
+
     res.json(verifiedProduct)
   } else {
     res.status(404)
