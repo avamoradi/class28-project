@@ -10,7 +10,7 @@ import ProductCarousel from "../components/ProductCarousel";
 import Meta from "../components/Meta";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../actions/productActions";
-import Filtering from "../components/Filtering";
+import FilteringSorting from "../components/FilteringSorting";
 import HomeSlider from "../components/HomeSlider";
 import AboutGalileo from "../components/AboutGalileo";
 import { login } from "../actions/userActions";
@@ -68,12 +68,11 @@ const HomeScreen = ({ match, history }) => {
     userInfo,
   ]);
 
-
   return (
     <>
       {cookiePopup && <CookiePopup show={true} onHide={setCookiePopup} />}
       <Meta />
-      {!keyword ?  (
+      {!keyword ? (
         <>
           <HomeSlider />
           <AboutGalileo />
@@ -93,45 +92,47 @@ const HomeScreen = ({ match, history }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-        <Navbar
+          <Navbar
             expand='md'
             className='d-flex justify-content-even filter-sort-container'
           >
-          <Nav lg={10} md={10} sm={10}>                
-          <Filtering
-              location={location}
-              setLocation={setLocation}
-              style={style}
-              setStyle={setStyle}
-              minPrice={minPrice}
-              setMinPrice={setMinPrice}
-              maxPrice={maxPrice}
-              setMaxPrice={setMaxPrice}
-              sorts={sorts} 
-              setSort={setSort} 
-            />
+            <Nav lg={10} md={10} sm={10}>
+              <FilteringSorting
+                location={location}
+                setLocation={setLocation}
+                style={style}
+                setStyle={setStyle}
+                minPrice={minPrice}
+                setMinPrice={setMinPrice}
+                maxPrice={maxPrice}
+                setMaxPrice={setMaxPrice}
+                sorts={sorts}
+                setSort={setSort}
+              />
             </Nav>
           </Navbar>
-          { !style || !location ?  ( 
-        <>
-          <Row>
-            {products.map((product) => (
-              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                <Product product={product} />
-              </Col>
-            ))}
-          </Row>
-          <Paginate
-            pages={pages}
-            page={page}
-            keyword={keyword ? keyword : ""}
-          /> </> ) : (
+          {!style || !location ? (
             <>
-            <Message>
-              We don't have such products! Please, choose another parameters.
-            </Message>
-              </>
-              ) }
+              <Row>
+                {products.map((product) => (
+                  <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                    <Product product={product} />
+                  </Col>
+                ))}
+              </Row>
+              <Paginate
+                pages={pages}
+                page={page}
+                keyword={keyword ? keyword : ""}
+              />{" "}
+            </>
+          ) : (
+            <>
+              <Message>
+                We don't have such products! Please, choose another parameters.
+              </Message>
+            </>
+          )}
         </>
       )}
     </>

@@ -1,39 +1,47 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
-import Message from '../components/Message'
-import { addToCart, removeFromCart } from '../actions/cartActions'
-import { logPageView, useGAEventTracker } from '../analytic'
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Row,
+  Col,
+  ListGroup,
+  Image,
+  Form,
+  Button,
+  Card,
+} from "react-bootstrap";
+import Message from "../components/Message";
+import { addToCart, removeFromCart } from "../actions/cartActions";
+import { logPageView, useGAEventTracker } from "../analytic";
 
 const CartScreen = ({ match, location, history }) => {
-  const GAEventsTracker = useGAEventTracker('Button')
+  const GAEventsTracker = useGAEventTracker("Button");
 
-  const productId = match.params.id
+  const productId = match.params.id;
 
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1
+  const qty = location.search ? Number(location.search.split("=")[1]) : 1;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state.cart)
-  const { cartItems } = cart
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
 
   useEffect(() => {
     if (productId) {
-      dispatch(addToCart(productId, qty))
+      dispatch(addToCart(productId, qty));
     }
-  }, [dispatch, productId, qty])
+  }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id))
-  }
+    dispatch(removeFromCart(id));
+  };
 
   const checkoutHandler = () => {
-    history.push('/login?redirect=shipping')
-    GAEventsTracker('PROCEED TO CHECKOUT BUTTON clicked on cart screen')
-  }
+    history.push("/login?redirect=shipping");
+    GAEventsTracker("PROCEED TO CHECKOUT BUTTON clicked on cart screen");
+  };
 
-  logPageView()
+  logPageView();
 
   return (
     <Row>
@@ -41,7 +49,23 @@ const CartScreen = ({ match, location, history }) => {
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message>
-            Your cart is empty <Link to='/'>Go Back</Link>
+            <Row className='d-flex justify-content-even'>
+              <Col
+                className='d-flex align-items-center'
+                xs={8}
+                sm={10}
+                md={9}
+                lg={10}
+                xl={10}
+              >
+                Your cart is empty
+              </Col>
+              <Link to='/'>
+                <Button xs={2} sm={2} md={2} lg={2} xl={2}>
+                  Back
+                </Button>
+              </Link>
+            </Row>
           </Message>
         ) : (
           <ListGroup variant='flush'>
@@ -62,7 +86,7 @@ const CartScreen = ({ match, location, history }) => {
                       onChange={(e) => {
                         dispatch(
                           addToCart(item.product, Number(e.target.value))
-                        )
+                        );
                       }}
                     >
                       {[...Array(item.countInStock).keys()].map((x) => (
@@ -114,7 +138,7 @@ const CartScreen = ({ match, location, history }) => {
         </Card>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default CartScreen
+export default CartScreen;
