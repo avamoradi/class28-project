@@ -16,7 +16,7 @@ E-commerce platform from scratch using MERN stack (MongoDB, Express, React, Node
 - Custom database seeder script
 
 ## The outcome: 
-[![screenshot of the app](uploads/screenchot.png "screenshot of the app")]()
+[![screenshot of the app]()]()
 
 ## The Stack: 
 Frontend for the app built with **React.js**. Backend built with **Node.js** and **Express**
@@ -29,5 +29,5 @@ Dev: nodemon, concurrently
 Completed.
 
 ## The online demo: 
-[**DEMO**]()
+[**DEMO**](https://class28hyf.herokuapp.com/)
 
