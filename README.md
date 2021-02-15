@@ -14,6 +14,13 @@ E-commerce platform from scratch using MERN stack (MongoDB, Express, React, Node
 - Checkout process (shipping, payment method, etc)
 - PayPal / credit card integration
 - Custom database seeder script
+-Zoom in pictures
+- search(Auto complete)
+- Sorting/Filtering in product
+-Notifications
+-Cookie policy
+-Subscribe to newslatter
+
 
 ## The outcome: 
 
