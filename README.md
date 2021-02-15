@@ -29,5 +29,5 @@ Dev: nodemon, concurrently
 Completed.
 
 ## The online demo: 
-[**DEMO**](https://hyfproshopapp.herokuapp.com/)
+[**DEMO**](https://class28hyf.herokuapp.com/)
 
